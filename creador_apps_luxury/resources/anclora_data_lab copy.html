@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anclora Data Lab | Investment Analytics Ecosystem</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #192350;
+            --gold: #D4AF37;
+            --bone: #F5F5F0;
+            --bg: #0D1117;
+            --glass: rgba(25, 35, 80, 0.4);
+            --border: rgba(175, 210, 250, 0.1);
+            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--bone);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* i18n Logic */
+        [data-lang] { display: none !important; }
+        body.lang-es [data-lang="es"] { display: inherit !important; }
+        body.lang-en [data-lang="en"] { display: inherit !important; }
+        body.lang-de [data-lang="de"] { display: inherit !important; }
+
+        /* Ensure block elements stay block */
+        body.lang-es h1[data-lang="es"], body.lang-es h2[data-lang="es"], body.lang-es p[data-lang="es"] { display: block !important; }
+        body.lang-en h1[data-lang="en"], body.lang-en h2[data-lang="en"], body.lang-en p[data-lang="en"] { display: block !important; }
+        body.lang-de h1[data-lang="de"], body.lang-de h2[data-lang="de"], body.lang-de p[data-lang="de"] { display: block !important; }
+
+        /* Header Styling */
+        header.site-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(8, 11, 16, 0.2);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        header.site-header.scrolled {
+            padding: 15px 5%;
+            background: rgba(8, 11, 16, 0.95);
+        }
+
+        .logo-nav {
+            height: 50px;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover { opacity: 1; color: var(--gold); }
+
+        .lang-switcher {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+        }
+
+        .lang-btn.active {
+            background: var(--gold);
+            color: white;
+        }
+
+        /* Hero / Header Section */
+        .lab-hero {
+            padding: 220px 5% 100px;
+            text-align: center;
+            background: linear-gradient(rgba(8, 11, 16, 0.7), rgba(8, 11, 16, 0.9)), 
+                        url('file:///C:/Users/Usuario/.gemini/antigravity/brain/d71caed3-58c4-446d-bb8f-51aa3870332c/anclora_data_lab_cinematic_bg_1769247647673.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #FFF, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-tag {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            padding-left: 5px; /* Centering compensation */
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Stats Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 0 10% 100px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .data-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 50px 30px;
+            border-radius: 32px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: var(--transition);
+        }
+
+        .data-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--gold);
+            background: rgba(25, 35, 80, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        @media (max-width: 1024px) {
+            .data-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .data-grid { grid-template-columns: 1fr; }
+        }
+
+        .card-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 10px;
+        }
+
+        .card-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        /* Charts Section */
+        .analysis-section {
+            padding: 0 5% 120px;
+        }
+
+        .chart-container {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 50px;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #FFF;
+        }
+
+        /* Compliance & Legal */
+        .compliance-bar {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(8, 11, 16, 0.98);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+        }
+
+        footer {
+            padding: 100px 5% 50px;
+            background: #05070A;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .nexus-logo-footer {
+            width: 180px;
+            margin: 0 auto 25px;
+            display: block;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-badges img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .badge-item span {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .legal-footer {
+            max-width: 800px;
+            margin: 40px auto;
+            font-size: 0.65rem;
+            color: #444;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .corporate-id {
+            font-size: 0.65rem;
+            color: #333;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="lang-es">
+
+    <header class="site-header">
+        <div class="header-left">
+            <img src="../../creador_de_blogs/assets/logo_private_estates_only.png" alt="Anclora Private Estates" class="logo-nav">
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#" data-lang="es">Tesis</a><a href="#" data-lang="en">Thesis</a><a href="#" data-lang="de">These</a></li>
+                <li><a href="#" data-lang="es">Analítica</a><a href="#" data-lang="en">Analytics</a><a href="#" data-lang="de">Analytik</a></li>
+                <li><a href="#" data-lang="es">ROI Proyectos</a><a href="#" data-lang="en">Project ROI</a><a href="#" data-lang="de">Projekt-ROI</a></li>
+            </ul>
+        </nav>
+        <div class="lang-switcher">
+            <div class="lang-btn active" onclick="setLanguage('es')">ES</div>
+            <div class="lang-btn" onclick="setLanguage('en')">EN</div>
+            <div class="lang-btn" onclick="setLanguage('de')">DE</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="lab-hero">
+            <div class="hero-content">
+                <span class="hero-tag">Market Intelligence Unit</span>
+                <h1 data-lang="es">Anclora Data Lab</h1>
+                <h1 data-lang="en">Anclora Data Lab</h1>
+                <h1 data-lang="de">Anclora Data Lab</h1>
+                <p data-lang="es">Decisiones de inversión respaldadas por la precisión analítica y el rigor algorítmico.</p>
+                <p data-lang="en">Investment decisions backed by analytical precision and algorithmic rigor.</p>
+                <p data-lang="de">Anlageentscheidungen, gestützt auf analytische Präzision und algorithmische Strenge.</p>
+            </div>
+        </section>
+
+        <section class="data-grid">
+            <!-- Row 1 -->
+            <div class="data-card">
+                <div class="card-value">+12.4%</div>
+                <div class="card-label" data-lang="es">Plusvalía Anual (SW)</div>
+                <div class="card-label" data-lang="en">Annual Appreciation (SW)</div>
+                <div class="card-label" data-lang="de">Jährliche Wertsteigerung</div>
+            </div>
+            <div class="data-card">
+                <div class="card-value">€9.2k</div>
+                <div class="card-label" data-lang="es">Precio Medio / m²</div>
+                <div class="card-label" data-lang="en">Median Price / sqm</div>
+                <div class="card-label" data-lang="de">Durchschnittspreis / m²</div>
+            </div>
+            <div class="data-card">
+                <div class="card-value">95.8%</div>
+                <div class="card-label" data-lang="es">Precisión Predictiva</div>
+                <div class="card-label" data-lang="en">Predictive Accuracy</div>
+                <div class="card-label" data-lang="de">Prädiktive Genauigkeit</div>
+            </div>
+            <!-- Row 2 -->
+            <div class="data-card">
+                <div class="card-value">5.8%</div>
+                <div class="card-label" data-lang="es">Yield Alquiler Lujo</div>
+                <div class="card-label" data-lang="en">Luxury Rental Yield</div>
+                <div class="card-label" data-lang="de">Luxus Mietrendite</div>
+            </div>
+            <div class="data-card">
+                <div class="card-value">72%</div>
+                <div class="card-label" data-lang="es">Ratio Off-Market</div>
+                <div class="card-label" data-lang="en">Off-Market Ratio</div>
+                <div class="card-label" data-lang="de">Off-Market Anteil</div>
+            </div>
+            <div class="data-card">
+                <div class="card-value">142d</div>
+                <div class="card-label" data-lang="es">Absorción (DOM)</div>
+                <div class="card-label" data-lang="en">Market Absorption</div>
+                <div class="card-label" data-lang="de">Absorptionsrate</div>
+            </div>
+        </section>
+
+        <section class="analysis-section">
+            <div class="chart-container">
+                <h2 data-lang="es">Evolución de Valor en Mallorca Suroeste</h2>
+                <h2 data-lang="en">Value Evolution in Southwest Mallorca</h2>
+                <h2 data-lang="de">Wertentwicklung im Südwesten Mallorcas</h2>
+                <canvas id="evolutionChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 data-lang="es">Benchmarking de Zonas Premium (2026)</h2>
+                <h2 data-lang="en">Premium Zones Benchmarking (2026)</h2>
+                <h2 data-lang="de">Premium-Zonen-Benchmarking (2026)</h2>
+                <canvas id="benchmarkingChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/Logo%20Anclora%20Nexus%20Group.png" alt="Anclora Nexus Group Logo" class="nexus-logo-footer">
+        
+        <div class="trust-badges">
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/2823/2823055.png" alt="GDPR">
+                <span>GDPR</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4112/4112447.png" alt="ISO 9001">
+                <span>ISO 9001</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/9338/9338804.png" alt="EU Registered">
+                <span>EU REG</span>
+            </div>
+        </div>
+
+        <div class="legal-footer">
+            <p data-lang="es"><strong>Disclaimer Institucional:</strong> Los datos presentados en Anclora Data Lab se basan en análisis históricos y proyecciones algorítmicas propias. No constituyen una garantía de rentabilidad futura ni asesoramiento financiero vinculante. Anclora Nexus Group es una entidad de gestión estratégica operando bajo las normativas de la UE.</p>
+            <p data-lang="en"><strong>Institutional Disclaimer:</strong> The data presented in the Anclora Data Lab is based on historical analysis and proprietary algorithmic projections. It does not constitute a guarantee of future profitability or binding financial advice. Anclora Nexus Group is a strategic management entity operating under EU regulations.</p>
+            <p data-lang="de"><strong>Institutioneller Haftungsausschluss:</strong> Die im Anclora Data Lab präsentierten Daten basieren auf historischen Analysen und eigenen algorithmischen Prognosen. Sie stellen keine Garantie für zukünftige Rentabilität oer eine verbindliche Finanzberatung dar. Die Anclora Nexus Group ist eine strategische Managementeinheit, die unter EU-Vorschriften operiert.</p>
+        </div>
+        <p class="copyright">&copy; 2026 ANCLORA NEXUS GROUP. ALL RIGHTS RESERVED.</p>
+        <p class="corporate-id">ID: ANG-DATA-2026-EU | ANCLORA NEXUS STRATEGIC HOLDINGS</p>
+    </footer>
+
+    <div class="compliance-bar" id="cookieBar">
+        <p data-lang="es">Este laboratorio utiliza cookies analíticas para optimizar la entrega de datos. <a href="#" style="color: var(--gold);">Saber más</a></p>
+        <p data-lang="en">This lab uses analytical cookies to optimize data delivery. <a href="#" style="color: var(--gold);">Learn more</a></p>
+        <p data-lang="de">Dieses Labor verwendet Analytik-Cookies, um die Datenbereitstellung zu optimieren. <a href="#" style="color: var(--gold);">Mehr erfahren</a></p>
+        <button onclick="document.getElementById('cookieBar').style.display='none'" style="padding: 5px 15px; background: var(--gold); border: none; color: #FFF; border-radius: 50px; cursor: pointer;">OK</button>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            document.body.className = 'lang-' + lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === lang.toUpperCase());
+            });
+            updateCharts(lang);
+        }
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // Chart Data & Initialization
+        let evoChart, benchChart;
+
+        function updateCharts(lang) {
+            const labels = {
+                es: { price: 'Precio m²', zones: ['Santa Ponsa', 'Bendinat', 'Puerto Andratx', 'Son Vida'] },
+                en: { price: 'Price sqm', zones: ['Santa Ponsa', 'Bendinat', 'Port Andratx', 'Son Vida'] },
+                de: { price: 'Preis m²', zones: ['Santa Ponsa', 'Bendinat', 'Hafen Andratx', 'Son Vida'] }
+            };
+
+            const l = labels[lang] || labels.es;
+
+            if(evoChart) evoChart.destroy();
+            if(benchChart) benchChart.destroy();
+
+            const evoCtx = document.getElementById('evolutionChart').getContext('2d');
+            evoChart = new Chart(evoCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2023', '2024', '2025 (Fcst)', '2026 (Fcst)'],
+                    datasets: [{
+                        label: l.price,
+                        data: [8200, 9200, 9850, 10600],
+                        borderColor: '#D4AF37',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(212, 175, 85, 0.05)'
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8B949E' } },
+                        x: { grid: { display: false }, ticks: { color: '#8B949E' } }
+                    }
+                }
+            });
+
+            const benchCtx = document.getElementById('benchmarkingChart').getContext('2d');
+            benchChart = new Chart(benchCtx, {
+                type: 'bar',
+                data: {
+                    labels: l.zones,
+                    datasets: [{
+                        data: [6500, 8400, 9800, 11500],
+                        backgroundColor: ['rgba(175, 210, 250, 0.2)', 'rgba(175, 210, 250, 0.4)', '#D4AF37', '#B9915F'],
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8B949E' } },
+                        y: { grid: { display: false }, ticks: { color: '#F5F5F0' } }
+                    }
+                }
+            });
+        }
+
+        // Init
+        updateCharts('es');
+    </script>
+</body>
+</html>

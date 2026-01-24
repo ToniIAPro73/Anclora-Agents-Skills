@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE_ES}}</title>
+    <meta name="description" content="{{DESCRIPTION_ES}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --gold: #D4AF37;
+            --text: #444;
+            --bg: #FFFFFF;
+            --section-bg: #F9F9F9;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+            color: var(--text);
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5F3EF 50%, #E8E4DE 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.ready {
+            opacity: 1;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            object-fit: cover;
+            z-index: -1;
+            transform: scale(1.05);
+            filter: blur(5px) brightness(0.6);
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #A8824B 0%, #D4AF37 50%, #A8824B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8)) 
+                    drop-shadow(0 4px 10px rgba(0,0,0,0.5))
+                    drop-shadow(0 0 20px rgba(185,145,95,0.2));
+        }
+
+        /* Language Toggle - Fixed Position */
+        .lang-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: white;
+            cursor: pointer;
+            z-index: 100;
+            background: rgba(0,0,0,0.4);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: var(--transition);
+        }
+
+        .lang-toggle span {
+            opacity: 0.5;
+            transition: opacity 0.3s, color 0.3s;
+            padding: 0 5px;
+        }
+
+        .lang-toggle span.active {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        /* Safe Multi-language Logic */
+        [data-lang] { display: none !important; }
+        body.lang-es [data-lang="es"] { display: block !important; }
+        body.lang-es span[data-lang="es"], body.lang-es strong[data-lang="es"], body.lang-es a[data-lang="es"] { display: inline !important; }
+        body.lang-en [data-lang="en"] { display: block !important; }
+        body.lang-en span[data-lang="en"], body.lang-en strong[data-lang="en"], body.lang-en a[data-lang="en"] { display: inline !important; }
+        body.lang-de [data-lang="de"] { display: block !important; }
+        body.lang-de span[data-lang="de"], body.lang-de strong[data-lang="de"], body.lang-de a[data-lang="de"] { display: inline !important; }
+
+        /* Article Structure */
+        article {
+            max-width: 850px;
+            margin: -100px auto 4rem;
+            background: white;
+            padding: 5rem;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="lang-es">
+
+    <div class="lang-toggle">
+        <span id="es-btn" class="active" onclick="setLanguage('es')">ES</span> | 
+        <span id="en-btn" onclick="setLanguage('en')">EN</span> | 
+        <span id="de-btn" onclick="setLanguage('de')">DE</span>
+    </div>
+
+    <header class="hero">
+        <img src="{{HERO_IMAGE}}" alt="Hero" class="hero-img">
+        <div class="hero-content">
+            <h1 data-lang="es">{{TITLE_ES}}</h1>
+            <h1 data-lang="en">{{TITLE_EN}}</h1>
+            <h1 data-lang="de">{{TITLE_DE}}</h1>
+        </div>
+    </header>
+
+    <article>
+        <div class="intro">
+            <span data-lang="es">{{INTRO_ES}}</span>
+            <span data-lang="en">{{INTRO_EN}}</span>
+            <span data-lang="de">{{INTRO_DE}}</span>
+        </div>
+
+        {{CONTENT_TRI_SAFE}}
+    </article>
+
+    <section class="cta-box">
+        <h2 data-lang="es">{{CTA_TITLE_ES}}</h2>
+        <h2 data-lang="en">{{CTA_TITLE_EN}}</h2>
+        <h2 data-lang="de">{{CTA_TITLE_DE}}</h2>
+        
+        <a href="{{CTA_LINK}}" class="cta-btn" data-lang="es">{{CTA_BUTTON_ES}}</a>
+        <a href="{{CTA_LINK}}" class="cta-btn" data-lang="en">{{CTA_BUTTON_EN}}</a>
+        <a href="{{CTA_LINK}}" class="cta-btn" data-lang="de">{{CTA_BUTTON_DE}}</a>
+    </section>
+
+    <footer>
+        &copy; 2026 ANCLORA NEXUS GROUP. <span data-lang="es">TODOS LOS DERECHOS RESERVADOS.</span><span data-lang="en">ALL RIGHTS RESERVED.</span><span data-lang="de">ALLE RECHTE VORBEHALTEN.</span>
+    </footer>
+
+    <script>
+        function setLanguage(lang) {
+            const body = document.body;
+            const buttons = {
+                es: document.getElementById('es-btn'),
+                en: document.getElementById('en-btn'),
+                de: document.getElementById('de-btn')
+            };
+            body.classList.remove('lang-es', 'lang-en', 'lang-de');
+            body.classList.add('lang-' + lang);
+            Object.values(buttons).forEach(btn => btn.classList.toggle('active', btn.id === lang + '-btn'));
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('ready');
+            setLanguage('es');
+        });
+    </script>
+</body>
+</html>

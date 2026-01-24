@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{PROJECT_TITLE}} | Luxury Real Estate</title>
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #192350;
+            --gold: #D4AF37;
+            --bg: #0D1117;
+            --text-light: #F5F5F0;
+            --text-muted: #8B949E;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(175, 210, 250, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-light);
+            background: var(--bg);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* i18n Switcher Minimalist */
+        .lang-nav {
+            position: fixed;
+            top: 2rem;
+            right: 5%;
+            z-index: 1000;
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .lang-nav span {
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            transition: var(--transition);
+        }
+
+        .lang-nav span.active {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        /* Cinematic Hero */
+        .hero-cinema {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: scale(1.1);
+            transition: transform 8s ease-out;
+        }
+
+        .hero-cinema.ready .hero-bg {
+            transform: scale(1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(25,35,80,0.4), rgba(25,35,80,0.8));
+            z-index: 0;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1.5rem;
+            line-height: 1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        /* Property Cards - Luxury Grid */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8rem 5%;
+        }
+
+        .section-tag {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-tag h2 {
+            font-size: 3.5rem;
+            color: var(--primary);
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 4rem;
+        }
+
+        .property-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .prop-img-container {
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .property-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .prop-info {
+            padding: 2rem 0;
+        }
+
+        .prop-info h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .prop-meta {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Investment Lab Section */
+        .investment-lab {
+            background: var(--primary);
+            color: var(--text-light);
+            padding: 10rem 5%;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 5% 50px;
+            background: #080B10;
+            text-align: center;
+            border-top: 1px solid var(--primary);
+            color: #888;
+        }
+
+        .nexus-logo-footer {
+            width: 180px;
+            margin: 0 auto 25px;
+            display: block;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-badges img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .badge-item span {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .footer-links {
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .corporate-id {
+            font-size: 0.65rem;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.5rem; }
+            .property-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="lang-es">
+
+    <nav class="lang-nav">
+        <span id="es-btn" class="active">ES</span>
+        <span id="en-btn">EN</span>
+        <span id="de-btn">DE</span>
+    </nav>
+
+    <main>
+        <!-- Hero Section Injected by Agent -->
+        <section class="hero-cinema" id="hero">
+            <div class="hero-bg" style="background-image: url('{{HERO_IMAGE}}');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p>{{HERO_SUBTITLE}}</p>
+                <h1>{{HERO_TITLE}}</h1>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <section class="container">
+            <div class="section-tag">
+                <h2>{{GALLERY_TITLE}}</h2>
+            </div>
+            
+            <div class="property-grid">
+                {{PROPERTY_ITEMS}}
+            </div>
+        </section>
+
+        <!-- Dynamic Data Section -->
+        <section class="investment-lab">
+            <h2>{{DATA_LAB_TITLE}}</h2>
+            <p>{{DATA_LAB_DESC}}</p>
+            <!-- Injected ROI Calculator / Charts -->
+        </section>
+
+    </main>
+
+    <footer>
+        <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/Logo%20Anclora%20Nexus%20Group.png" alt="Anclora Nexus Group Logo" class="nexus-logo-footer">
+        
+        <div class="trust-badges">
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/2823/2823055.png" alt="GDPR">
+                <span>GDPR</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4112/4112447.png" alt="ISO 9001">
+                <span>ISO 9001</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/9338/9338804.png" alt="EU Registered">
+                <span>EU REG</span>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="#" data-lang="es">Privacidad</a><a href="#" data-lang="en">Privacy</a><a href="#" data-lang="de">Datenschutz</a>
+            <a href="#" data-lang="es">Cookies</a><a href="#" data-lang="en">Cookies</a><a href="#" data-lang="de">Cookies</a>
+            <a href="#" data-lang="es">Código Ético</a><a href="#" data-lang="en">Ethics Code</a><a href="#" data-lang="de">Ethikkodex</a>
+            <a href="#" data-lang="es">Términos B2B</a><a href="#" data-lang="en">B2B Terms</a><a href="#" data-lang="de">B2B-Bedingungen</a>
+        </div>
+        <p class="copyright">&copy; 2026 ANCLORA NEXUS GROUP. ALL RIGHTS RESERVED.</p>
+        <p class="corporate-id">ID: ANG-BASE-2026-EU | ANCLORA NEXUS STRATEGIC HOLDINGS</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const hero = document.getElementById('hero');
+            const scrolled = window.pageYOffset;
+            if (hero && hero.querySelector('.hero-bg')) {
+                hero.querySelector('.hero-bg').style.transform = `scale(${1 + scrolled * 0.0005})`;
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+             const hero = document.querySelector('.hero-cinema');
+             if (hero) hero.classList.add('ready');
+        });
+    </script>
+</body>
+</html>

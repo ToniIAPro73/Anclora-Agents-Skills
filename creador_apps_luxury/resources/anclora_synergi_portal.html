@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anclora Synergi | The Exclusive Partner Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #192350;
+            --gold: #D4AF37;
+            --cyan: #AFD2FA;
+            --bg: #0D1117;
+            --glass: rgba(25, 35, 80, 0.4);
+            --border: rgba(175, 210, 250, 0.2);
+            --text: #F5F5F0;
+            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Header Styling */
+        header.site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(175, 210, 250, 0.1);
+            transition: var(--transition);
+        }
+
+        header.site-header.scrolled {
+            padding: 15px 5%;
+            background: rgba(13, 17, 23, 0.9);
+        }
+
+        .header-left .logo-nav {
+            height: 50px;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+            opacity: 1;
+        }
+
+        /* Language Toggle Elegant */
+        .lang-switcher {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+        }
+
+        .lang-btn.active {
+            background: var(--gold);
+            color: white;
+        }
+
+        /* Visual Coherence & i18n Corrections */
+        [data-lang] { display: none !important; }
+        
+        body.lang-es [data-lang="es"] { display: inherit !important; }
+        body.lang-en [data-lang="en"] { display: inherit !important; }
+        body.lang-de [data-lang="de"] { display: inherit !important; }
+
+        /* Ensure block elements stay block */
+        body.lang-es h1[data-lang="es"], body.lang-es h2[data-lang="es"], body.lang-es p[data-lang="es"], body.lang-es div[data-lang="es"], body.lang-es section[data-lang="es"] { display: block !important; }
+        body.lang-en h1[data-lang="en"], body.lang-en h2[data-lang="en"], body.lang-en p[data-lang="en"], body.lang-en div[data-lang="en"], body.lang-en section[data-lang="en"] { display: block !important; }
+        body.lang-de h1[data-lang="de"], body.lang-de h2[data-lang="de"], body.lang-de p[data-lang="de"], body.lang-de div[data-lang="de"], body.lang-de section[data-lang="de"] { display: block !important; }
+        
+        /* Buttons should stay inline-block in flex context if needed */
+        body.lang-es a.btn-primary[data-lang="es"], body.lang-en a.btn-primary[data-lang="en"], body.lang-de a.btn-primary[data-lang="de"] { display: inline-block !important; }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #000;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .hero-bg-media {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            filter: blur(20px); /* Start blurred */
+            animation: slowZoomLiving 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(13, 17, 23, 0.9) 100%);
+            z-index: 1;
+        }
+
+        @keyframes slowZoomLiving {
+            0% { 
+                transform: scale(1.2); 
+                filter: blur(20px) brightness(0.5);
+            }
+            100% { 
+                transform: scale(1); 
+                filter: blur(0px) brightness(1);
+            }
+        }
+
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .circles div {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            animation: animateCircles 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        @keyframes animateCircles {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 50%; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 20%; }
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 1100px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .logo-main {
+            width: 320px;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+            animation: fadeInDown 1.2s ease;
+            position: relative;
+            z-index: 20;
+            aspect-ratio: auto;
+            object-fit: contain;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            margin-bottom: 110px; /* Adjusted balance */
+            background: linear-gradient(to bottom, #FFF, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #FFFFFF; /* Pure white for maximum contrast */
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 600; /* Increased weight */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Shadow for legibility */
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 18px 45px;
+            background: var(--gold);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            margin-top: 20px;
+            width: fit-content;
+            white-space: nowrap;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.5);
+            background: #B9915F;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        .mouse {
+            width: 26px;
+            height: 42px;
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .mouse::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -10px); }
+            60% { transform: translate(-50%, -5px); }
+        }
+
+        @keyframes scrollWheel {
+            0% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, 15px); }
+        }
+
+        /* Tracks Section */
+        .tracks-section {
+            padding: 100px 5%;
+            background: #0D1117;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--cyan);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .track-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .track-card:last-child {
+            grid-column: span 2;
+            width: calc(50% - 20px);
+            justify-self: center;
+        }
+
+        @media (max-width: 900px) {
+            .tracks-grid {
+                grid-template-columns: 1fr;
+            }
+            .track-card:last-child {
+                grid-column: span 1;
+                width: 100%;
+            }
+        }
+
+        .track-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--gold);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .track-img {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .track-card:hover .track-img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .track-info {
+            padding: 40px;
+        }
+
+        .track-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .track-card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #FFF;
+        }
+
+        .track-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #8B949E;
+            margin-bottom: 25px;
+        }
+
+        .track-benefits-list {
+            list-style: none;
+            text-align: left;
+            padding-left: 0;
+        }
+
+        .track-benefits-list li {
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .track-benefits-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .track-benefits-list strong {
+            color: var(--cyan);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Form Section */
+        .join-section {
+            padding: 120px 5%;
+            background: #0D1117;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--glass);
+            padding: 60px;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group select option {
+            background: var(--navy);
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #B9915F;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(185, 145, 95, 0.3);
+        }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--navy);
+            border: 1px solid var(--gold);
+            padding: 20px 40px;
+            border-radius: 12px;
+            color: white;
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.5s ease forwards;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Compliance Bar */
+        .compliance-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(8, 11, 16, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: #8B949E;
+        }
+
+        .compliance-bar a {
+            color: var(--gold);
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .btn-accept {
+            padding: 8px 20px;
+            background: var(--gold);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+        }
+
+        /* Legal Context Section */
+        .legal-context {
+            padding: 40px 5%;
+            background: #080B10;
+            font-size: 0.7rem;
+            color: #444;
+            line-height: 1.6;
+            text-align: justify;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-badges img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .badge-item span {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* Footer Corporate ID */
+        .corporate-id {
+            font-size: 0.65rem;
+            color: #333;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+        .benefits {
+            padding: 100px 5%;
+            background: linear-gradient(to bottom, #0D1117, #192350);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(175, 210, 250, 0.1);
+            transition: var(--transition);
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-12px);
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .benefit-item span {
+            font-size: 3rem;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .benefit-item h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 5% 50px;
+            background: #080B10;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .nexus-logo-footer {
+            width: 180px; /* Aumentado ligeramente para mejor visibilidad */
+            margin: 0 auto 25px;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .footer-links {
+            margin-bottom: 40px;
+        }
+
+        .footer-links a {
+            color: var(--cyan);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            color: #444;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* View States */
+        #app-view { display: none; }
+        body.is-logged-in #landing-view { display: none; }
+        body.is-logged-in #app-view { display: block; }
+
+        /* Login Modal */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 11, 16, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--glass);
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid var(--gold);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        /* Dashboard App Styles */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            background: #080B10;
+        }
+
+        .sidebar {
+            background: #0D1117;
+            border-right: 1px solid var(--border);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .side-link {
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: #8B949E;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .side-link:hover, .side-link.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+        }
+
+        .main-content {
+            padding: 40px 5%;
+            overflow-y: auto;
+        }
+
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .asset-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body class="lang-es">
+
+    <header class="site-header">
+        <div class="header-left">
+            <img src="../../creador_de_blogs/assets/logo_private_estates_only.png" alt="Anclora Private Estates" class="logo-nav">
+        </div>
+        <div class="header-right">
+            <nav id="landing-nav">
+                <ul class="nav-menu">
+                    <li><a href="#tracks" data-lang="es">Programas</a><a href="#tracks" data-lang="en">Tracks</a><a href="#tracks" data-lang="de">Programme</a></li>
+                    <li><a href="#benefits" data-lang="es">Beneficios</a><a href="#benefits" data-lang="en">Benefits</a><a href="#benefits" data-lang="de">Vorteile</a></li>
+                    <li><a href="#join" data-lang="es">Aplicar</a><a href="#join" data-lang="en">Apply</a><a href="#join" data-lang="de">Anmelden</a></li>
+                </ul>
+            </nav>
+            <div class="lang-switcher">
+                <div class="lang-btn active" onclick="setLanguage('es')">ES</div>
+                <div class="lang-btn" onclick="setLanguage('en')">EN</div>
+                <div class="lang-btn" onclick="setLanguage('de')">DE</div>
+            </div>
+            <button onclick="toggleModal('login-modal', true)" class="btn-primary" style="padding: 10px 25px; font-size: 0.7rem; margin-top: 0;">
+                <span data-lang="es">Acceso Partner</span><span data-lang="en">Partner Login</span><span data-lang="de">Partner Login</span>
+            </button>
+        </div>
+    </header>
+
+    <div id="landing-view">
+        <section class="hero">
+        <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/flux-2-max_a_luxury_villa_entranc.jpeg" class="hero-bg-media" alt="Background">
+        <div class="circles">
+            <div style="left: 25%; width: 80px; height: 80px; animation-delay: 0s;"></div>
+            <div style="left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s;"></div>
+            <div style="left: 70%; width: 20px; height: 20px; animation-delay: 4s;"></div>
+            <div style="left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s;"></div>
+            <div style="left: 85%; width: 120px; height: 120px; animation-delay: 7s;"></div>
+        </div>
+
+        <div class="hero-content">
+            <p data-lang="es" style="margin-bottom: 20px; opacity: 0.9; letter-spacing: 8px;">ANCLORA SYNERGI</p>
+            <p data-lang="en" style="margin-bottom: 20px; opacity: 0.9; letter-spacing: 8px;">ANCLORA SYNERGI</p>
+            <p data-lang="de" style="margin-bottom: 20px; opacity: 0.9; letter-spacing: 8px;">ANCLORA SYNERGI</p>
+            <h1 data-lang="es" style="margin-bottom: 60px;">El Ecosistema Exclusivo de Partners</h1>
+            <h1 data-lang="en" style="margin-bottom: 60px;">The Exclusive Partner Ecosystem</h1>
+            <h1 data-lang="de" style="margin-bottom: 60px;">Das Exklusive Partner-Ökosystem</h1>
+            <a href="#join" class="btn-primary" data-lang="es">Conectar con la Excelencia</a>
+            <a href="#join" class="btn-primary" data-lang="en">Connect With Excellence</a>
+            <a href="#join" class="btn-primary" data-lang="de">Mit Exzellenz Verbinden</a>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <section class="tracks-section" id="tracks">
+        <div class="section-header">
+            <h2 data-lang="es">Seleccione su Track</h2>
+            <h2 data-lang="en">Select Your Track</h2>
+            <h2 data-lang="de">Wählen Sie Ihren Track</h2>
+            
+            <p data-lang="es">Cada contribución es una pincelada maestra en el lienzo del Real Estate de lujo.</p>
+            <p data-lang="en">Every contribution is a masterstroke in the canvas of luxury real estate.</p>
+            <p data-lang="de">Jeder Beitrag ist ein meisterhafter Pinselstrich auf der Leinwand der Luxusimmobilien.</p>
+        </div>
+
+        <div class="tracks-grid">
+            <!-- Strategic Track -->
+            <div class="track-card">
+                <img src="../../creador_de_blogs/assets/wan2.5-t2i-preview_a_business_consultatio.png" alt="Strategic Boardroom" class="track-img">
+                <div class="track-info">
+                    <span class="track-tag">Legal & Finance</span>
+                    <h3 data-lang="es">Track Estratégico</h3>
+                    <h3 data-lang="en">Strategic Track</h3>
+                    <h3 data-lang="de">Strategischer Track</h3>
+                    
+                    <p data-lang="es">Optimice la seguridad jurídica de sus clientes UHNW mediante nuestra integración transaccional.</p>
+                    <p data-lang="en">Optimize the legal security of your UHNW clients through our transactional integration.</p>
+                    <p data-lang="de">Optimieren Sie die rechtliche Sicherheit Ihrer UHNW-Kunden durch unsere transaktionale Integration.</p>
+
+                    <ul class="track-benefits-list">
+                        <li><strong data-lang="es">Flujo de Leads Pre-Cualificados</strong><strong data-lang="en">Pre-Vetted Lead Flow</strong><strong data-lang="de">Vorqualifizierter Lead-Fluss</strong>
+                            <span data-lang="es">Acceso a inversores con pre-calificación financiera.</span>
+                            <span data-lang="en">Access to investors with financial pre-qualification.</span>
+                            <span data-lang="de">Zugang zu Investoren mit finanzieller Vorqualifizierung.</span>
+                        </li>
+                        <li><strong data-lang="es">Inteligencia Regulatoria</strong><strong data-lang="en">Regulatory Intelligence</strong><strong data-lang="de">Regulatorische Intelligenz</strong>
+                            <span data-lang="es">Co-autoría en informes de fiscalidad balear.</span>
+                            <span data-lang="en">Co-authorship in Balearic taxation reports.</span>
+                            <span data-lang="de">Mitautorenschaft bei balearischen Steuerberichten.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Creative Track -->
+            <div class="track-card">
+                <img src="file:///C:/Users/Usuario/.gemini/antigravity/brain/d71caed3-58c4-446d-bb8f-51aa3870332c/anclora_creative_track_v2_1769242314712.png" alt="Architectural Studio" class="track-img">
+                <div class="track-info">
+                    <span class="track-tag">Design & Architecture</span>
+                    <h3 data-lang="es">Track Creativo</h3>
+                    <h3 data-lang="en">Creative Track</h3>
+                    <h3 data-lang="de">Kreativer Track</h3>
+
+                    <p data-lang="es">Transforme el potencial de nuestras propiedades en realidades arquitectónicas sin precedentes.</p>
+                    <p data-lang="en">Transform the potential of our properties into unprecedented architectural realities.</p>
+                    <p data-lang="de">Verwandeln Sie das Potenzial unserer Immobilien in beispiellose architektonische Realitäten.</p>
+
+                    <ul class="track-benefits-list">
+                        <li><strong data-lang="es">Lienzo Digital</strong><strong data-lang="en">Digital Canvas</strong><strong data-lang="de">Digitale Leinwand</strong>
+                            <span data-lang="es">Acceso temprano a datos BIM de propiedades off-market.</span>
+                            <span data-lang="en">Early access to BIM data of off-market properties.</span>
+                            <span data-lang="de">Frühzeitiger Zugriff auf BIM-Daten von Off-Market-Immobilien.</span>
+                        </li>
+                        <li><strong data-lang="es">Integración AI Vision</strong><strong data-lang="en">AI Vision Integration</strong><strong data-lang="de">AI Vision Integration</strong>
+                            <span data-lang="es">Su firma integrada en nuestro simulador de reformas.</span>
+                            <span data-lang="en">Your firm integrated into our renovation simulator.</span>
+                            <span data-lang="de">Ihre Firma integriert in unseren Renovierungssimulator.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Lifestyle Track -->
+            <div class="track-card">
+                <img src="../../creador_de_blogs/assets/P2_1_Yacht_Deck_Sunset1.png" alt="Yachting Experience" class="track-img">
+                <div class="track-info">
+                    <span class="track-tag">Services & Experiences</span>
+                    <h3 data-lang="es">Track Lifestyle</h3>
+                    <h3 data-lang="en">Lifestyle Track</h3>
+                    <h3 data-lang="de">Lifestyle Track</h3>
+
+                    <p data-lang="es">Diseñe las emociones que definen la vida en Mallorca tras la entrega de llaves.</p>
+                    <p data-lang="en">Design the emotions that define life in Mallorca after the keys are handed over.</p>
+                    <p data-lang="de">Gestalten Sie die Emotionen, die das Leben auf Mallorca nach der Schlüsselübergabe definieren.</p>
+
+                    <ul class="track-benefits-list">
+                        <li><strong data-lang="es">Welcome Kit Placement</strong><strong data-lang="en">Welcome Kit Placement</strong><strong data-lang="de">Welcome Kit Placement</strong>
+                            <span data-lang="es">Presencia exclusiva en el pack de bienvenida.</span>
+                            <span data-lang="en">Exclusive presence in the welcome pack.</span>
+                            <span data-lang="de">Exklusive Präsenz im Willkommenspaket.</span>
+                        </li>
+                        <li><strong data-lang="es">Sinergia en Eventos</strong><strong data-lang="en">Event Synergy</strong><strong data-lang="de">Event-Synergie</strong>
+                            <span data-lang="es">Co-creación de experiencias VVIP en villas icónicas.</span>
+                            <span data-lang="en">Co-creation of VVIP experiences in iconic villas.</span>
+                            <span data-lang="de">Co-Kreation von VVIP-Erlebnissen in ikonischen Villen.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits" id="benefits">
+        <div class="section-header" style="margin-bottom: 60px;">
+            <h2 style="color: #FFF;" data-lang="es">La Ventaja Synergy</h2>
+            <h2 style="color: #FFF;" data-lang="en">The Synergy Advantage</h2>
+            <h2 style="color: #FFF;" data-lang="de">Der Synergy-Vorteil</h2>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <span>01</span>
+                <h4 data-lang="es">Validación Anclora</h4>
+                <h4 data-lang="en">Anclora Vetting</h4>
+                <h4 data-lang="de">Anclora Validierung</h4>
+                <p data-lang="es" style="color: #8B949E; font-size: 0.9rem;">Eleve su estatus profesional con nuestro sello exclusivo de aprobación.</p>
+                <p data-lang="en" style="color: #8B949E; font-size: 0.9rem;">Elevate your professional status with our exclusive seal of approval.</p>
+                <p data-lang="de" style="color: #8B949E; font-size: 0.9rem;">Erhöhen Sie Ihren Berufsstatus mit unserem exklusiven Gütesiegel.</p>
+            </div>
+            <div class="benefit-item">
+                <span>02</span>
+                <h4 data-lang="es">Inteligencia de Mercado</h4>
+                <h4 data-lang="en">Market Intelligence</h4>
+                <h4 data-lang="de">Marktintelligenz</h4>
+                <p data-lang="es" style="color: #8B949E; font-size: 0.9rem;">Acceda a datos privados de nuestro Data Lab para refinar su estrategia.</p>
+                <p data-lang="en" style="color: #8B949E; font-size: 0.9rem;">Access private data from our Data Lab to refine your advisory strategy.</p>
+                <p data-lang="de" style="color: #8B949E; font-size: 0.9rem;">Greifen Sie auf private Daten aus unserem Data Lab zu, um Ihre Beratung zu verfeinern.</p>
+            </div>
+            <div class="benefit-item">
+                <span>03</span>
+                <h4 data-lang="es">Alcance Global</h4>
+                <h4 data-lang="en">Global Reach</h4>
+                <h4 data-lang="de">Globale Reichweite</h4>
+                <p data-lang="es" style="color: #8B949E; font-size: 0.9rem;">Sincronice con la red ultra-high-net-worth de Anclora Nexus Group.</p>
+                <p data-lang="en" style="color: #8B949E; font-size: 0.9rem;">Synergize with the ultra-high-net-worth network of Anclora Nexus Group.</p>
+                <p data-lang="de" style="color: #8B949E; font-size: 0.9rem;">Synergien mit dem Ultra-High-Net-Worth-Netzwerk der Anclora Nexus Group nutzen.</p>
+            </div>
+            <div class="benefit-item">
+                <span>04</span>
+                <h4 data-lang="es">Poder de Marketing</h4>
+                <h4 data-lang="en">Marketing Power</h4>
+                <h4 data-lang="de">Marketing-Power</h4>
+                <p data-lang="es" style="color: #8B949E; font-size: 0.9rem;">Activos co-branded y kits multimedia de alta fidelidad para la excelencia compartida.</p>
+                <p data-lang="en" style="color: #8B949E; font-size: 0.9rem;">Co-branded assets and high-fidelity media kits for shared excellence.</p>
+                <p data-lang="de" style="color: #8B949E; font-size: 0.9rem;">Co-Branding-Assets und High-Fidelity-Media-Kits für gemeinsame Exzellenz.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="join-section" id="join">
+        <div class="section-header">
+            <h2 data-lang="es">Aplique a Synergy</h2>
+            <h2 data-lang="en">Apply for Synergi</h2>
+            <h2 data-lang="de">Anmelden für Synergi</h2>
+            <p data-lang="es">Comience su viaje hacia la excelencia colaborativa. Nuestro equipo revisará su perfil en 48 horas.</p>
+            <p data-lang="en">Begin your journey toward collaborative excellence. Our team will review your profile within 48 hours.</p>
+            <p data-lang="de">Beginnen Sie Ihre Reise zur kooperativen Exzellenz. Nuestro equipo revisará su perfil en 48 horas.</p>
+        </div>
+
+        <div class="form-container">
+            <form id="partnerForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name" data-lang="es">Nombre Completo</label>
+                    <label for="name" data-lang="en">Full Name</label>
+                    <label for="name" data-lang="de">Vollständiger Name</label>
+                    <input type="text" id="name" placeholder="Ej: Julian Casablancas" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="company" data-lang="es">Empresa / Firma</label>
+                    <label for="company" data-lang="en">Company / Firm</label>
+                    <label for="company" data-lang="de">Unternehmen / Firma</label>
+                    <input type="text" id="company" placeholder="Ej: Architecture & Design Studio Mallorca">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" data-lang="es">Email Corporativo</label>
+                    <label for="email" data-lang="en">Corporate Email</label>
+                    <label for="email" data-lang="de">Geschäftliche E-Mail</label>
+                    <input type="email" id="email" placeholder="julian@firma.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="track" data-lang="es">Track de Interés</label>
+                    <label for="track" data-lang="en">Track of Interest</label>
+                    <label for="track" data-lang="de">Interessen-Track</label>
+                    <select id="track" required>
+                        <option value="" disabled selected data-lang="es">Seleccione un track...</option>
+                        <option value="" disabled selected data-lang="en">Select a track...</option>
+                        <option value="" disabled selected data-lang="de">Track wählen...</option>
+                        <option value="strategic">Strategic Track (Legal & Finance)</option>
+                        <option value="creative">Creative Track (Design & Architecture)</option>
+                        <option value="lifestyle">Lifestyle Track (Services & Concierge)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message" data-lang="es">Visión de Colaboración</label>
+                    <label for="message" data-lang="en">Collaboration Vision</label>
+                    <label for="message" data-lang="de">Kollaborationsvision</label>
+                    <textarea id="message" rows="4" placeholder="..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" data-lang="es">Enviar Solicitud</button>
+                <button type="submit" class="submit-btn" data-lang="en">Submit Application</button>
+                <button type="submit" class="submit-btn" data-lang="de">Antrag Absenden</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="toast">
+        <h4 style="color: var(--gold); margin-bottom: 5px;" data-lang="es">Solicitud Enviada</h4>
+        <h4 style="color: var(--gold); margin-bottom: 5px;" data-lang="en">Application Sent</h4>
+        <h4 style="color: var(--gold); margin-bottom: 5px;" data-lang="de">Antrag Gesendet</h4>
+        <p style="font-size: 0.8rem; opacity: 0.8;" data-lang="es">Su perfil está entrando en fase de revisión.</p>
+        <p style="font-size: 0.8rem; opacity: 0.8;" data-lang="en">Your profile is now under review.</p>
+        <p style="font-size: 0.8rem; opacity: 0.8;" data-lang="de">Ihr Profil wird nun überprüft.</p>
+    </div>
+
+    <section class="legal-context">
+        <div data-lang="es">
+            <p><strong>Aviso de Inversión y Cumplimento:</strong> La participación en el ecosistema Anclora Synergi no constituye una oferta pública de valores ni asesoramiento financiero. Todos los colaboradores deben cumplir con la normativa AML/KYC vigente en sus respectivas jurisdicciones. Anclora Private Estates es una división de Anclora Nexus Group, registrada conforme a las leyes de la Unión Europea. Los datos proporcionados serán tratados bajo la política de privacidad global de Nexus Group (RGPD).</p>
+        </div>
+        <div data-lang="en">
+            <p><strong>Investment & Compliance Notice:</strong> Participation in the Anclora Synergi ecosystem does not constitute a public offering of securities or financial advice. All partners must comply with current AML/KYC regulations in their respective jurisdictions. Anclora Private Estates is a division of Anclora Nexus Group, registered under EU law. Provided data will be processed under Nexus Group's Global Privacy Policy (GDPR).</p>
+        </div>
+        <div data-lang="de">
+            <p><strong>Investment- und Compliance-Hinweis:</strong> Die Teilnahme am Anclora Synergi-Ökosystem stellt kein öffentliches Angebot von Wertpapieren oder eine Finanzberatung dar. Alle Partner müssen die aktuellen AML/KYC-Vorschriften in ihren jeweiligen Jurisdiktionen einhalten. Anclora Private Estates ist eine Abteilung der Anclora Nexus Group, eingetragen nach EU-Recht. Die bereitgestellten Daten werden gemäß der globalen Datenschutzrichtlinie der Nexus Group (DSGVO) verarbeitet.</p>
+        </div>
+    </section>
+
+    <footer>
+        <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/Logo%20Anclora%20Nexus%20Group.png" alt="Anclora Nexus Group Logo" class="nexus-logo-footer">
+        
+        <div class="trust-badges">
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/2823/2823055.png" alt="GDPR">
+                <span>GDPR</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4112/4112447.png" alt="ISO 9001">
+                <span>ISO 9001</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/9338/9338804.png" alt="EU Registered">
+                <span>EU REG</span>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="#" data-lang="es">Privacidad</a><a href="#" data-lang="en">Privacy</a><a href="#" data-lang="de">Datenschutz</a>
+            <a href="#" data-lang="es">Cookies</a><a href="#" data-lang="en">Cookies</a><a href="#" data-lang="de">Cookies</a>
+            <a href="#" data-lang="es">Código Ético</a><a href="#" data-lang="en">Ethics Code</a><a href="#" data-lang="de">Ethikkodex</a>
+            <a href="#" data-lang="es">Términos B2B</a><a href="#" data-lang="en">B2B Terms</a><a href="#" data-lang="de">B2B-Bedingungen</a>
+        </div>
+        <p class="copyright">&copy; 2026 Anclora Nexus Group. All rights reserved.</p>
+        <p class="corporate-id">ID: ANG-PRT-2026-EU | ANCLORA NEXUS STRATEGIC HOLDINGS</p>
+    </footer>
+
+    </div><!-- Final landing-view -->
+
+    <div id="app-view">
+        <div class="app-container">
+            <aside class="sidebar">
+                <img src="../../creador_de_blogs/assets/logo_private_estates_only.png" alt="Anclora" style="width: 140px; margin-bottom: 40px; filter: invert(1);">
+                <a href="#" class="side-link active" data-lang="es">Panel de Control</a><a href="#" class="side-link active" data-lang="en">Dashboard</a><a href="#" class="side-link active" data-lang="de">Dashboard</a>
+                <a href="#" class="side-link" data-lang="es">Mis Activos</a><a href="#" class="side-link" data-lang="en">My Assets</a><a href="#" class="side-link" data-lang="de">Meine Assets</a>
+                <a href="#" class="side-link" data-lang="es">Intel de Mercado</a><a href="#" class="side-link" data-lang="en">Market Intel</a><a href="#" class="side-link" data-lang="de">Marktintel</a>
+                <a href="#" class="side-link" data-lang="es">Referidos</a><a href="#" class="side-link" data-lang="en">Referrals</a><a href="#" class="side-link" data-lang="de">Empfehlungen</a>
+                <div style="margin-top: auto;">
+                    <button onclick="logout()" class="side-link" style="background: none; border: none; cursor: pointer; display: block; width: 100%; text-align: left;">
+                        <span data-lang="es">Cerrar Sesión</span><span data-lang="en">Logout</span><span data-lang="de">Logout</span>
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content">
+                <header class="track-header">
+                    <div>
+                        <h2 id="partner-welcome">Welcome, Partner</h2>
+                        <span id="partner-track-badge" class="track-tag">Strategic Track</span>
+                    </div>
+                </header>
+
+                <!-- Dynamic Track Content -->
+                <div id="track-content-strategic" class="track-dashboard">
+                    <h3 data-lang="es">Intel Financiero Port d'Andratx 2026</h3><h3 data-lang="en">Financial Intel Port d'Andratx 2026</h3><h3 data-lang="de">Finanzintel Port d'Andratx 2026</h3>
+                    <div class="asset-card">
+                        <p data-lang="es">Reporte de ROI Proyectado v4</p><p data-lang="en">Projected ROI Report v4</p><p data-lang="de">Projizierter ROI-Bericht v4</p>
+                        <button class="btn-primary" style="margin-top: 0; padding: 5px 15px;">PDF</button>
+                    </div>
+                    <div class="asset-card">
+                        <p data-lang="es">Guía Legal Golden Visa Balear</p><p data-lang="en">Golden Visa Legal Guide</p><p data-lang="de">Golden Visa Rechtsleitfaden</p>
+                        <button class="btn-primary" style="margin-top: 0; padding: 5px 15px;">PDF</button>
+                    </div>
+                </div>
+
+                <div id="track-content-creative" class="track-dashboard" style="display: none;">
+                    <h3 data-lang="es">Librería de Visualización 8K</h3><h3 data-lang="en">8K Visualization Library</h3><h3 data-lang="de">8K-Visualisierungsbibliothek</h3>
+                    <div class="asset-card">
+                        <p data-lang="es">Modelos BIM - Villa Mallorca One</p><p data-lang="en">BIM Models - Villa Mallorca One</p><p data-lang="de">BIM-Modelle - Villa Mallorca One</p>
+                        <button class="btn-primary" style="margin-top: 0; padding: 5px 15px;">ZIP</button>
+                    </div>
+                </div>
+
+                <div id="track-content-lifestyle" class="track-dashboard" style="display: none;">
+                    <h3 data-lang="es">Kit de Experiencia del Cliente</h3><h3 data-lang="en">Client Experience Kit</h3><h3 data-lang="de">Kunden-Experience-Kit</h3>
+                    <div class="asset-card">
+                        <p data-lang="es">Catálogo de Servicios Concierge 2026</p><p data-lang="en">Concierge Services Catalog 2026</p><p data-lang="de">Concierge-Service-Katalog 2026</p>
+                        <button class="btn-primary" style="margin-top: 0; padding: 5px 15px;">DOC</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="color: var(--gold); margin-bottom: 25px;">Partner Access</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label data-lang="es">Usuario</label><label data-lang="en">Username</label><label data-lang="de">Benutzername</label>
+                    <input type="text" id="user" required>
+                </div>
+                <div class="form-group">
+                    <label data-lang="es">Código de Acceso</label><label data-lang="en">Access Code</label><label data-lang="de">Zugangscode</label>
+                    <input type="password" id="pass" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            <button onclick="toggleModal('login-modal', false)" style="background: none; border: none; color: #FFF; margin-top: 20px; cursor: pointer; opacity: 0.5;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            document.body.className = 'lang-' + lang;
+            if(document.body.classList.contains('is-logged-in')) document.body.classList.add('is-logged-in');
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === lang.toUpperCase());
+            });
+        }
+
+        function toggleModal(id, show) {
+            document.getElementById(id).style.display = show ? 'flex' : 'none';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('user').value.toLowerCase();
+            let track = 'strategic';
+            if(user.includes('creative')) track = 'creative';
+            if(user.includes('lifestyle')) track = 'lifestyle';
+
+            document.body.classList.add('is-logged-in');
+            toggleModal('login-modal', false);
+            showTrackContent(track);
+            document.getElementById('partner-welcome').innerText = `Welcome, ${user.toUpperCase()}`;
+        }
+
+        function showTrackContent(track) {
+            document.querySelectorAll('.track-dashboard').forEach(d => d.style.display = 'none');
+            document.getElementById(`track-content-${track}`).style.display = 'block';
+            document.getElementById('partner-track-badge').innerText = track.toUpperCase() + ' TRACK';
+        }
+
+        function logout() {
+            document.body.classList.remove('is-logged-in');
+        }
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 50) { header.classList.add('scrolled'); } 
+            else { header.classList.remove('scrolled'); }
+        });
+
+        // Previous validation and form logic...
+        function handleSubmit(event) {
+            event.preventDefault();
+            // ... (keep previous function content)
+        }
+    </script>
+</body>
+</html>

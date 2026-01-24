@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anclora Cognitive Solutions | Liderazgo en IA Inmobiliaria</title>
+    <meta name="description" content="Estrategias avanzadas de automatización, Chatbots y PropTech 3.0 para líderes del sector inmobiliario. Una división de Anclora Nexus Group.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Outfit:wght@200;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-deep: #0D1117;
+            --brand-navy: #192350;
+            --brand-cyan: #AFD2FA;
+            --brand-gold: #D4AF37;
+            --text-light: #F5F5F0;
+            --muted: #8B949E;
+            --glass: rgba(25, 35, 80, 0.4);
+            --border: rgba(175, 210, 250, 0.2);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 5% 50px;
+            background: #080B10;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .nexus-logo-footer {
+            width: 180px;
+            margin: 0 auto 25px;
+            display: block;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-badges img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .badge-item span {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .footer-links {
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--brand-cyan);
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            color: var(--muted);
+        }
+
+        .corporate-id {
+            font-size: 0.65rem;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-light);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(25, 35, 80, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        body.ready {
+            opacity: 1;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* i18n Safe Logic */
+        [data-lang] { display: none !important; }
+        body.lang-es [data-lang="es"] { display: block !important; }
+        body.lang-es span[data-lang="es"], body.lang-es strong[data-lang="es"], body.lang-es a[data-lang="es"], body.lang-es li[data-lang="es"] { display: inline !important; }
+        body.lang-en [data-lang="en"] { display: block !important; }
+        body.lang-en span[data-lang="en"], body.lang-en strong[data-lang="en"], body.lang-en a[data-lang="en"], body.lang-en li[data-lang="en"] { display: inline !important; }
+        body.lang-de [data-lang="de"] { display: block !important; }
+        body.lang-de span[data-lang="de"], body.lang-de strong[data-lang="de"], body.lang-de a[data-lang="de"], body.lang-de li[data-lang="de"] { display: inline !important; }
+
+        /* Particles Background */
+        .tech-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(30px);
+            background: rgba(13, 17, 23, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-container img {
+            height: 40px;
+            filter: drop-shadow(0 0 8px var(--brand-cyan));
+            transition: var(--transition);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            opacity: 0.7;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--brand-cyan);
+            text-shadow: 0 0 10px var(--brand-cyan);
+        }
+
+        /* Language Toggle - Ultra Futuristic */
+        .lang-switcher {
+            display: flex;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 3px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--muted);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lang-btn.active {
+            color: var(--bg-deep);
+        }
+
+        .lang-slider {
+            position: absolute;
+            height: calc(100% - 6px);
+            width: 40px;
+            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-gold));
+            border-radius: 20px;
+            top: 3px;
+            left: 3px;
+            z-index: 1;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 15px rgba(175, 210, 250, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--brand-navy) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(100px);
+        }
+
+        .hero-tag {
+            color: var(--brand-gold);
+            font-weight: 600;
+            letter-spacing: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            line-height: 1.1;
+            max-width: 1100px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #FFF 0%, var(--brand-cyan) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--muted);
+            max-width: 800px;
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        /* Button Style */
+        .btn-tech {
+            padding: 1.2rem 3.5rem;
+            background: transparent;
+            border: 1px solid var(--brand-cyan);
+            color: var(--brand-cyan);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-tech::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(175, 210, 250, 0.4), transparent);
+            transition: 0.7s;
+        }
+
+        .btn-tech:hover::after {
+            left: 100%;
+        }
+
+        .btn-tech:hover {
+            background: rgba(175, 210, 250, 0.15);
+            box-shadow: 0 0 30px rgba(175, 210, 250, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* Container & Grid */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 10rem 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, var(--brand-cyan));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header .line {
+            width: 80px;
+            height: 5px;
+            background: var(--brand-gold);
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--brand-gold);
+        }
+
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-bottom: 6rem;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 3.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(15px);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--brand-cyan);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 20px rgba(175, 210, 250, 0.1);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px var(--brand-gold));
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--brand-cyan);
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* Premium Brand Asset Image */
+        .premium-asset-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 6rem 0;
+            padding: 4rem;
+            background: radial-gradient(circle, rgba(25, 35, 80, 0.4) 0%, transparent 70%);
+        }
+
+        .premium-asset {
+            max-width: 600px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 20px rgba(175, 210, 250, 0.2));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .premium-asset:hover {
+            transform: scale(1.1) rotate(2deg);
+            filter: drop-shadow(0 0 50px var(--brand-cyan)) brightness(1.2);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Image Showcase Side-by-Side */
+        .showcase-block {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5rem;
+            align-items: center;
+            margin-top: 8rem;
+        }
+
+        .showcase-content {
+            flex: 1;
+            min-width: 400px;
+        }
+
+        .showcase-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--brand-cyan);
+        }
+
+        .showcase-img-container {
+            flex: 1.2;
+            min-width: 400px;
+            position: relative;
+        }
+
+        .showcase-img {
+            width: 100%;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 80px rgba(0,0,0,0.8);
+            transition: var(--transition);
+        }
+
+        .showcase-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 100px rgba(25, 35, 80, 0.6);
+            border-color: var(--brand-gold);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #05070a 0%, var(--brand-navy) 100%);
+            padding: 12rem 5%;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-section h2 {
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        /* Footer */
+        footer {
+            padding: 5rem 5%;
+            text-align: center;
+            background: #05070a;
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 1024px) {
+            .grid-features { grid-template-columns: 1fr; }
+            .showcase-block { flex-direction: column; text-align: center; }
+            .showcase-content, .showcase-img-container { min-width: 100%; }
+        }
+    </style>
+</head>
+<body class="lang-es">
+
+    <div class="tech-bg"></div>
+
+    <nav>
+        <div class="logo-container">
+            <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades de Agentes/creador_de_blogs/assets/logo_cognitive_solutions_v2.png" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <a href="#soluciones">
+                <span data-lang="es">Soluciones</span>
+                <span data-lang="en">Solutions</span>
+                <span data-lang="de">Lösungen</span>
+            </a>
+            <a href="#proptech">
+                <span data-lang="es">Futuro 3.0</span>
+                <span data-lang="en">Future 3.0</span>
+                <span data-lang="de">Zukunft 3.0</span>
+            </a>
+            <a href="#estrategia">
+                <span data-lang="es">Liderazgo</span>
+                <span data-lang="en">Leadership</span>
+                <span data-lang="de">Führung</span>
+            </a>
+            
+            <!-- Futuristic Lang Switcher -->
+            <div class="lang-switcher">
+                <div class="lang-slider" id="lang-slider"></div>
+                <div class="lang-btn active" id="es-btn" onclick="setLanguage('es')">ES</div>
+                <div class="lang-btn" id="en-btn" onclick="setLanguage('en')">EN</div>
+                <div class="lang-btn" id="de-btn" onclick="setLanguage('de')">DE</div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-tag">Anclora Nexus Group Synergy</div>
+            
+            <h1 data-lang="es">Optimización Cognitiva para el Real Estate Global</h1>
+            <h1 data-lang="en">Cognitive Optimization for Global Real Estate</h1>
+            <h1 data-lang="de">Kognitive Optimierung für Globales Real Estate</h1>
+            
+            <p data-lang="es">Implementamos arquitecturas de datos y agentes autónomos para transformar la rentabilidad y la experiencia operativa en activos de alto valor.</p>
+            <p data-lang="en">We implement data architectures and autonomous agents to transform profitability and the operational experience in high-value assets.</p>
+            <p data-lang="de">Wir implementieren Datenarchitekturen und autonome Agenten, um die Rentabilität und das operative Erlebnis in hochwertigen Anlagen zu transformieren.</p>
+            
+            <a href="#soluciones" class="btn-tech">
+                <span data-lang="es">Diseñar el Mañana</span>
+                <span data-lang="en">Design Tomorrow</span>
+                <span data-lang="de">Morgen Gestalten</span>
+            </a>
+        </section>
+
+        <!-- Solutions Section -->
+        <section class="container" id="soluciones">
+            <div class="section-header">
+                <h2 data-lang="es">Soluciones de Automatización</h2>
+                <h2 data-lang="en">Automation Solutions</h2>
+                <h2 data-lang="de">Automatisierungslösungen</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-features">
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3 data-lang="es">Gobernanza Energética</h3>
+                    <h3 data-lang="en">Energy Governance</h3>
+                    <h3 data-lang="de">Energie-Governance</h3>
+                    
+                    <p data-lang="es">Optimización masiva mediante IA de sistemas HVAC. Logramos ahorros del 22% en activos comerciales mediante modelos predictivos.</p>
+                    <p data-lang="en">Massive AI optimization of HVAC systems. We achieve 22% savings in commercial assets through predictive models.</p>
+                    <p data-lang="de">Massive KI-Optimierung von HLK-Systemen. Wir erreichen durch prädiktive Modelle Einsparungen von 22% bei gewerblichen Anlagen.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛠️</div>
+                    <h3 data-lang="es">Triage Industrial</h3>
+                    <h3 data-lang="en">Industrial Triage</h3>
+                    <h3 data-lang="de">Industrielles Triage</h3>
+                    
+                    <p data-lang="es">Visión artificial para diagnóstico de averías. Clasificación autónoma y gestión logística sin fricción humana.</p>
+                    <p data-lang="en">Computer vision for fault diagnosis. Autonomous classification and logistics management without human friction.</p>
+                    <p data-lang="de">Computer Vision zur Fehlerdiagnose. Autonome Klassifizierung und Logistikmanagement ohne menschliche Reibung.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3 data-lang="es">Screening Predictivo</h3>
+                    <h3 data-lang="en">Predictive Screening</h3>
+                    <h3 data-lang="de">Prädiktives Screening</h3>
+                    
+                    <p data-lang="es">Modelos cognitivos que reducen la morosidad en un 30% mediante el estudio de patrones financieros avanzados.</p>
+                    <p data-lang="en">Cognitive models that reduce delinquency by 30% through advanced financial pattern studies.</p>
+                    <p data-lang="de">Kognitive Modelle, die die Zahlungsverzug um 30 % reduzieren, durch fortschrittliche Finanzmusterstudien.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📄</div>
+                    <h3 data-lang="es">Inteligencia Contractual</h3>
+                    <h3 data-lang="en">Contract Intelligence</h3>
+                    <h3 data-lang="de">Vertragsintelligenz</h3>
+                    
+                    <p data-lang="es">Extracción automática de riesgos legales en carteras masivas. Reducción del 90% en tiempos de Due Diligence.</p>
+                    <p data-lang="en">Automatic extraction of legal risks in massive portfolios. 90% reduction in Due Diligence times.</p>
+                    <p data-lang="de">Automatische Extraktion rechtlicher Risiken in massiven Portfolios. Reduzierung der Due-Diligence-Zeiten um 90 %.</p>
+                </div>
+            </div>
+
+            <!-- Premium Brand Image -->
+            <div class="premium-asset-container">
+                <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades de Agentes/creador_de_blogs/assets/Imagen_Anclora_Cognitive_Solutions.png" alt="Anclora Cognitive" class="premium-asset">
+            </div>
+        </section>
+
+        <!-- PropTech Section -->
+        <section class="container" id="proptech" style="background: rgba(25, 35, 80, 0.15); width: 100vw; margin-left: calc(-50vw + 50%); padding-left: 5%; padding-right: 5%;">
+            <div class="section-header">
+                <h2 data-lang="es">PropTech 3.0: Experiencias Inmersivas</h2>
+                <h2 data-lang="en">PropTech 3.0: Immersive Experiences</h2>
+                <h2 data-lang="de">PropTech 3.0: Immersive Erlebnisse</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="showcase-block">
+                <div class="showcase-content">
+                    <h3 data-lang="es">Virtual Touring & Staging</h3>
+                    <h3 data-lang="en">Virtual Touring & Staging</h3>
+                    <h3 data-lang="de">Virtuelle Touren & Staging</h3>
+                    
+                    <p data-lang="es" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.2rem;">La venta de activos de lujo ya no ocurre en el plano físico. La IA generativa crea experiencias donde el comprador no solo ve la casa, sino que la habita.</p>
+                    <p data-lang="en" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.2rem;">The sale of luxury assets no longer happens in the physical plane. Generative AI creates experiences where the buyer not only sees the house, but inhabits it.</p>
+                    <p data-lang="de" style="color: var(--muted); margin-bottom: 2rem; font-size: 1.2rem;">Der Verkauf von Luxusgütern findet nicht mehr auf der physischen Ebene statt. Generative KI schafft Erlebnisse, bei denen der Käufer das Haus nicht nur sieht, sondern bewohnt.</p>
+                    
+                    <ul style="list-style: none; color: var(--brand-gold); font-weight: 600;">
+                        <li data-lang="es" style="margin-bottom: 1rem;">▶ 31% más de velocidad en cierre</li>
+                        <li data-lang="en" style="margin-bottom: 1rem;">▶ 31% faster closing speed</li>
+                        <li data-lang="de" style="margin-bottom: 1rem;">▶ 31 % schnellerer Abschluss</li>
+                        
+                        <li data-lang="es" style="margin-bottom: 1rem;">▶ 95% de precisión en ROI</li>
+                        <li data-lang="en" style="margin-bottom: 1rem;">▶ 95% ROI accuracy</li>
+                        <li data-lang="de" style="margin-bottom: 1rem;">▶ 95 % ROI-Genauigkeit</li>
+                    </ul>
+                </div>
+                <div class="showcase-img-container">
+                    <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades de Agentes/creador_de_blogs/assets/vr_tour_luxury_cognitive.png" alt="VR Tour" class="showcase-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section" id="estrategia">
+            <h2 data-lang="es">Transforme su visión en eficiencia pura.</h2>
+            <h2 data-lang="en">Transform your vision into pure efficiency.</h2>
+            <h2 data-lang="de">Verwandeln Sie Ihre Vision in pure Effizienz.</h2>
+            
+            <a href="#" class="btn-tech">
+                <span data-lang="es">Solicitar Auditoría Cognitiva</span>
+                <span data-lang="en">Request Cognitive Audit</span>
+                <span data-lang="de">Cognitive Audit Anfordern</span>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/Logo%20Anclora%20Nexus%20Group.png" alt="Anclora Nexus Group Logo" class="nexus-logo-footer">
+        
+        <div class="trust-badges">
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/2823/2823055.png" alt="GDPR">
+                <span>GDPR</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4112/4112447.png" alt="ISO 9001">
+                <span>ISO 9001</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/9338/9338804.png" alt="EU Registered">
+                <span>EU REG</span>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="#" data-lang="es">Privacidad</a><a href="#" data-lang="en">Privacy</a><a href="#" data-lang="de">Datenschutz</a>
+            <a href="#" data-lang="es">Cookies</a><a href="#" data-lang="en">Cookies</a><a href="#" data-lang="de">Cookies</a>
+            <a href="#" data-lang="es">Código Ético</a><a href="#" data-lang="en">Ethics Code</a><a href="#" data-lang="de">Ethikkodex</a>
+            <a href="#" data-lang="es">Términos B2B</a><a href="#" data-lang="en">B2B Terms</a><a href="#" data-lang="de">B2B-Bedingungen</a>
+        </div>
+        <p class="copyright">&copy; 2026 ANCLORA NEXUS GROUP | ANCLORA COGNITIVE SOLUTIONS. ALL RIGHTS RESERVED.</p>
+        <p class="corporate-id">ID: ANG-COG-2026-EU | ANCLORA NEXUS STRATEGIC HOLDINGS</p>
+    </footer>
+
+    <script>
+        function setLanguage(lang) {
+            const body = document.body;
+            const slider = document.getElementById('lang-slider');
+            const btns = {
+                es: document.getElementById('es-btn'),
+                en: document.getElementById('en-btn'),
+                de: document.getElementById('de-btn')
+            };
+            
+            body.classList.remove('lang-es', 'lang-en', 'lang-de');
+            body.classList.add('lang-' + lang);
+            
+            Object.values(btns).forEach(btn => btn.classList.remove('active'));
+            btns[lang].classList.add('active');
+            
+            // Slider Movement
+            const pos = { es: 0, en: 33.3, de: 66.6 };
+            slider.style.transform = `translateX(${btns[lang].offsetLeft - 3}px)`;
+            
+            console.log('Language toggled to:', lang);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('ready');
+            setLanguage('es');
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .section-header, .showcase-block').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px)';
+            el.style.transition = 'all 1s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
