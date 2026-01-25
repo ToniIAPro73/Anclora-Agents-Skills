@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
             <img 
               src={LOGO_ANCLORA_NEXUS} 
               alt="Anclora Nexus Group" 
-              className="h-7 w-auto opacity-90 hover:opacity-100 transition-opacity"
+              className="h-5 w-auto opacity-90 hover:opacity-100 transition-opacity"
             />
             <span className="text-[10px] uppercase tracking-[0.2em] font-light text-white/30">
               Una iniciativa de Anclora Nexus Group
