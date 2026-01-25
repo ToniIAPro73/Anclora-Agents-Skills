@@ -1,24 +1,23 @@
-import React from 'react';
-import { LOGO_PRIVATE_ESTATES } from './assets/branding_assets';
+import { LOGO_PRIVATE_ESTATES_SYMBOL } from './assets/branding_assets';
 
 /**
  * Anclora Private Estates - Premium Header
  * 
  * Features:
- * - Prominent application logo (h-14) for strong brand dominance.
+ * - Ultra-clean signature branding (Symbol only).
  * - Minimalist navigation following luxury brand guidelines.
  * - Semi-transparent navy background with subtle border.
  */
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 h-20 bg-[#0A1F3D]/95 backdrop-blur-md border-b border-white/10 z-50 px-8 flex items-center justify-between shadow-lg">
+    <header className="fixed top-0 left-0 right-0 h-24 bg-[#0A1F3D]/95 backdrop-blur-md border-b border-white/10 z-50 px-8 flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
       <div className="flex items-center gap-4">
-        <a href="/" className="transition-transform hover:scale-[1.02]">
+        <a href="/" className="transition-transform hover:scale-[1.05] duration-500">
           <img 
-            src={LOGO_PRIVATE_ESTATES} 
-            alt="Anclora Private Estates" 
-            className="h-14 w-auto drop-shadow-2xl"
+            src={LOGO_PRIVATE_ESTATES_SYMBOL} 
+            alt="Anclora" 
+            className="h-16 w-auto drop-shadow-[0_0_15px_rgba(197,160,89,0.3)] rounded-full border border-[#C5A059]/30"
           />
         </a>
       </div>
