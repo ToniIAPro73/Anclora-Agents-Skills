@@ -10,7 +10,7 @@ import { LOGO_PRIVATE_ESTATES } from './assets/branding_assets';
  * - Semi-transparent navy background with subtle border.
  */
 
-const Header: React.FC = () => {
+export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 h-20 bg-[#0A1F3D]/95 backdrop-blur-md border-b border-white/10 z-50 px-8 flex items-center justify-between shadow-lg">
       <div className="flex items-center gap-4">
@@ -40,4 +40,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+// Removed redundant export default Header;

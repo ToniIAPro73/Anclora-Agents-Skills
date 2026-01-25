@@ -12,7 +12,7 @@ import { LOGO_ANCLORA_NEXUS, COMPLIANCE_BADGES } from './assets/branding_assets'
  * - Fiscal and legal data per 2026 compliance standards.
  */
 
-const Footer: React.FC = () => {
+export default function Footer() {
   return (
     <footer className="bg-[#05070a] text-white/60 py-8 px-6 font-sans border-t border-white/5">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
@@ -72,4 +72,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+// Removed redundant export default Footer;
