@@ -1,4 +1,5 @@
 import React from 'react';
+import { LOGO_ANCLORA_NEXUS, COMPLIANCE_BADGES } from './assets/branding_assets';
 
 /**
  * Anclora Nexus Group - Premium Footer
@@ -22,7 +23,7 @@ const Footer: React.FC = () => {
           {/* Main Logo - Focused on Anclora Nexus Group */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <img 
-              src="/creador_apps_luxury/assets/logo_nexus.png" 
+              src={LOGO_ANCLORA_NEXUS} 
               alt="Anclora Nexus Group" 
               className="h-7 w-auto opacity-90 hover:opacity-100 transition-opacity"
             />
@@ -34,7 +35,7 @@ const Footer: React.FC = () => {
           {/* Compliance Badges */}
           <div className="flex items-center gap-8 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
             <div className="flex flex-col items-center gap-1">
-              <img src="/creador_apps_luxury/assets/compliance/badges.png" alt="Compliance Badges" className="h-10 w-auto" />
+              <img src={COMPLIANCE_BADGES} alt="Compliance Badges" className="h-10 w-auto" />
             </div>
           </div>
         </div>
