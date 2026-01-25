@@ -1,0 +1,131 @@
+import React, { useState } from 'react';
+import { LOGO_ANCLORA_NEXUS } from './assets/branding_assets';
+import { Info, ChevronRight } from 'lucide-react';
+
+/**
+ * Anclora Nexus Group - Ultra-Compact High-Fidelity Footer v4.0
+ * 
+ * Final Refinement based on user reference:
+ * - Minimum height footprint.
+ * - Tiny signature parent logo (h-2) atop compliance.
+ * - Custom Schematic Icons for Certifications.
+ * - Full bilingual legal matrix.
+ */
+
+const ComplianceIcons = () => (
+  <div className="flex gap-12 md:gap-20 py-4 opacity-50 hover:opacity-100 transition-opacity duration-700">
+    {/* GDPR Schematic */}
+    <div className="flex flex-col items-center gap-2 group">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#C5A059]">
+        <rect x="4" y="4" width="16" height="16" rx="1" />
+        <path d="M9 12l2 2 4-4" />
+        <circle cx="20" cy="4" r="2" fill="currentColor" />
+        <circle cx="4" cy="20" r="2" fill="currentColor" />
+      </svg>
+      <span className="text-[8px] font-black tracking-widest uppercase">GDPR</span>
+    </div>
+
+    {/* ISO 9001 Schematic (Bar Style) */}
+    <div className="flex flex-col items-center gap-2 group">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#C5A059]">
+        <path d="M4 20h16M7 20v-4M12 20v-9M17 20v-14" strokeLinecap="round" />
+        <path d="M3 13l18-9" opacity="0.3" />
+      </svg>
+      <span className="text-[8px] font-black tracking-widest uppercase">ISO 9001</span>
+    </div>
+
+    {/* EU REG Schematic (Frame Style) */}
+    <div className="flex flex-col items-center gap-2 group">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="text-[#C5A059]">
+        <rect x="5" y="5" width="14" height="14" rx="0.5" />
+        <path d="M12 5v14M5 12h14" opacity="0.2" />
+        <path d="M5 8h14M5 16h14" opacity="0.2" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+      <span className="text-[8px] font-black tracking-widest uppercase">EU REG</span>
+    </div>
+  </div>
+);
+
+const Footer = () => {
+  const [activeLegal, setActiveLegal] = useState<string | null>(null);
+
+  const legalContent = {
+    PRIVACIDAD: {
+      url: "/legal/privacidad",
+      es: "Sus datos serán tratados con la exclusiva finalidad de gestionar su solicitud y mantenerle informado sobre nuestras propiedades de lujo. No cedemos datos a terceros sin consentimiento expreso.",
+      en: "Your data will be processed solely to manage your requests and keep you informed about our luxury properties. We do not share data with third parties without express consent."
+    },
+    COOKIES: {
+      url: "/legal/cookies",
+      es: "Utilizamos cookies propias y de terceros para mejorar su experiencia de navegación y realizar análisis estadísticos. Puede configurarlas en cualquier momento.",
+      en: "We use first and third-party cookies to improve your browsing experience and perform statistical analysis. You can configure them at any time."
+    },
+    "CÓDIGO ÉTICO": {
+      url: "/legal/codigo-etico",
+      es: "Integridad y confidencialidad absoluta (UHNWI). Compromiso con el desarrollo sostenible y la excelencia tecnológica en Baleares.",
+      en: "Integrity and absolute confidentiality (UHNWI). Commitment to sustainable development and technological excellence in the Balearic Islands."
+    },
+    "TÉRMINOS B2B": {
+      url: "/legal/terminos-b2b",
+      es: "Condiciones exclusivas para colaboradores inmobiliarios. Programa de referral (20%) y protección de leads 'First Touch Wins'.",
+      en: "Exclusive conditions for real estate collaborators. Referral program (20%) and 'First Touch Wins' lead protection rules."
+    }
+  };
+
+  return (
+    <footer className="bg-[#05070a] text-white/40 py-10 px-6 font-sans border-t border-white/5 mt-20 select-none overflow-hidden">
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
+        
+        {/* Step 1: Micro Brand Signature */}
+        <div className="flex flex-col items-center gap-1.5 opacity-30 hover:opacity-100 transition-all duration-1000">
+           <img src={LOGO_ANCLORA_NEXUS} alt="Group Logo" className="h-2 w-auto grayscale" />
+           <p className="text-[7px] uppercase tracking-[0.8em] font-light">Anclora Nexus Strategic Holdings</p>
+        </div>
+
+        {/* Step 2: Schematic Compliance Section */}
+        <ComplianceIcons />
+
+        {/* Step 3: Minimalist Legal Matrix */}
+        <div className="w-full space-y-6 pt-4 border-t border-white/5">
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-3">
+            {Object.keys(legalContent).map((key) => (
+              <button 
+                key={key}
+                onMouseEnter={() => setActiveLegal(key)}
+                onMouseLeave={() => setActiveLegal(null)}
+                className={`text-[9px] font-black tracking-[0.3em] transition-all duration-300 ${activeLegal === key ? 'text-white scale-105' : 'text-[#C5A059] opacity-60'}`}
+              >
+                {key}
+              </button>
+            ))}
+          </div>
+
+          <div className="min-h-[40px] text-center max-w-3xl mx-auto">
+            {activeLegal ? (
+              <div className="animate-in fade-in zoom-in-95 duration-500">
+                <p className="text-[10px] leading-relaxed italic text-white/30">
+                  {legalContent[activeLegal as keyof typeof legalContent].es}
+                </p>
+              </div>
+            ) : (
+              <p className="text-[8px] uppercase tracking-widest text-white/5">© 2026 ANCLORA NEXUS GROUP • ID: ANG-LAB-PRO-2026-EU</p>
+            )}
+          </div>
+        </div>
+
+        {/* Step 4: Ultra-Fine Fiscal Footer */}
+        <div className="w-full flex justify-between items-center text-[7px] font-medium tracking-[0.2em] opacity-10 border-t border-white/5 pt-4 uppercase">
+           <span>PASEO DEL BORNE, 15, PALMA</span>
+           <span className="hidden md:inline">|</span>
+           <span>ANCLORA PRIVATE ESTATES S.L.</span>
+           <span className="hidden md:inline">|</span>
+           <span>API Nº 12492-BAL</span>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

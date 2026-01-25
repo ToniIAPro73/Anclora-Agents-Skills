@@ -17,7 +17,7 @@ export default function Header() {
           <img 
             src={LOGO_PRIVATE_ESTATES_SYMBOL} 
             alt="Anclora" 
-            className="h-20 w-auto drop-shadow-[0_0_20px_rgba(197,160,89,0.4)] transition-all"
+            className="h-28 w-auto drop-shadow-[0_0_30px_rgba(197,160,89,0.5)] transition-all"
           />
         </a>
       </div>
