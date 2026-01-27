@@ -1,0 +1,117 @@
+Esta es una propuesta de estructura diseñada para ser escalable, mantenible y clara. El objetivo es que, a medida que agregues más submarcas o aplicaciones, el repo no se convierta en un caos, sino que mantenga una jerarquía lógica.
+
+Estructura del Repositorio
+La estructura sigue el principio de "Divide y vencerás": Separar los activos globales del grupo (Holdings) de los activos específicos de cada submarca (Private Estates, Cognitive Solutions) y de las aplicaciones.
+
+text
+
+Anclora_Nexus_Group_Brand/
+│
+├── README.md
+│
+├── 00_Assets_Globales/             # Recursos compartidos por todo el grupo (logos oficiales del grupo, tipografías base)
+│   ├── logos/
+│   │   ├── favicon/
+│   │   ├── horizontal/
+│   │   ├── vertical/
+│   │   └── icon/
+│   ├── documentos/                 # Documentación legal o global del grupo
+│   │   └── docs_group/             # (Aquí migrarías tu carpeta C:\...\docs general)
+│
+├── 01_Anclora_Nexus_Group/         # Identidad específica de la marca matriz (Holdings)
+│   ├── README.md
+│   ├── branding/
+│   │   ├── Anclora_nexus_group_branding_image.png
+│   │   └── anclora_brand_sheet_dark_neutral_1600x1000.png
+│   ├── color/
+│   │   ├── Anclora_nexus_group_palette_colors.png
+│   │   └── Paleta-oficial-negro.md
+│   ├── code_tokens/
+│   │   └── tokes_CSS_tailwind_reglas_de_uso.md
+│   └── documentos/
+│       └── ...                     # Documentos específicos de la marca madre
+│
+├── 02_Anclora_Private_Estates/     # Submarca 1
+│   ├── README.md
+│   ├── branding/                   # (Imágenes de identidad de PE)
+│   ├── color/                      # (Paleta de PE)
+│   ├── code_tokens/                # (Tailwind/Reglas de PE)
+│   ├── aplicaciones/               # Ecosistema de apps de PE
+│   │   ├── app_ejemplo_1/
+│   │   │   ├── branding_specifico.png
+│   │   │   └── assets/
+│   │   └── app_ejemplo_2/
+│   └── documentos/
+│
+├── 03_Anclora_Cognitive_Solutions/ # Submarca 2
+│   ├── README.md
+│   ├── branding/                   # (Imágenes de identidad de CS)
+│   ├── color/                      # (Paleta de CS)
+│   ├── code_tokens/                # (Tailwind/Reglas de CS)
+│   ├── aplicaciones/               # Ecosistema de apps de CS
+│   │   ├── app_brain_ai/
+│   │   └── app_data_visualizer/
+│   └── documentos/
+│
+└── templates/                      # (Opcional) Plantillas base de PowerPoint, Word, Canva, etc.
+    └── presentaciones_corporativas/
+Explicación de la Decisión de Diseño
+Numeración (00_, 01_, 02_): Ayuda a que las carpetas se ordenen por jerarquía visual en el explorador de archivos. El Grupo es lo más importante (Holdings), seguido de las subsidiarias.
+Separación de branding vs code_tokens: Es vital separar la parte visual (PNGs, hojas de estilo) de la parte técnica (Tailwind, CSS). Así, los diseñadores van a una carpeta y los desarrolladores a otra.
+Carpeta aplicaciones: Dado que mencionaste que hay o habrá apps dentro de cada submarca, cada una necesita su propio subdirectorio para no mezclar los logos de la "App A" con los de la "App B".
+Contenido del README.md Principal
+Este archivo sirve como el "mapa" del repositorio.
+
+🚢 Anclora Nexus Group - Brand Identity & Ecosystem
+Este repositorio centraliza la identidad de marca, activos digitales y documentación de Anclora Nexus Group y su ecosistema de submarcas y aplicaciones.
+
+📂 Estructura del Repositorio
+El repositorio está organizado jerárquicamente para facilitar el acceso a los recursos según la entidad correspondiente.
+
+🏢 00_Assets_Globales
+Recursos compartidos que aplican a todo el grupo (Holdings).
+
+Logos: Versiones oficiales del logo de Anclora Nexus Group (favicon, horizontal, vertical).
+Documentos: Documentación corporativa general y legal.
+🌐 01_Anclora_Nexus_Group (Holdings)
+Identidad pura de la marca matriz.
+
+Branding: Imágenes referenciales y brand sheets.
+Color: Paletas oficiales (incluyendo Paleta-oficial-negro.md).
+Code Tokens: Definiciones técnicas (CSS/Tailwind) para desarrolladores.
+🏡 02_Anclora_Private_Estates
+Recursos exclusivos para la submarca de bienes raíces y lujo.
+
+Branding, Color, Tokens: Específicos de esta marca.
+Aplicaciones: Carpeta dedicada a los activos de cada producto digital bajo esta marca.
+🧠 03_Anclora_Cognitive_Solutions
+Recursos exclusivos para la submarca de tecnología y soluciones cognitivas.
+
+Branding, Color, Tokens: Específicos de esta marca.
+Aplicaciones: Carpeta dedicada a los activos de cada producto digital bajo esta marca.
+🛠 Cómo usar este repo
+Para Diseñadores: Navegue a la carpeta de la submarca correspondiente (01, 02 o 03) y busque dentro de las carpetas branding o color.
+Para Desarrolladores: Para implementar estilos, diríjase a la carpeta code_tokens dentro de la submarca correspondiente para encontrar las configuraciones de Tailwind/CSS.
+Para Documentación: Consulte la carpeta documentos dentro de cada entidad o Assets_Globales para información legal o de procedimiento.
+Nota Importante: Mantenga la nomenclatura de archivos consistente. Al añadir una nueva aplicación, cree su carpeta dentro de aplicaciones de la submarca correspondiente y siga el patrón de carpetas internas definido.
+
+Sugerencia para los READMEs de las Submarcas
+Dentro de cada carpeta de submarca (ej: 02_Anclora_Private_Estates), es recomendable tener un mini README.md:
+
+02_Anclora_Private_Estates/README.md
+
+Anclora Private Estates - Brand Assets
+Esta carpeta contiene la identidad visual y técnica para la submarca Anclora Private Estates.
+
+🎨 Paleta de Colores
+Consulte la carpeta /color para los archivos de referencia y especificaciones HEX/RGB.
+
+💻 Tokens de Código
+Para implementar la marca en aplicaciones web, revise /code_tokens para las reglas de Tailwind y CSS.
+
+📱 Aplicaciones del Ecosistema
+Actualmente, esta submarca contiene las siguientes aplicaciones (ver carpeta /aplicaciones):
+
+...
+...
+Esta estructura asegura que hoy, con 2 submarcas, o mañana con 10, el orden se mantenga intuitivo.
