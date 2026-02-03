@@ -8,25 +8,31 @@
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Anclora Private Estates Palette */
-            --pe-navy: #2C3E50;
-            --pe-gold: #D4AF37;
-            --pe-gold-light: #E6C96E;
-            --pe-cream: #F5F5F0;
-            --pe-bronze: #B9915F;
-            --pe-black: #05070A;
+            /* Anclora Private Estates - Premium Teal Palette */
+            --anclora-teal-primary: #0B313F;
+            --anclora-teal-dark: #07252F;
+            --anclora-teal-hover: #124A50;
+            --anclora-teal-bg: #0F3F45;
+            --anclora-gold: #D4AF37;
+            --anclora-gold-light: #E6C96E;
             
-            /* Design Tokens */
-            --bg-dark: #05070A;
+            /* Typography Tokens */
+            --font-headlines: 'Cardo', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accents: 'Fraunces', serif;
+            --font-secondary: 'Cormorant Garamond', serif;
+
+            /* Design Tokens Adjustments */
+            --bg-dark: var(--anclora-teal-dark);
             --text-primary: #F5F5F0;
             --text-secondary: rgba(245, 245, 240, 0.7);
-            --glass: rgba(44, 62, 80, 0.45);
+            --glass: rgba(11, 49, 63, 0.45);
             --border-gold: rgba(212, 175, 55, 0.2);
-            --gold-gradient: linear-gradient(135deg, var(--pe-gold) 0%, var(--pe-gold-light) 100%);
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 50%, #FBF5B7 55%, #AA771C 100%);
             --transition-premium: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
             --spacing-base: 8px;
         }
@@ -38,7 +44,7 @@
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-body);
             background-color: var(--bg-dark);
             color: var(--text-primary);
             overflow-x: hidden;
@@ -62,7 +68,7 @@
             top: 0; left: 0; width: 100%;
             padding: 20px 5%;
             z-index: 1000;
-            background: rgba(5, 7, 10, 0.15);
+            background: rgba(11, 49, 63, 0.15);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition-premium);
@@ -73,8 +79,8 @@
 
         header.site-header.scrolled {
             padding: 10px 5%;
-            background: rgba(5, 7, 10, 0.98);
-            border-bottom-color: var(--pe-gold);
+            background: rgba(7, 37, 47, 0.98);
+            border-bottom-color: var(--anclora-gold);
             height: 70px;
         }
 
@@ -106,7 +112,7 @@
         }
 
         .menu-toggle:hover {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
         }
 
         .menu-icon {
@@ -133,8 +139,8 @@
             align-items: center;
             justify-content: center;
             background: var(--gold-gradient);
-            border: 1px solid var(--pe-gold);
-            color: var(--pe-black); 
+            border: 1px solid var(--anclora-gold);
+            color: #05070A; 
             padding: 12px 30px;
             font-size: 0.65rem;
             font-weight: 800;
@@ -201,7 +207,7 @@
 
         .nav-links a:hover {
             opacity: 1;
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
         }
 
         /* Language Toggle Elegant */
@@ -224,7 +230,7 @@
         }
 
         .lang-btn.active {
-            background: var(--pe-gold);
+            background: var(--anclora-gold);
             color: white;
         }
 
@@ -265,9 +271,9 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, 
-                rgba(5, 7, 10, 0.4) 0%, 
-                rgba(5, 7, 10, 0.2) 50%, 
-                rgba(5, 7, 10, 0.6) 100%);
+                rgba(7, 37, 47, 0.4) 0%, 
+                rgba(7, 37, 47, 0.2) 50%, 
+                rgba(7, 37, 47, 0.6) 100%);
             z-index: 0;
         }
 
@@ -318,7 +324,7 @@
         }
 
         .social-icons a:hover {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
             transform: scale(1.2);
         }
 
@@ -328,8 +334,8 @@
             align-items: center;
             justify-content: center;
             background: var(--gold-gradient);
-            color: var(--pe-black);
-            border: 1px solid var(--pe-gold);
+            color: #05070A;
+            border: 1px solid var(--anclora-gold);
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -341,7 +347,7 @@
             padding: 15px 40px;
             gap: 12px;
             min-width: 280px;
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-body);
             text-decoration: none;
             backdrop-filter: blur(10px); /* Add blur for consistent glass effect */
         }
@@ -372,7 +378,7 @@
             
             padding: 10px;
             border-radius: 100px;
-            border: 1px solid var(--pe-gold);
+            border: 1px solid var(--anclora-gold);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -416,7 +422,7 @@
         .search-label {
             font-size: 0.6rem;
             text-transform: uppercase;
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
             letter-spacing: 1px;
             margin-bottom: 5px;
             font-weight: 700;
@@ -426,7 +432,7 @@
             background: transparent;
             border: none;
             color: white;
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-body);
             font-size: 0.9rem;
             outline: none;
             cursor: pointer;
@@ -445,7 +451,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 50;
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
             cursor: pointer;
             transition: var(--transition-premium);
             animation: bounce 2s infinite;
@@ -515,7 +521,7 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1) !important; /* Increased from 0.03 */
             border: 1px solid rgba(212, 175, 55, 0.5) !important; /* Stronger border */
-            color: var(--pe-gold) !important;
+            color: var(--anclora-gold) !important;
             backdrop-filter: blur(25px);
             cursor: pointer;
             display: flex;
@@ -527,8 +533,8 @@
 
         .btn-scroll:hover {
             background: var(--gold-gradient) !important;
-            color: var(--pe-black) !important;
-            border-color: var(--pe-gold) !important;
+            color: #05070A !important;
+            border-color: var(--anclora-gold) !important;
             transform: scale(1.1);
         }
 
@@ -548,7 +554,7 @@
             justify-content: center;
             background: rgba(255, 255, 255, 0.1); /* Increased for less transparency */
             border: 1px solid rgba(212, 175, 55, 0.4);
-            color: var(--pe-black); /* Default black text for high contrast on gold gradients */
+            color: #05070A; /* Default black text for high contrast on gold gradients */
             cursor: pointer;
             transition: var(--transition-premium);
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
@@ -560,7 +566,7 @@
             height: 48px;
             border-radius: 50%;
             background: var(--gold-gradient) !important;
-            border: 1px solid var(--pe-gold) !important;
+            border: 1px solid var(--anclora-gold) !important;
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
         }
 
@@ -633,8 +639,8 @@
         }
 
         .cookie-modal {
-            background: #0F3F45; /* TEAL PREMIUM BACKGROUND */
-            border: 1px solid var(--pe-gold);
+            background: var(--anclora-teal-bg);
+            border: 1px solid var(--anclora-gold);
             max-width: 500px;
             width: 90%;
             padding: 40px;
@@ -651,7 +657,7 @@
                 0 50px 150px rgba(0,0,0,0.8),
                 0 15px 40px rgba(212, 175, 55, 0.25),
                 0 5px 20px rgba(212, 175, 55, 0.15);
-            border-color: var(--pe-gold);
+            border-color: var(--anclora-gold);
         }
 
         .cookie-header {
@@ -660,21 +666,21 @@
         }
 
         .cookie-icon {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
         }
 
         .cookie-modal h3 {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-headlines);
             font-style: italic;
             font-size: 2rem;
             font-weight: 400;
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
             margin-bottom: 0;
             text-align: center;
         }
 
         .cookie-body p {
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-secondary);
             font-size: 0.9rem;
             color: rgba(245, 245, 240, 0.85);
             line-height: 1.8;
@@ -705,8 +711,8 @@
 
         .btn-cookie-accept {
             background: var(--gold-gradient);
-            color: var(--pe-black);
-            border: 1px solid var(--pe-gold);
+            color: #05070A;
+            border: 1px solid var(--anclora-gold);
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.25);
         }
 
@@ -717,7 +723,7 @@
         }
 
         .btn-cookie-settings {
-            background: #0B313F; /* TEAL PREMIUM PRIMARY */
+            background: var(--anclora-teal-primary);
             border: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--text-primary);
         }
@@ -725,7 +731,7 @@
         .btn-cookie-settings:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            border-color: var(--pe-gold);
+            border-color: var(--anclora-gold);
         }
 
         /* --- Hero Content (Flex Centered Layout - como Synergi Portal) --- */
@@ -741,14 +747,14 @@
             padding: 0 5%;
         }
 
-        /* --- Tagline - Estilo idéntico a Synergi Portal --- */
         .hero-tagline {
+            font-family: var(--font-accents);
             font-size: 1.1rem;
-            color: #FFFFFF;                            /* Blanco puro */
-            letter-spacing: 8px;                       /* 8px como Synergi inline */
+            color: #FFFFFF;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            font-weight: 600;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);   /* Legibilidad */
+            font-weight: 500;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
             margin-bottom: 30px;
             
             /* ANIMACIÓN - Aparece primero */
@@ -768,7 +774,7 @@
         }
 
         .hero h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-headlines);
             font-size: clamp(2.5rem, 7vw, 5.5rem);
             line-height: 1.1;
             font-weight: 700;
@@ -784,7 +790,7 @@
 
         /* --- Main Title - Flujo natural bajo el tagline --- */
         .hero-main-title {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-headlines);
             font-size: 2.2rem;
             background: linear-gradient(to bottom, #FFF 0%, #FFF 60%, var(--pe-gold-light) 100%);
             -webkit-background-clip: text;
@@ -821,7 +827,7 @@
         }
 
         .premium-card {
-            background: #0F3F45; /* TEAL PREMIUM BACKGROUND */
+            background: var(--anclora-teal-bg);
             border: 1px solid var(--border-gold);
             padding: 50px 40px;
             border-radius: 12px; /* Rounded like cookie modal */
@@ -834,7 +840,7 @@
         .premium-card:hover {
             transform: translateY(-10px);
             background: rgba(44, 62, 80, 0.6);
-            border-color: var(--pe-gold);
+            border-color: var(--anclora-gold);
             box-shadow: 
                 0 25px 50px rgba(0,0,0,0.4),
                 0 15px 40px rgba(212, 175, 55, 0.25),
@@ -842,11 +848,11 @@
         }
 
         .premium-card h3 {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-headlines);
             font-style: italic;
             font-size: 2rem;
             margin-bottom: 20px;
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
             text-align: center;
         }
 
@@ -859,7 +865,7 @@
         /* --- Footer --- */
         footer {
             padding: 120px 5% 60px;
-            background: var(--pe-navy);
+            background: var(--anclora-teal-primary);
             border-top: 1px solid var(--border-gold);
             text-align: center;
         }
@@ -903,7 +909,7 @@
             transition: var(--transition-premium);
         }
 
-        .footer-links a:hover { opacity: 1; color: var(--pe-gold); }
+        .footer-links a:hover { opacity: 1; color: var(--anclora-gold); }
 
         .legal-text {
             font-size: 0.75rem;
@@ -914,7 +920,7 @@
         }
 
         .copyright {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
             font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -993,7 +999,7 @@
         .footer-logo-premium:hover {
             filter: brightness(1.3);
             transform: translateY(-8px);
-            border-color: var(--pe-gold);
+            border-color: var(--anclora-gold);
             box-shadow: 
                 0 20px 40px rgba(0,0,0,0.4),
                 0 15px 35px rgba(212, 175, 55, 0.25),
@@ -1032,20 +1038,19 @@
         }
 
         .footer-cert-badge:hover {
-            border-color: var(--pe-gold);
+            border-color: var(--anclora-gold);
             background: rgba(212, 175, 55, 0.08);
         }
 
         .footer-cert-badge svg {
             width: 16px;
             height: 16px;
-            fill: var(--pe-gold);
+            fill: var(--anclora-gold);
         }
 
-        /* Footer Brand Text (ANCLORA NEXUS GROUP) */
         .footer-brand-text {
             color: rgba(245, 245, 240, 0.95);
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-body);
             font-size: 0.9rem;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -1055,7 +1060,7 @@
 
         .footer-brand-slogan {
             color: rgba(245, 245, 240, 0.7);
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-headlines);
             font-style: italic;
             font-size: 0.95rem;
             line-height: 1.8;
@@ -1081,7 +1086,7 @@
         .footer-trust-icons .trust-icon-box {
             width: 60px;
             height: 60px;
-            border: 1px solid var(--pe-gold);
+            border: 1px solid var(--anclora-gold);
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -1098,7 +1103,7 @@
         .footer-trust-icons .trust-icon-box svg {
             width: 28px;
             height: 28px;
-            fill: var(--pe-gold);
+            fill: var(--anclora-gold);
         }
 
         .footer-trust-icons .trust-item span {
@@ -1141,13 +1146,13 @@
         }
 
         .footer-contact-item:hover {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
         }
 
         .footer-contact-item svg {
             width: 20px;
             height: 20px;
-            stroke: var(--pe-gold);
+            stroke: var(--anclora-gold);
             flex-shrink: 0;
         }
 
@@ -1183,8 +1188,8 @@
         }
 
         .footer-social-icon:hover {
-            background: var(--pe-gold);
-            border-color: var(--pe-gold);
+            background: var(--anclora-gold);
+            border-color: var(--anclora-gold);
             transform: translateY(-3px);
         }
 
@@ -1196,7 +1201,7 @@
         }
 
         .footer-social-icon:hover svg {
-            fill: var(--pe-black);
+            fill: #05070A;
         }
 
         /* Right Column - Newsletter */
@@ -1232,7 +1237,7 @@
             border-radius: 4px;
             color: var(--text-primary);
             font-size: 0.9rem;
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-body);
             transition: var(--transition-premium);
         }
 
@@ -1242,7 +1247,7 @@
 
         .newsletter-input:focus {
             outline: none;
-            border-color: var(--pe-gold);
+            border-color: var(--anclora-gold);
             background: rgba(212, 175, 55, 0.05);
         }
 
@@ -1252,16 +1257,16 @@
             justify-content: center;
             padding: 15px 40px;
             background: var(--gold-gradient);
-            border: 1px solid var(--pe-gold);
+            border: 1px solid var(--anclora-gold);
             border-radius: 100px;
-            color: var(--pe-black);
+            color: #05070A;
             font-size: 0.7rem;
             font-weight: 800;
             letter-spacing: 3px;
             text-transform: uppercase;
             cursor: pointer;
             transition: var(--transition-premium);
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-body);
             box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
             margin-top: 10px;
         }
@@ -1306,7 +1311,7 @@
         }
 
         .footer-legal-links a:hover {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
         }
 
         .footer-legal-links a:not(:last-child)::after {
@@ -1333,7 +1338,7 @@
         }
 
         .footer-copyright span {
-            color: var(--pe-gold);
+            color: var(--anclora-gold);
         }
 
         /* Responsive Footer */
