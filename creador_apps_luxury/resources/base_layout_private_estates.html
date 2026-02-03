@@ -947,17 +947,15 @@
 
         .footer-wave-decoration svg {
             position: absolute;
-            top: -50%;
-            left: -10%;
-            width: 70%;
-            height: 200%;
-            opacity: 0.08;
+            top: -20%;
+            left: -15%;
+            width: 80%;
+            height: 150%;
         }
 
         .footer-wave-decoration .wave-path {
             fill: none;
             stroke: url(#footer-wave-gradient);
-            stroke-width: 2;
         }
 
         /* Footer Main Content */
@@ -966,7 +964,7 @@
             z-index: 1;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 5%;
+            padding: 20px 5% 60px;
             display: grid;
             grid-template-columns: 1fr 1.2fr 1fr;
             gap: 60px;
@@ -987,7 +985,7 @@
             height: auto;
             filter: brightness(1.1);
             transition: var(--transition-premium);
-            padding: 20px;
+            padding: 0;
             border: 1px solid transparent;
             border-radius: 12px;
         }
@@ -1249,23 +1247,30 @@
         }
 
         .newsletter-submit {
-            padding: 14px 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 40px;
             background: var(--gold-gradient);
-            border: none;
-            border-radius: 4px;
+            border: 1px solid var(--pe-gold);
+            border-radius: 100px;
             color: var(--pe-black);
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 3px;
             text-transform: uppercase;
             cursor: pointer;
             transition: var(--transition-premium);
             font-family: 'Outfit', sans-serif;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+            margin-top: 10px;
         }
 
         .newsletter-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(212, 175, 55, 0.3);
+            filter: brightness(1.1);
+            letter-spacing: 4px;
         }
 
         /* Footer Bottom Bar */
@@ -1545,15 +1550,26 @@
     <footer class="premium-footer">
         <!-- Decorative Wave SVG -->
         <div class="footer-wave-decoration">
-            <svg viewBox="0 0 600 800" preserveAspectRatio="none">
+            <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
                 <defs>
-                    <linearGradient id="footer-wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#2C3E50;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#B9915F;stop-opacity:1" />
+                    <linearGradient id="footer-wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:0" />
+                        <stop offset="30%" style="stop-color:#D4AF37;stop-opacity:0.4" />
+                        <stop offset="70%" style="stop-color:#B9915F;stop-opacity:0.3" />
+                        <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0" />
+                    </linearGradient>
+                    <linearGradient id="footer-wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="50%">
+                        <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:0" />
+                        <stop offset="40%" style="stop-color:#D4AF37;stop-opacity:0.25" />
+                        <stop offset="100%" style="stop-color:#B9915F;stop-opacity:0" />
                     </linearGradient>
                 </defs>
-                <path class="wave-path" d="M-100,100 Q200,300 100,500 T200,800 T100,1100" stroke-width="180" fill="none" stroke="url(#footer-wave-gradient)"/>
+                <!-- Main elegant curve -->
+                <path class="wave-path" d="M-50,450 Q150,350 300,400 T550,300 T800,350" stroke="url(#footer-wave-gradient)" stroke-width="3" opacity="0.5"/>
+                <!-- Secondary thinner curve -->
+                <path class="wave-path" d="M-100,500 Q200,400 350,450 T600,350 T850,400" stroke="url(#footer-wave-gradient)" stroke-width="1.5" opacity="0.35"/>
+                <!-- Third subtle curve -->
+                <path class="wave-path" d="M-80,550 Q180,480 320,520 T580,420 T820,480" stroke="url(#footer-wave-gradient-2)" stroke-width="2" opacity="0.25"/>
             </svg>
         </div>
 
@@ -1565,9 +1581,17 @@
                 
                 <div class="footer-brand-text">ANCLORA NEXUS GROUP</div>
                 
-                <div class="footer-brand-slogan">
+                <div class="footer-brand-slogan" data-lang="es">
                     Donde la inteligencia y el patrimonio convergen.<br>
                     Estructura, visión y control a largo plazo.
+                </div>
+                <div class="footer-brand-slogan" data-lang="en">
+                    Where intelligence and heritage converge.<br>
+                    Structure, vision and long-term control.
+                </div>
+                <div class="footer-brand-slogan" data-lang="de">
+                    Wo Intelligenz und Erbe konvergieren.<br>
+                    Struktur, Vision und langfristige Kontrolle.
                 </div>
 
                 <div class="footer-trust-icons">
