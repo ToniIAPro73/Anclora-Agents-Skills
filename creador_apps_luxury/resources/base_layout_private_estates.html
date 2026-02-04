@@ -151,10 +151,34 @@
             box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15);
             border-radius: 100px; /* Pill shape */
             min-width: 220px;
+            overflow: hidden; /* For shimmer effect */
+            position: relative;
+        }
+
+        .btn-valuation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: none;
+        }
+
+        .btn-valuation:hover::before {
+            left: 150%;
+            transition: all 0.8s ease-in-out;
         }
 
         .btn-valuation:hover {
-            transform: translateY(-2px);
+            transform: scale(1.05);
             box-shadow: 0 15px 30px rgba(212, 175, 55, 0.25);
             filter: brightness(1.1);
         }
@@ -408,7 +432,7 @@
         }
 
         .btn-anclora-premium:hover {
-            transform: translateY(-4px) scale(1.03);
+            transform: scale(1.05);
             box-shadow: 0 20px 45px rgba(212, 175, 55, 0.4), 0 0 20px rgba(212, 175, 55, 0.2);
             filter: brightness(1.15);
             letter-spacing: 4px;
@@ -1357,10 +1381,34 @@
             font-family: var(--font-body);
             box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
             margin-top: 10px;
+            overflow: hidden; /* For shimmer effect */
+            position: relative;
+        }
+
+        .newsletter-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: none;
+        }
+
+        .newsletter-submit:hover::before {
+            left: 150%;
+            transition: all 0.8s ease-in-out;
         }
 
         .newsletter-submit:hover {
-            transform: translateY(-3px) scale(1.02);
+            transform: scale(1.05);
             box-shadow: 0 20px 45px rgba(212, 175, 55, 0.3);
             filter: brightness(1.1);
             letter-spacing: 4px;
