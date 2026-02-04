@@ -426,8 +426,6 @@
 
         /* --- Premium Search Widget --- */
         .search-widget {
-            margin-top: 40px;
-            
             /* COLOR DE FONDO - TEAL PREMIUM HOVER */
             background: rgba(18, 74, 80, 0.45);        /* #124A50 con 45% opacidad */
             
@@ -438,26 +436,32 @@
             align-items: center;
             gap: 10px;
             backdrop-filter: blur(40px);
-            max-width: 1150px;
-            width: 90%;
-            box-shadow: 0 50px 120px rgba(0,0,0,0.9);
-            
+            /* DIMENSIONS - Fixed as requested */
+            width: 850px;
+            max-width: 95%; /* Responsive safety */
+
+            /* POSITIONING - Fixed near bottom */
+            position: absolute;
+            bottom: 170px; /* Adjusted: moved 50px up from previous 120px */
+            left: 50%;
+            transform: translateX(-50%);
+
             /* ANIMACIÓN */
             opacity: 0;
             filter: blur(10px);
-            animation: blurToSharpWidget 2s forwards 3.5s;
+            animation: blurToSharpWidget 1.2s forwards 8s;
         }
 
         @keyframes blurToSharpWidget {
             0% { 
                 opacity: 0; 
                 filter: blur(10px); 
-                transform: translateY(70px); 
+                transform: translateX(-50%) scale(0.95); 
             }
             100% { 
                 opacity: 1; 
                 filter: blur(0px); 
-                transform: translateY(50px); 
+                transform: translateX(-50%) scale(1); 
             }
         }
 
@@ -801,7 +805,6 @@
             text-align: center;
             padding: 0 5%;
         }
-
         .hero-tagline {
             font-family: var(--font-accents);
             font-size: 1.1rem;
@@ -812,13 +815,14 @@
             text-shadow: 
                 0 2px 4px rgba(0,0,0,0.8),
                 0 4px 20px rgba(0,0,0,0.4);
+            margin-top: 35px; /* Adjusted: moved 45px down from previous -10px */
             margin-bottom: 30px;
-            transform: translateY(-50px);
+            /* transform: translateY(-50px); REMOVED to avoid cut-off */
             
-            /* ANIMACIÓN - Aparece primero */
+            /* ANIMACIÓN - Aparece primero tras BG */
             opacity: 0;
             filter: blur(10px);
-            animation: blurToSharpTagline 2s forwards 1s;
+            animation: blurToSharpTagline 1.2s forwards 4s;
         }
 
         @keyframes blurToSharpTagline {
@@ -843,7 +847,29 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 10px 30px rgba(0,0,0,0.4); /* Luxury depth */
             opacity: 0;
-            animation: fadeInUp 1.2s forwards 0.4s;
+            animation: fadeInUp 1.2s forwards 10s;
+        }
+
+        .hero-vision-subtitle {
+            font-family: var(--font-headlines);
+            font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+            font-style: italic;
+            font-weight: 500;
+            margin-top: 160px; /* Adjusted: moved 50px up from previous 210px */
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--anclora-gold) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* LEGIBILITY ENHANCEMENTS */
+            text-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 2px 5px rgba(0,0,0,0.7);
+            filter: drop-shadow(0 0 15px rgba(0,0,0,0.3)) blur(10px); /* Initial blur for animation */
+            
+            white-space: nowrap;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: blurToSharpTagline 1.2s forwards 6s; /* Appears after tagline is nítido */
         }
 
         /* --- Main Title - Flujo natural bajo el tagline --- */
@@ -860,10 +886,10 @@
             font-weight: 800;
             margin-bottom: 50px;
             
-            /* ANIMACIÓN - Aparece después del tagline */
+            /* ANIMACIÓN - Aparece después de la visión */
             opacity: 0;
             filter: blur(10px);
-            animation: blurToSharpHero 2s forwards 3.5s;
+            animation: blurToSharpHero 1.2s forwards 7.5s;
         }
 
         @keyframes blurToSharpHero {
@@ -993,7 +1019,11 @@
         
         .premium-footer {
             position: relative;
-            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.85) 0%, rgba(26, 26, 26, 0.95) 100%), 
+                        url('../../creador_de_blogs/assets/footer-background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: var(--text-primary);
             overflow: hidden;
         }
@@ -1520,9 +1550,14 @@
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <p class="hero-tagline" data-lang="es">ANCLORA PRIVATE ESTATES</p>
-                <p class="hero-tagline" data-lang="en">ANCLORA PRIVATE ESTATES</p>
-                <p class="hero-tagline" data-lang="de">ANCLORA PRIVATE ESTATES</p>
+                <p class="hero-tagline" data-lang="es">ANCLORA PRIVATE ESTATE</p>
+                <p class="hero-tagline" data-lang="en">ANCLORA PRIVATE ESTATE</p>
+                <p class="hero-tagline" data-lang="de">ANCLORA PRIVATE ESTATE</p>
+                
+                <p class="hero-vision-subtitle" data-lang="es">Activos excepcionales, gestionados con visión</p>
+                <p class="hero-vision-subtitle" data-lang="en">Exceptional assets, managed with vision</p>
+                <p class="hero-vision-subtitle" data-lang="de">Außergewöhnliche Sachwerte, mit Vision verwaltet</p>
+
                 <p class="hero-main-title" data-lang="es">Exclusividad Elevada a Obra de Arte</p>
                 <p class="hero-main-title" data-lang="en">Exclusivity Elevated to an Art Form</p>
                 <p class="hero-main-title" data-lang="de">Exklusivität zur Kunst erhoben</p>
