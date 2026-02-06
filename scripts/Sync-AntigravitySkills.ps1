@@ -8,28 +8,32 @@ Sync-AntigravitySkills.ps1
 
 $ErrorActionPreference = "Stop"
 
-function Info($msg)  { Write-Host "[INFO]  $msg" }
-function Ok($msg)    { Write-Host "[OK]    $msg" -ForegroundColor Green }
-function Warn($msg)  { Write-Host "[WARN]  $msg" -ForegroundColor Yellow }
-function Fail($msg)  { Write-Host "[ERROR] $msg" -ForegroundColor Red }
+function Info($msg) { Write-Host "[INFO]  $msg" }
+function Ok($msg)   { Write-Host "[OK]    $msg" -ForegroundColor Green }
+function Warn($msg) { Write-Host "[WARN]  $msg" -ForegroundColor Yellow }
+function Fail($msg) { Write-Host "[ERROR] $msg" -ForegroundColor Red }
 
-function RunGit([string]$args, [string]$cwd) {
+function RunGit([string]$gitArgs, [string]$cwd) {
   $pinfo = New-Object System.Diagnostics.ProcessStartInfo
   $pinfo.FileName = "git"
-  $pinfo.Arguments = $args
+  $pinfo.Arguments = $gitArgs
   $pinfo.WorkingDirectory = $cwd
   $pinfo.RedirectStandardOutput = $true
   $pinfo.RedirectStandardError  = $true
   $pinfo.UseShellExecute = $false
+
   $p = New-Object System.Diagnostics.Process
   $p.StartInfo = $pinfo
+
   [void]$p.Start()
   $stdout = $p.StandardOutput.ReadToEnd()
   $stderr = $p.StandardError.ReadToEnd()
   $p.WaitForExit()
+
   if ($p.ExitCode -ne 0) {
-    throw "git $args failed in '$cwd'`n$stderr`n$stdout"
+    throw "git $gitArgs failed in '$cwd'`n$stderr`n$stdout"
   }
+
   return ($stdout.Trim())
 }
 
@@ -48,8 +52,8 @@ try {
 
   # 3) Verificar remotos
   $remotes = RunGit "remote" $subPath
-  if ($remotes -notmatch "(?m)^origin$")  { throw "El submódulo no tiene remoto 'origin'." }
-  if ($remotes -notmatch "(?m)^upstream$"){ throw "El submódulo no tiene remoto 'upstream'. Añádelo con: git remote add upstream <url>" }
+  if ($remotes -notmatch "(?m)^origin$")   { throw "El submódulo no tiene remoto 'origin'." }
+  if ($remotes -notmatch "(?m)^upstream$") { throw "El submódulo no tiene remoto 'upstream'." }
 
   # 4) Asegurar rama main
   $branch = RunGit "branch --show-current" $subPath
@@ -76,18 +80,12 @@ try {
   } else {
     Info "Hay cambios en upstream/main. Intentando fast-forward..."
     try {
-      # Preferimos FF-only por limpieza
       [void](RunGit "merge --ff-only upstream/main" $subPath)
       Ok "Fast-forward aplicado (local main avanzó al upstream)."
     } catch {
       Warn "No se pudo hacer fast-forward. Intentando merge normal (puede crear commit de merge)..."
-      try {
-        [void](RunGit "merge upstream/main -m `"merge upstream/main into main`"" $subPath)
-        Ok "Merge aplicado."
-      } catch {
-        Fail "Merge falló (posibles conflictos). Revisa el submódulo manualmente."
-        throw
-      }
+      [void](RunGit "merge upstream/main -m `"merge upstream/main into main`"" $subPath)
+      Ok "Merge aplicado."
     }
   }
 
@@ -104,12 +102,9 @@ try {
     Ok "Submódulo no cambió. Nada que pushear en el fork."
   }
 
-  # 7) Volver al repo padre y actualizar puntero del submódulo (si cambió)
-  $beforeSuperHead = RunGit "rev-parse HEAD" $root
-
-  # Esto fuerza a git a recalcular estado del submódulo
+  # 7) Repo padre: actualizar puntero del submódulo (si cambió)
   $superStatus = RunGit "status --porcelain" $root
-  $pointerChanged = $superStatus -match "(?m)^ M antigravity-awesome-skills$|(?m)^\?\? antigravity-awesome-skills$|(?m)^M  antigravity-awesome-skills$"
+  $pointerChanged = $superStatus -match "(?m)^(M|\sM|\?\?)\s+antigravity-awesome-skills$"
 
   if ($pointerChanged) {
     Info "El puntero del submódulo en el repo padre ha cambiado. Commit + push..."
