@@ -62,6 +62,33 @@ try {
     [void](RunGit "switch main" $subPath)
   }
 
+# 4.1) REGRA DE SEGURIDAD: no permitir cambios locales en el submódulo
+$dirty = RunGit "status --porcelain" $subPath
+
+if ($dirty) {
+  Fail @"
+Se han detectado CAMBIOS LOCALES dentro del submódulo 'antigravity-awesome-skills'.
+
+Esto suele ocurrir cuando se crean skills o archivos propios dentro del submódulo,
+lo cual NO es correcto.
+
+Archivos detectados:
+$dirty
+
+Acción recomendada:
+- Mueve tus skills a una carpeta del repo padre, por ejemplo:
+  /skills/<nombre-skill>
+
+Después:
+- Limpia el submódulo (reset o abort merge)
+- Vuelve a ejecutar este script
+
+El script se detiene para evitar corrupción del submódulo.
+"@
+  exit 1
+}
+
+
   # Guardar SHAs para comparar
   $beforeSubHead = RunGit "rev-parse HEAD" $subPath
 
