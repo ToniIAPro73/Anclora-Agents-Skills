@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Esencia del Lujo Mediterráneo - Anclora Private Estates</title>
+    <meta name="description" content="Descubra por qué Mallorca se consolida como el epicentro de la inversión exclusiva. Un análisis de Anclora Private Estates.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #192350;
+            --gold: #D4AF37;
+            --cyan: #AFD2FA;
+            --bg: #0D1117;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(175, 210, 250, 0.2);
+            --text-light: #F5F5F0;
+            --muted: #8B949E;
+            --transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 100px 5% 50px;
+            background: #080B10;
+            text-align: center;
+            color: #888;
+        }
+
+        .nexus-logo-footer {
+            width: 180px;
+            margin: 0 auto 25px;
+            display: block;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px auto;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-badges img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .badge-item span {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .footer-links {
+            margin-bottom: 30px;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            color: var(--muted);
+        }
+
+        .corporate-id {
+            font-size: 0.65rem;
+            color: #444;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+            color: var(--text-light);
+            background: var(--bg);
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.ready {
+            opacity: 1;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        /* Header */
+        header.site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(175, 210, 250, 0.1);
+            transition: var(--transition);
+        }
+
+        header.site-header.scrolled {
+            padding: 15px 5%;
+            background: rgba(13, 17, 23, 0.9);
+        }
+
+        .header-left .logo-nav {
+            height: 45px;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Language Toggle Elegant (Synergi Style) */
+        .lang-switcher {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .lang-btn.active {
+            background: var(--gold);
+            color: white;
+        }
+
+        /* Hero Section Refined */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #000;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .hero-bg-media {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            filter: blur(20px);
+            animation: slowZoomLiving 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(13, 17, 23, 0.9) 100%);
+            z-index: 1;
+        }
+
+        @keyframes slowZoomLiving {
+            0% { 
+                transform: scale(1.2); 
+                filter: blur(20px) brightness(0.5);
+            }
+            100% { 
+                transform: scale(1); 
+                filter: blur(0px) brightness(1);
+            }
+        }
+
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .circles div {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            animation: animateCircles 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        @keyframes animateCircles {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 50%; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 20%; }
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 1100px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 40px;
+            background: linear-gradient(to bottom, #FFF, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .hero p.hero-tag {
+            font-size: 1.1rem;
+            color: #FFFFFF;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #A8824B 0%, #D4AF37 50%, #A8824B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8)) 
+                    drop-shadow(0 4px 10px rgba(0,0,0,0.5))
+                    drop-shadow(0 0 20px rgba(185,145,95,0.2));
+        }
+
+        /* i18n Corrections (Synergi Style) */
+        [data-lang] { display: none !important; }
+        
+        body.lang-es [data-lang="es"] { display: inherit !important; }
+        body.lang-en [data-lang="en"] { display: inherit !important; }
+        body.lang-de [data-lang="de"] { display: inherit !important; }
+
+        /* Ensure block elements stay block */
+        body.lang-es h1[data-lang="es"], body.lang-es h2[data-lang="es"], body.lang-es p[data-lang="es"], body.lang-es div[data-lang="es"], body.lang-es section[data-lang="es"] { display: block !important; }
+        body.lang-en h1[data-lang="en"], body.lang-en h2[data-lang="en"], body.lang-en p[data-lang="en"], body.lang-en div[data-lang="en"], body.lang-en section[data-lang="en"] { display: block !important; }
+        body.lang-de h1[data-lang="de"], body.lang-de h2[data-lang="de"], body.lang-de p[data-lang="de"], body.lang-de div[data-lang="de"], body.lang-de section[data-lang="de"] { display: block !important; }
+        
+        body.lang-es span[data-lang="es"], body.lang-es strong[data-lang="es"], body.lang-es a[data-lang="es"] { display: inline !important; }
+        body.lang-en span[data-lang="en"], body.lang-en strong[data-lang="en"], body.lang-en a[data-lang="en"] { display: inline !important; }
+        body.lang-de span[data-lang="de"], body.lang-de strong[data-lang="de"], body.lang-de a[data-lang="de"] { display: inline !important; }
+
+        /* Article Structure */
+        article {
+            max-width: 900px;
+            margin: -80px auto 4rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 5rem;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            article {
+                margin: 0;
+                padding: 3rem 1.5rem;
+                box-shadow: none;
+            }
+        }
+
+        .intro {
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            border-left: 3px solid var(--gold);
+            padding-left: 2rem;
+            font-style: italic;
+            color: var(--cyan);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin: 4rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        p {
+            margin-bottom: 2rem;
+            color: var(--muted);
+        }
+
+        .section-img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 3rem 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            filter: grayscale(100%);
+            cursor: pointer;
+        }
+
+        .section-img:hover {
+            transform: translateY(-8px) scale(1.01);
+            filter: grayscale(0%);
+            box-shadow: 0 30px 60px rgba(185, 145, 95, 0.2), 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            margin: 2rem 0;
+            list-style: none;
+        }
+
+        ul li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '•';
+            color: var(--gold);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* CTA */
+        .cta-box {
+            background: var(--navy);
+            color: white;
+            padding: 8rem 4rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            background: var(--gold);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            margin-top: 2.5rem;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+        }
+
+        .cta-btn:hover {
+            background: #B9915F;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+
+    </style>
+</head>
+<body class="lang-es">
+
+    <header class="site-header">
+        <div class="header-left">
+            <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/logo_private_estates_only.png" alt="Anclora Private Estates" class="logo-nav">
+        </div>
+        <div class="header-right">
+            <div class="lang-switcher">
+                <div class="lang-btn active" id="es-btn" onclick="setLanguage('es')">ES</div>
+                <div class="lang-btn" id="en-btn" onclick="setLanguage('en')">EN</div>
+                <div class="lang-btn" id="de-btn" onclick="setLanguage('de')">DE</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80" alt="Mallorca" class="hero-bg-media">
+        <div class="circles">
+            <div style="left: 25%; width: 80px; height: 80px; animation-delay: 0s;"></div>
+            <div style="left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s;"></div>
+            <div style="left: 70%; width: 20px; height: 20px; animation-delay: 4s;"></div>
+            <div style="left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s;"></div>
+            <div style="left: 85%; width: 120px; height: 120px; animation-delay: 7s;"></div>
+        </div>
+
+        <div class="hero-content">
+            <p class="hero-tag">ANCLORA PRIVATE ESTATES</p>
+            <h1 data-lang="es">La Esencia del Lujo Mediterráneo: Por qué Mallorca sigue siendo el epicentro de la inversión exclusiva</h1>
+            <h1 data-lang="en">The Essence of Mediterranean Luxury: Why Mallorca remains the epicenter of exclusive investment</h1>
+            <h1 data-lang="de">Die Essenz des mediterranen Luxus: Warum Mallorca das Epizentrum exklusiver Investitionen bleibt</h1>
+        </div>
+    </section>
+
+    <article>
+        <div class="intro">
+            <span data-lang="es">En el corazón del Mediterráneo, Mallorca no es solo un destino; es una declaración de intenciones. Para aquellos que buscan algo más que una propiedad, la isla ofrece un santuario donde la discreción se encuentra con la belleza natural más cruda. En <strong>Anclora Private Estates</strong>, respaldados por la visión estratégica de <strong>Anclora Nexus Group</strong>, entendemos que el lujo real no se grita, se vive en los detalles.</span>
+            <span data-lang="en">In the heart of the Mediterranean, Mallorca is not just a destination; it's a statement of intent. For those seeking more than just a property, the island offers a sanctuary where discretion meets raw natural beauty. At <strong>Anclora Private Estates</strong>, backed by the strategic vision of <strong>Anclora Nexus Group</strong>, we understand that true luxury isn't shouted, it's lived in the details.</span>
+            <span data-lang="de">Im Herzen des Mittelmeers ist Mallorca nicht nur ein Reiseziel; es ist eine Absichtserklärung. Für diejenigen, die mehr als nur eine Immobilie suchen, bietet die Insel ein Refugium, in dem Diskretion auf rohe natürliche Schönheit trifft. Bei <strong>Anclora Private Estates</strong>, unterstützt durch die strategische Vision der <strong>Anclora Nexus Group</strong>, verstehen wir, dass wahrer Luxus nicht lautstark verkündet, sondern in den Details gelebt wird.</span>
+        </div>
+
+        <section>
+            <h2 data-lang="es">El Renacimiento del Real Estate de Lujo en Calvià y Más Allá</h2>
+            <h2 data-lang="en">The Renaissance of Luxury Real Estate in Calvià and Beyond</h2>
+            <h2 data-lang="de">Die Renaissance des Luxus-Real-Estates in Calvià und darüber hinaus</h2>
+
+            <p data-lang="es">El mercado inmobiliario en zonas como Calvià y el Puerto de Andratx ha experimentado una transformación sin precedentes. Ya no basta con una ubicación privilegiada; los inversores actuales buscan "Propiedades con Alma".</p>
+            <p data-lang="en">The real estate market in areas like Calvià and Puerto de Andratx has undergone an unprecedented transformation. A prime location is no longer enough; today's investors seek "Properties with Soul".</p>
+            <p data-lang="de">Der Immobilienmarkt in Gebieten wie Calvià und Puerto de Andratx hat eine beispiellose Transformation durchlaufen. Eine erstklassige Lage reicht nicht mehr aus; die Investoren von hoy buscan "Immobilien mit Seele".</p>
+            
+            <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/wan2.5-t2i-preview_a_Luxury_infinity_pool.png" alt="Piscina Infinita" class="section-img">
+
+            <p data-lang="es">Este renacimiento se apoya en tres pilares que definen la nueva era de Anclora Private Estates:</p>
+            <p data-lang="en">This renaissance rests on three pillars that define the new era of Anclora Private Estates:</p>
+            <p data-lang="de">Diese Renaissance stützt sich auf drei Säulen, die die neue Ära von Anclora Private Estates definieren:</p>
+            
+            <ul data-lang="es">
+                <li><strong>Arquitectura Consciente</strong>: Integración total con el paisaje mediterráneo.</li>
+                <li><strong>Tecnología Invisible</strong>: Hogares inteligentes que respetan la paz del entorno.</li>
+                <li><strong>Privacidad Absoluta</strong>: El valor más cotizado en un mundo hiperconectado.</li>
+            </ul>
+            <ul data-lang="en">
+                <li><strong>Conscious Architecture</strong>: Total integration with the Mediterranean landscape.</li>
+                <li><strong>Invisible Technology</strong>: Smart homes that respect the peace of the environment.</li>
+                <li><strong>Absolute Privacy</strong>: The most valued commodity in a hyper-connected world.</li>
+            </ul>
+            <ul data-lang="de">
+                <li><strong>Bewusste Architektur</strong>: Vollständige Integration in die mediterrane Landschaft.</li>
+                <li><strong>Unsichtbare Technologie</strong>: Intelligente Häuser, die die Ruhe der Umgebung respektieren.</li>
+                <li><strong>Absolute Privatsphäre</strong>: Das wertvollste Gut in einer hypervernetzten Welt.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 data-lang="es">La Experiencia Boutique: El "Efecto Anclora"</h2>
+            <h2 data-lang="en">The Boutique Experience: The "Anclora Effect"</h2>
+            <h2 data-lang="de">Das Boutique-Erlebnis: Der "Anclora-Effekt"</h2>
+
+            <p data-lang="es">En nuestra búsqueda por la perfección visual y funcional, <strong>Anclora Private Estates</strong> no solo vende propiedades; curamos estilos de vida. Desde la primera consulta hasta la entrega de llaves, nuestro enfoque boutique garantiza que cada cliente reciba una atención tan única como la villa que desea adquirir.</p>
+            <p data-lang="en">In our quest for visual and functional perfection, <strong>Anclora Private Estates</strong> doesn't just sell properties; we curate lifestyles. From the first consultation to the key handover, our boutique approach ensures each client receives attention as unique as the villa they wish to acquire.</p>
+            <p data-lang="de">In unserem Streben nach visueller und funktionaler Perfektion verkauft <strong>Anclora Private Estates</strong> nicht nur Immobilien; wir kuratieren Lebensstile. Von der ersten Beratung bis zur Schlüsselübergabe garantiert unser Boutique-Ansatz, dass jeder Kunde eine ebenso einzigartige Betreuung erhält wie die Villa, die er erwerben möchte.</p>
+
+            <p data-lang="es">Estamos evolucionando nuestra plataforma digital bajo los estándares de excelencia de <strong>Anclora Nexus Group</strong> para que la experiencia de búsqueda refleje la calidad de nuestras propiedades.</p>
+            <p data-lang="en">We are evolving our digital platform under <strong>Anclora Nexus Group</strong>'s standards of excellence so that the search experience reflects the quality of our properties.</p>
+            <p data-lang="de">Wir entwickeln unsere digitale Plattform unter den Exzellenzstandards der <strong>Anclora Nexus Group</strong> weiter, damit das Sucherlebnis die Qualität unserer Immobilien widerspiegelt.</p>
+        </section>
+
+        <section>
+            <h2 data-lang="es">Conclusión: El Futuro es Mediterráneo</h2>
+            <h2 data-lang="en">Conclusion: The Future is Mediterranean</h2>
+            <h2 data-lang="de">Fazit: Die Zukunft ist mediterran</h2>
+
+            <p data-lang="es">Mallorca continúa demostrando su resiliencia y atractivo como refugio seguro para el capital y el bienestar.</p>
+            <p data-lang="en">Mallorca continues to demonstrate its resilience and appeal as a safe haven for capital and well-being.</p>
+            <p data-lang="de">Mallorca beweist weiterhin seine Widerstandsfähigkeit und Attraktivität als sicherer Hafen für Kapital und Wohlbefinden.</p>
+        </section>
+    </article>
+
+    <section class="cta-box">
+        <h2 data-lang="es">¿Desea explorar el Dossier Exclusivo de Azure Bay?</h2>
+        <h2 data-lang="en">Wish to explore the Exclusive Azure Bay Dossier?</h2>
+        <h2 data-lang="de">Möchten Sie das exklusive Azure Bay Dossier erkunden?</h2>
+
+        <a href="#" class="cta-btn" data-lang="es">Contactar con un Especialista</a>
+        <a href="#" class="cta-btn" data-lang="en">Contact a Specialist</a>
+        <a href="#" class="cta-btn" data-lang="de">Spezialisten kontaktieren</a>
+    </section>
+
+    <footer>
+        <img src="file:///c:/Users/Usuario/Workspace/01_Proyectos/Habilidades%20de%20Agentes/creador_de_blogs/assets/Logo%20Anclora%20Nexus%20Group.png" alt="Anclora Nexus Group Logo" class="nexus-logo-footer">
+        
+        <div class="trust-badges">
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/2823/2823055.png" alt="GDPR">
+                <span>GDPR</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4112/4112447.png" alt="ISO 9001">
+                <span>ISO 9001</span>
+            </div>
+            <div class="badge-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/9338/9338804.png" alt="EU Registered">
+                <span>EU REG</span>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="#" data-lang="es">Privacidad</a><a href="#" data-lang="en">Privacy</a><a href="#" data-lang="de">Datenschutz</a>
+            <a href="#" data-lang="es">Cookies</a><a href="#" data-lang="en">Cookies</a><a href="#" data-lang="de">Cookies</a>
+            <a href="#" data-lang="es">Código Ético</a><a href="#" data-lang="en">Ethics Code</a><a href="#" data-lang="de">Ethikkodex</a>
+            <a href="#" data-lang="es">Términos B2B</a><a href="#" data-lang="en">B2B Terms</a><a href="#" data-lang="de">B2B-Bedingungen</a>
+        </div>
+        <p class="copyright">&copy; 2026 ANCLORA NEXUS GROUP. ALL RIGHTS RESERVED.</p>
+        <p class="corporate-id">ID: ANG-BLOG-2026-EU | ANCLORA NEXUS STRATEGIC HOLDINGS</p>
+    </footer>
+
+    <script>
+        function setLanguage(lang) {
+            const body = document.body;
+            
+            // Apply language class to body
+            body.classList.remove('lang-es', 'lang-en', 'lang-de');
+            body.classList.add('lang-' + lang);
+            
+            // Update buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.id === lang + '-btn');
+            });
+            
+            // Force a layout recalculation to ensure visibility logic is applied
+            body.style.display = 'none';
+            body.style.display = 'block';
+
+            console.log('Language set to:', lang);
+        }
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 50) { 
+                header.classList.add('scrolled'); 
+            } else { 
+                header.classList.remove('scrolled'); 
+            }
+        });
+
+        // Initialize immediately
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('ready');
+            setLanguage('es'); // Spanish is the default
+        });
+    </script>
+</body>
+</html>
