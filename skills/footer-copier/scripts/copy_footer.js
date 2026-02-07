@@ -24,6 +24,26 @@ async function copyFooter(refPath, targetPath, logoPath, backgroundPath, outputP
             throw new Error('Footer not found in reference HTML');
         }
 
+        // --- CSS Extraction ---
+        // Find the style block containing .premium-footer
+        const styles = refDom.window.document.querySelectorAll('style');
+        let footerCss = '';
+        styles.forEach(styleTag => {
+            if (styleTag.textContent.includes('.premium-footer')) {
+                // Extract everything from .premium-footer onwards or the whole block if it's specific
+                // For simplicity and to avoid missing responsive styles, we'll look for the section
+                const content = styleTag.textContent;
+                const startIdx = content.indexOf('/* ============================================');
+                const endIdx = content.indexOf('/* ============================================', startIdx + 100);
+                
+                if (startIdx !== -1) {
+                    footerCss = content.substring(startIdx, endIdx !== -1 ? endIdx : content.length);
+                } else {
+                    footerCss = content; // Fallback to whole block
+                }
+            }
+        });
+
         // --- Asset Handling with CDN ---
         
         // 1. Handle Logo
@@ -41,7 +61,7 @@ async function copyFooter(refPath, targetPath, logoPath, backgroundPath, outputP
         // Check main footer element
         const footerStyle = footer.getAttribute('style') || '';
         if (footerStyle.includes('url(')) {
-            const newStyle = footerStyle.replace(/url\(['"]?.*?['"]?\)/, `url('${cdnBgUrl}')`);
+            const newStyle = footerStyle.replace(/url(['"]?.*?['"]?)/, `url('${cdnBgUrl}')`);
             footer.setAttribute('style', newStyle);
         }
 
@@ -50,19 +70,34 @@ async function copyFooter(refPath, targetPath, logoPath, backgroundPath, outputP
         bgStyles.forEach(el => {
             const style = el.getAttribute('style');
             if (style.includes('url(')) {
-                const newStyle = style.replace(/url\(['"]?.*?['"]?\)/, `url('${cdnBgUrl}')`);
+                const newStyle = style.replace(/url(['"]?.*?['"]?)/, `url('${cdnBgUrl}')`);
                 el.setAttribute('style', newStyle);
             }
         });
         
         console.log(`- Background updated to CDN: ${bgFilename}`);
 
-        // Inject into target
+        // --- Injection into target ---
+        
+        // Inject CSS
+        if (footerCss) {
+            let targetStyle = targetDom.window.document.querySelector('style#premium-footer-styles');
+            if (!targetStyle) {
+                targetStyle = targetDom.window.document.createElement('style');
+                targetStyle.id = 'premium-footer-styles';
+                targetDom.window.document.head.appendChild(targetStyle);
+            }
+            targetStyle.textContent = footerCss;
+            console.log('- Footer CSS injected');
+        }
+
+        // Adopt and Inject Footer
+        const adoptedFooter = targetDom.window.document.adoptNode(footer);
         const targetFooter = targetDom.window.document.querySelector('footer');
         if (targetFooter) {
-            targetFooter.replaceWith(footer);
+            targetFooter.replaceWith(adoptedFooter);
         } else {
-            targetDom.window.document.body.appendChild(footer);
+            targetDom.window.document.body.appendChild(adoptedFooter);
         }
 
         const outPath = outputPath || targetPath;
@@ -78,8 +113,21 @@ async function copyFooter(refPath, targetPath, logoPath, backgroundPath, outputP
 // CLI Support
 const args = process.argv.slice(2);
 if (args.length < 4) {
-    console.log('Usage: node copy_footer.js <ref_html> <target_html> <logo_img> <bg_img> [output_html]');
+    console.log('Usage: node copy_footer.js <ref_html> <target_html> <logo_filename> <bg_filename> [--output <output_html>]');
     process.exit(1);
 }
 
-copyFooter(args[0], args[1], args[2], args[3], args[4]);
+const refPath = args[0];
+const targetPath = args[1];
+const logoPath = args[2];
+const backgroundPath = args[3];
+let outputPath = null;
+
+const outputIndex = args.indexOf('--output');
+if (outputIndex !== -1 && args[outputIndex + 1]) {
+    outputPath = args[outputIndex + 1];
+} else if (args[4] && args[4] !== '--output') {
+    outputPath = args[4];
+}
+
+copyFooter(refPath, targetPath, logoPath, backgroundPath, outputPath);
