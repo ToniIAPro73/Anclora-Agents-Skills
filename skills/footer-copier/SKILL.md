@@ -21,15 +21,19 @@ Run the script using Node.js:
 
 ```bash
 node scripts/copy_footer.js <reference_html> <target_html> <logo_path> <background_path> [--output <output_html>]
+## 🚀 Usage
+
+```bash
+node scripts/copy_footer.js \
+  "resources/reference.html" \
+  "path/to/target.html" \
+  "../../assets_anclora/logo-anclora-full-gold.svg" \
+  "../../assets_anclora/footer_bg_dark.png" \
+  "output_premium.html"
 ```
 
-### Arguments
-
-*   `reference_html`: Path to the HTML file containing the source footer.
-*   `target_html`: Path to the HTML file where the footer should be applied.
-*   `logo_path`: Path to the new logo image file (e.g., `logo-anclora-nexus-group.png`).
-*   `background_path`: Path to the new footer background image file (e.g., `footer-background.png`).
-*   `--output`: (Optional) Path to save the modified HTML specific file. defaults to overwriting `target_html` or creating `_updated.html`.
+> [!IMPORTANT]
+> The image paths provided as arguments are used to extract the **filenames**. The script then constructs the CDN URLs using these filenames. Ensure the files exist in the `assets_anclora` directory of the `Anclora-Agents-Skills` repository main branch.
 
 ## Example
 
@@ -37,8 +41,6 @@ node scripts/copy_footer.js <reference_html> <target_html> <logo_path> <backgrou
 node scripts/copy_footer.js resources/base_layout.html resources/target_page.html assets/logo.png assets/bg.png --output resources/target_page_updated.html
 ```
 
-## Dependencies
-
-*   `jsdom`: For HTML parsing and manipulation.
-*   `fs`: For file system operations.
-*   `path`: For path handling.
+## 🛠️ Dependencies
+*   `jsdom`: For robust HTML parsing and manipulation.
+*   `fs`, `path`: Standard Node.js modules.
