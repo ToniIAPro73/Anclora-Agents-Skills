@@ -1,16 +1,26 @@
 <# 
 Sync-AntigravitySkills.ps1
 
-Políticas:
-- Repo padre:
-  - BLOQUEA si hay cambios en /scripts (para evitar ejecutar sync con scripts “a medio editar”).
-- Submódulo antigravity-awesome-skills (solo lectura):
-  - BLOQUEA si hay cambios dentro de skills/ o scripts/ (señal de que alguien metió cosas propias en el submódulo).
+Objetivo:
+- Mantener sincronizados:
+  - Repo padre (origin/main)
+  - Submódulo antigravity-awesome-skills (upstream/main como verdad; origin = tu fork espejo)
+  - Carpeta raíz /scripts y /skills (si hay cambios locales, auto-commit; si hay cambios remotos, pull)
 
-Acciones:
-- Sincroniza submódulo con upstream/main
-- Empuja a origin/main del submódulo si hay cambios (fallback a --force-with-lease en non-fast-forward)
-- Actualiza puntero del submódulo en el repo padre (commit + push) si cambió
+Política de seguridad:
+- Si el repo padre tiene cambios locales FUERA de /scripts o /skills o del submódulo, aborta.
+- Si el submódulo tiene working tree sucio, aborta (es “solo lectura”).
+
+Flujo:
+1) Auto-commit cambios locales permitidos en /scripts y /skills (repo padre)
+2) Pull --ff-only repo padre
+3) Sync submódulo:
+   - Fetch origin/upstream
+   - Si behind origin/main => FF a origin/main
+   - Si behind upstream/main => FF a upstream/main; si no FF => merge (y si conflicto, aborta)
+   - Push submódulo a origin (fallback force-with-lease en non-fast-forward)
+4) Commit+push del puntero del submódulo en repo padre si cambió
+5) Push repo padre si hay commits nuevos locales
 #>
 
 $ErrorActionPreference = "Stop"
@@ -40,7 +50,6 @@ function RunGit([string]$gitArgs, [string]$cwd) {
   if ($p.ExitCode -ne 0) {
     throw "git $gitArgs failed in '$cwd'`n$stderr`n$stdout"
   }
-
   return ($stdout.Trim())
 }
 
@@ -51,194 +60,286 @@ function GetPorcelainLines([string]$cwd) {
 }
 
 function ExtractPathFromPorcelainLine([string]$line) {
-  # Porcelain v1: "XY <path>" o "XY <old> -> <new>"
   if ($line.Length -lt 4) { return $null }
   $rest = $line.Substring(3).Trim()
-  if ($rest -match "\s->\s") {
-    return ($rest -split "\s->\s")[-1].Trim()
-  }
+  if ($rest -match "\s->\s") { return ($rest -split "\s->\s")[-1].Trim() }
   return $rest
+}
+
+function GetAheadBehind([string]$cwd, [string]$leftRef, [string]$rightRef) {
+  $counts = RunGit "rev-list --left-right --count $leftRef...$rightRef" $cwd
+  $parts = $counts -split "\s+"
+  return @{ Left = [int]$parts[0]; Right = [int]$parts[1] }
 }
 
 function GetUnmerged([string]$cwd) {
   try { return (RunGit "diff --name-only --diff-filter=U" $cwd) } catch { return "" }
 }
 
-function BlockIfPathMatches([string]$cwd, [string]$title, [string[]]$patterns, [string]$howToFix) {
-  $porcelain = GetPorcelainLines $cwd
+function HasCommitsToPush([string]$cwd) {
+  # Si no hay upstream tracking, devuelve $false (pero en tu caso hay origin/main)
+  try {
+    $s = RunGit "status -sb" $cwd
+    return ($s -match "ahead\s+\d+")
+  } catch {
+    return $false
+  }
+}
+
+function GetChangedPaths([string]$cwd) {
+  # Incluye staged y unstaged
+  $a = RunGit "diff --name-only" $cwd
+  $b = RunGit "diff --cached --name-only" $cwd
+  $paths = @()
+  if ($a) { $paths += ($a -split "`n") }
+  if ($b) { $paths += ($b -split "`n") }
+  return ($paths | ForEach-Object { ($_ -replace "\\","/").Trim() } | Where-Object { $_ -ne "" } | Select-Object -Unique)
+}
+
+function AutoCommitAllowedRootChanges([string]$root) {
+  $changed = GetChangedPaths $root
+  if ($changed.Count -eq 0) { return $false }
+
+  $allowed = @()
   $blocked = @()
 
-  foreach ($line in $porcelain) {
+  foreach ($p in $changed) {
+    if ($p -match "^(scripts|skills)/") {
+      $allowed += $p
+    } elseif ($p -eq "antigravity-awesome-skills") {
+      # el puntero del submódulo se trata más tarde, aquí no lo auto-commiteamos
+      $allowed += $p
+    } else {
+      $blocked += $p
+    }
+  }
+
+  if ($blocked.Count -gt 0) {
+    $b = ($blocked -join "`n")
+    Fail @"
+Hay cambios locales fuera de /scripts y /skills (y/o submódulo). No auto-commiteo eso.
+
+Cambios bloqueantes:
+$b
+
+Solución:
+- Commit manual, stash o revert, y reintenta.
+"@
+    exit 1
+  }
+
+  # Auto-commit solo si hay cambios reales en scripts/ o skills/
+  $hasScriptsSkills = $allowed | Where-Object { $_ -match "^(scripts|skills)/" }
+  if (-not $hasScriptsSkills) { return $false }
+
+  Info "Detectados cambios locales en /scripts o /skills. Auto-commit..."
+  [void](RunGit "add -- scripts skills" $root)
+
+  $staged = RunGit "diff --cached --name-only" $root
+  if ([string]::IsNullOrWhiteSpace($staged)) { return $false }
+
+  $msg = "chore: sync local scripts/skills (" + (Get-Date -Format "yyyy-MM-dd HH:mm") + ")"
+  [void](RunGit "commit -m `"$msg`"" $root)
+  Ok "Auto-commit realizado: $msg"
+  return $true
+}
+
+  $lines = GetPorcelainLines $root
+  if ($lines.Count -eq 0) { return $false }
+
+  $allowed = @()
+  $blocked = @()
+
+  foreach ($line in $lines) {
     $path = ExtractPathFromPorcelainLine $line
     if (-not $path) { continue }
     $norm = $path -replace "\\","/"
 
-    foreach ($pat in $patterns) {
-      if ($norm -match $pat) {
+    # Permitimos cambios locales SOLO en scripts/ y skills/
+    if ($norm -match "^(scripts|skills)/") {
+      $allowed += $line
+    } else {
+      # Permitimos también que aparezca el submódulo como “modified” (puntero/contenido), lo trataremos luego
+      if ($norm -eq "antigravity-awesome-skills") {
+        $allowed += $line
+      } else {
         $blocked += $line
-        break
       }
     }
   }
 
   if ($blocked.Count -gt 0) {
-    $details = ($blocked -join "`n")
+    $b = ($blocked -join "`n")
     Fail @"
-$title
+Hay cambios locales FUERA de /scripts y /skills (y/o submódulo). No auto-commiteo eso.
 
-Cambios detectados:
-$details
+Cambios bloqueantes:
+$b
 
-$howToFix
+Solución:
+- Commit manual, stash o revert, y reintenta.
 "@
     exit 1
   }
+
+  # Solo auto-commit de scripts/skills (no del submódulo aquí)
+  $hasAllowedReal = $allowed | Where-Object { ($_ -match "scripts/") -or ($_ -match "skills/") }
+  if (-not $hasAllowedReal) { return $false }
+
+  Info "Detectados cambios locales en /scripts o /skills. Auto-commit..."
+  [void](RunGit "add -- scripts skills" $root)
+
+  $staged = RunGit "diff --cached --name-only" $root
+  if ([string]::IsNullOrWhiteSpace($staged)) { return $false }
+
+  $msg = "chore: sync local scripts/skills (" + (Get-Date -Format "yyyy-MM-dd HH:mm") + ")"
+  [void](RunGit "commit -m `"$msg`"" $root)
+  Ok "Auto-commit realizado: $msg"
+  return $true
 }
 
 try {
-  # 1) Detectar raíz del repo padre
+  # 0) Root
   $root = RunGit "rev-parse --show-toplevel" (Get-Location).Path
   Info "Repo raíz detectado: $root"
 
-  # 1.1) REGLA (REPO PADRE): bloquear cambios en /scripts
-  BlockIfPathMatches `
-    -cwd $root `
-    -title "Detectados cambios en '/scripts' del repo padre. Se bloquea el sync por seguridad." `
-    -patterns @("^scripts/") `
-    -howToFix @"
-Solución:
-- Haz commit de los cambios de /scripts, o
-- haz stash, o
-- revierte los cambios
-y vuelve a ejecutar el script.
-"@
+  # 1) Auto-commit local de scripts/skills si procede
+  $didLocalCommit = AutoCommitAllowedRootChanges $root
 
+  # 2) Pull repo padre (bajar cambios remotos; ff-only para no crear merges)
+  Info "Pull repo padre (ff-only)..."
+  [void](RunGit "pull --ff-only" $root)
+  Ok "Repo padre actualizado desde origin (si había cambios)."
+
+  # 3) Submódulo
   $subPath = Join-Path $root "antigravity-awesome-skills"
   if (-not (Test-Path $subPath)) {
-    throw "No existe el submódulo en: $subPath. ¿Está inicializado? (git submodule update --init --recursive)"
+    throw "No existe el submódulo en: $subPath. Inicializa: git submodule update --init --recursive"
   }
 
-  # 2) Verificar que es repo git
   [void](RunGit "rev-parse --is-inside-work-tree" $subPath)
 
-  # 3) Verificar remotos
-  $remotes = RunGit "remote" $subPath
-  if ($remotes -notmatch "(?m)^origin$")   { throw "El submódulo no tiene remoto 'origin'." }
-  if ($remotes -notmatch "(?m)^upstream$") { throw "El submódulo no tiene remoto 'upstream'." }
-
-  # 4) Asegurar rama main
+  # Asegurar rama main
   $branch = RunGit "branch --show-current" $subPath
   if ($branch -ne "main") {
-    Info "Cambiando a rama main en el submódulo (estabas en '$branch')"
+    Info "Cambiando a main en submódulo (estabas en '$branch')"
     [void](RunGit "switch main" $subPath)
   }
 
-  # 4.1) REGLA (SUBMÓDULO): bloquear cambios en skills/ o scripts/ (submódulo es “solo lectura”)
-  BlockIfPathMatches `
-    -cwd $subPath `
-    -title "Detectados cambios en 'skills/' o 'scripts/' dentro del submódulo (solo lectura). Se bloquea el sync." `
-    -patterns @("^(skills|scripts)/") `
-    -howToFix @"
+  # Submódulo debe estar limpio
+  $subDirty = RunGit "status --porcelain" $subPath
+  if (-not [string]::IsNullOrWhiteSpace($subDirty)) {
+    Fail @"
+El submódulo tiene working tree sucio. Se aborta (submódulo es solo lectura).
+
+Estado:
+$subDirty
+
 Solución:
-- Mueve esos cambios al repo padre (/skills o /scripts).
-- Limpia el submódulo:
-    git -C antigravity-awesome-skills reset --hard
-  o si hay un merge a medias:
-    git -C antigravity-awesome-skills merge --abort
-y vuelve a ejecutar.
+  git -C antigravity-awesome-skills reset --hard
+  git -C antigravity-awesome-skills clean -fd
 "@
+    exit 1
+  }
 
-  # Guardar SHAs para comparar
-  $beforeSubHead = RunGit "rev-parse HEAD" $subPath
-
-  # 5) Fetch upstream y origin
-  Info "Fetching upstream..."
+  # Fetch
+  Info "Fetching submódulo upstream/origin..."
   [void](RunGit "fetch upstream" $subPath)
-
-  Info "Fetching origin..."
   [void](RunGit "fetch origin" $subPath)
 
-  $upstreamMain = RunGit "rev-parse upstream/main" $subPath
-  $localHead    = RunGit "rev-parse HEAD" $subPath
+  $beforeSubHead = RunGit "rev-parse HEAD" $subPath
 
-  if ($upstreamMain -eq $localHead) {
-    Ok "Submódulo ya estaba al día con upstream/main. No hay cambios que integrar."
+  # 3.1) Si behind origin/main => FF a origin/main
+  $abOrigin = GetAheadBehind $subPath "HEAD" "origin/main"
+  if ($abOrigin.Right -gt 0 -and $abOrigin.Left -eq 0) {
+    Info "Submódulo behind origin/main ($($abOrigin.Right)). FF desde origin..."
+    [void](RunGit "merge --ff-only origin/main" $subPath)
+    Ok "Submódulo actualizado a origin/main."
+  } elseif ($abOrigin.Right -gt 0 -and $abOrigin.Left -gt 0) {
+    Fail @"
+Submódulo divergido vs origin/main (ahead $($abOrigin.Left), behind $($abOrigin.Right)).
+Plan A: upstream manda, fork espejo. Resuelve con:
+  git -C antigravity-awesome-skills reset --hard upstream/main
+  git -C antigravity-awesome-skills push --force-with-lease origin main
+"@
+    exit 1
+  }
+
+  # 3.2) Sincronizar con upstream/main
+  $abUpstream = GetAheadBehind $subPath "HEAD" "upstream/main"
+  if ($abUpstream.Right -eq 0) {
+    Ok "Submódulo ya estaba al día con upstream/main."
   } else {
-    Info "Hay cambios en upstream/main. Intentando fast-forward..."
+    Info "Submódulo behind upstream/main ($($abUpstream.Right)). Intentando FF..."
     try {
       [void](RunGit "merge --ff-only upstream/main" $subPath)
-      Ok "Fast-forward aplicado (local main avanzó al upstream)."
+      Ok "FF aplicado hacia upstream/main."
     } catch {
-      Warn "No se pudo hacer fast-forward. Intentando merge normal (puede crear commit de merge)..."
+      Warn "No se pudo FF hacia upstream. Intentando merge normal..."
       try {
         [void](RunGit "merge upstream/main -m `"merge upstream/main into main`"" $subPath)
-        Ok "Merge aplicado."
+        Ok "Merge aplicado hacia upstream/main."
       } catch {
         $unmerged = GetUnmerged $subPath
-        Fail "Merge falló (posibles conflictos)."
-        if ($unmerged) {
-          Warn @"
-Conflictos detectados en:
-$unmerged
-
-Opciones:
-  1) Resolver manualmente y luego:
-     git -C antigravity-awesome-skills add <files>
-     git -C antigravity-awesome-skills commit
-
-  2) Abortar el merge:
-     git -C antigravity-awesome-skills merge --abort
-"@
-        }
+        Fail "Merge falló (conflictos)."
+        if ($unmerged) { Warn "Archivos en conflicto:`n$unmerged" }
         throw
       }
     }
   }
 
-  # 6) Si el submódulo avanzó, push a origin/main (fallback a force-with-lease)
   $afterSubHead = RunGit "rev-parse HEAD" $subPath
-  $submoduleChanged = ($afterSubHead -ne $beforeSubHead)
+  $subChanged = ($afterSubHead -ne $beforeSubHead)
 
-  if ($submoduleChanged) {
-    Info "Submódulo cambió: $beforeSubHead -> $afterSubHead"
+  # 3.3) Push submódulo al fork (origin). Si non-ff => force-with-lease (fork espejo)
+  if ($subChanged) {
+    Info "Submódulo avanzó: $beforeSubHead -> $afterSubHead"
     Info "Pushing submódulo a origin/main..."
-
     try {
       [void](RunGit "push origin main" $subPath)
-      Ok "Submódulo empujado a origin/main."
+      Ok "Submódulo push OK."
     } catch {
       $msg = $_.Exception.Message
       if ($msg -match "non-fast-forward|rejected") {
-        Warn "Push rechazado (non-fast-forward). Alineando el fork con --force-with-lease (Plan A: upstream manda)..."
+        Warn "Push non-fast-forward. Forzando con --force-with-lease (fork espejo)..."
         [void](RunGit "fetch origin" $subPath)
         [void](RunGit "push --force-with-lease origin main" $subPath)
-        Ok "Submódulo empujado a origin/main (force-with-lease)."
+        Ok "Submódulo push OK (force-with-lease)."
       } else {
         throw
       }
     }
   } else {
-    Ok "Submódulo no cambió. Nada que pushear en el fork."
+    Ok "Submódulo sin cambios."
   }
 
-  # 7) Repo padre: actualizar puntero del submódulo (si cambió)
-$subDiff = RunGit "diff --submodule" $root
-$pointerChanged = -not [string]::IsNullOrWhiteSpace($subDiff)
+  # 4) Repo padre: si cambió el puntero del submódulo, commit + push
+  $subPointerDiff = RunGit "diff --submodule=short -- antigravity-awesome-skills" $root
+  $pointerChanged = -not [string]::IsNullOrWhiteSpace($subPointerDiff)
 
   if ($pointerChanged) {
-    Info "El puntero del submódulo en el repo padre ha cambiado. Commit + push..."
-    [void](RunGit "add antigravity-awesome-skills" $root)
+    Info "Puntero del submódulo cambió en repo padre. Commit + push..."
+    Write-Host $subPointerDiff
+    [void](RunGit "add -- antigravity-awesome-skills" $root)
     [void](RunGit "commit -m `"chore: update submodule antigravity-awesome-skills`"" $root)
-    [void](RunGit "push" $root)
-    Ok "Repo padre actualizado y empujado."
+    Ok "Commit del puntero realizado."
   } else {
-    Ok "Repo padre: puntero del submódulo sin cambios. Nada que commitear."
+    Ok "Puntero del submódulo sin cambios en repo padre."
   }
 
-  # 8) Resumen
+  # 5) Push repo padre si hay commits nuevos locales
+  if (HasCommitsToPush $root) {
+    Info "Pushing repo padre..."
+    [void](RunGit "push" $root)
+    Ok "Repo padre push OK."
+  } else {
+    Ok "Repo padre: nada que pushear."
+  }
+
   Info "Resumen:"
-  Info (" - Submódulo: " + ($(if ($submoduleChanged) { "CAMBIÓ" } else { "SIN CAMBIOS" })))
-  Info (" - Repo padre (puntero submódulo): " + ($(if ($pointerChanged) { "CAMBIÓ" } else { "SIN CAMBIOS" })))
+  Info (" - Auto-commit scripts/skills local: " + ($(if ($didLocalCommit) { "SÍ" } else { "NO" })))
+  Info (" - Submódulo actualizado: " + ($(if ($subChanged) { "SÍ" } else { "NO" })))
+  Info (" - Puntero submódulo commiteado: " + ($(if ($pointerChanged) { "SÍ" } else { "NO" })))
 
 } catch {
   Fail $_.Exception.Message
