@@ -222,8 +222,8 @@ Opciones:
   }
 
   # 7) Repo padre: actualizar puntero del submódulo (si cambió)
-  $superStatus = RunGit "status --porcelain" $root
-  $pointerChanged = $superStatus -match "(?m)^(M|\sM|\?\?)\s+antigravity-awesome-skills$"
+$subDiff = RunGit "diff --submodule" $root
+$pointerChanged = -not [string]::IsNullOrWhiteSpace($subDiff)
 
   if ($pointerChanged) {
     Info "El puntero del submódulo en el repo padre ha cambiado. Commit + push..."
