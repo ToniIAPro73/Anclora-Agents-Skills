@@ -9,7 +9,7 @@ async function harvestEffects(url, selector = 'body') {
     const page = await browser.newPage();
     
     try {
-        await page.goto(url, { waitUntil: 'networkidle' });
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
         
         const effects = await page.evaluate((sel) => {
             const elements = document.querySelectorAll(sel === 'body' ? 'button, a, .card, [class*="hero"], nav, .glass' : sel);
@@ -91,8 +91,11 @@ async function harvestEffects(url, selector = 'body') {
         
         effects.groups.forEach((group, i) => {
             report += `### Pattern ${i + 1}: <${group.tagName}> (${group.count} instances)\n`;
-            if (group.sampleClasses) {
+            if (group.sampleClasses && typeof group.sampleClasses === 'string') {
                 report += `*Sample Classes: \`${group.sampleClasses.split(' ').filter(c => c).join('.')}\`*\n\n`;
+            } else if (group.sampleClasses && typeof group.sampleClasses === 'object' && group.sampleClasses.baseVal) {
+                // SVG case
+                report += `*Sample Classes (SVG): \`${group.sampleClasses.baseVal.split(' ').filter(c => c).join('.')}\`*\n\n`;
             }
             report += `| Property | Value |\n| :--- | :--- |\n`;
             for (const [prop, val] of Object.entries(group.styles)) {

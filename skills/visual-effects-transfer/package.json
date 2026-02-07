@@ -1,0 +1,26 @@
+{
+  "name": "visual-effects-transfer",
+  "version": "1.0.0",
+  "description": "Unified skill to extract and apply premium visual effects between HTML files",
+  "main": "scripts/transfer.js",
+  "scripts": {
+    "transfer": "node scripts/transfer.js",
+    "test": "node scripts/transfer.js --dry-run"
+  },
+  "keywords": [
+    "visual-effects",
+    "css",
+    "design-tokens",
+    "glassmorphism",
+    "premium-ui"
+  ],
+  "author": "Anclora Agents Skills",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "jsdom": "^23.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
