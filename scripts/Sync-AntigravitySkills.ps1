@@ -21,6 +21,13 @@ Requisitos:
 
 $ErrorActionPreference = "Stop"
 
+# Carpetas del repo raíz permitidas para auto-commit
+$AllowedRootFolders = @(
+  "scripts",
+  "skills",
+  "assets_anclora"
+)
+
 function Info($msg) { Write-Host "[INFO]  $msg" }
 function Ok($msg)   { Write-Host "[OK]    $msg" -ForegroundColor Green }
 function Warn($msg) { Write-Host "[WARN]  $msg" -ForegroundColor Yellow }
@@ -115,37 +122,49 @@ function AutoCommitRootScriptsSkills([string]$root) {
   if ($changed.Count -eq 0) { return $false }
 
   $blocked = @()
-  $hasScriptsOrSkills = $false
+  $hasAllowed = $false
 
   foreach ($p in $changed) {
-    if ($p -match "^(scripts|skills)/") {
-      $hasScriptsOrSkills = $true
-      continue
+
+    # ¿Pertenece a alguna carpeta permitida?
+    $isAllowed = $false
+    foreach ($folder in $AllowedRootFolders) {
+      if ($p -match "^$folder/") {
+        $isAllowed = $true
+        $hasAllowed = $true
+        break
+      }
     }
 
-    # Permitimos que el puntero del submódulo aparezca como cambio (lo trataremos después)
+    if ($isAllowed) { continue }
+
+    # Permitimos que aparezca el submódulo como cambio (puntero)
     if ($p -eq "antigravity-awesome-skills") { continue }
 
-    # Cualquier otra cosa: abortar
+    # Todo lo demás es bloqueante
     $blocked += $p
   }
 
   if ($blocked.Count -gt 0) {
-    Fail "Hay cambios locales fuera de /scripts y /skills (y/o submódulo). No auto-commiteo eso."
+    Fail "Hay cambios locales fuera de las carpetas permitidas. No auto-commiteo eso."
     Write-Host "Cambios bloqueantes:" -ForegroundColor Yellow
     $blocked | ForEach-Object { Write-Host " - $_" }
     throw "Cambios locales no permitidos en repo padre. Commit/stash/revert manual y reintenta."
   }
 
-  if (-not $hasScriptsOrSkills) { return $false }
+  if (-not $hasAllowed) { return $false }
 
-  Info "Detectados cambios locales en /scripts o /skills. Auto-commit..."
-  [void](RunGit "add -- scripts skills" $root)
+  Info "Detectados cambios locales en carpetas permitidas. Auto-commit..."
+
+  $addArgs = "add -- " + ($AllowedRootFolders -join " ")
+  [void](RunGit $addArgs $root)
 
   $staged = RunGit "diff --cached --name-only" $root
   if ([string]::IsNullOrWhiteSpace($staged)) { return $false }
 
-  $msg = "chore: sync local scripts/skills (" + (Get-Date -Format "yyyy-MM-dd HH:mm") + ")"
+  $foldersLabel = ($AllowedRootFolders -join "/")
+  $msg = "chore: sync local $foldersLabel (" + (Get-Date -Format "yyyy-MM-dd HH:mm") + ")"
+
   [void](RunGit "commit -m `"$msg`"" $root)
   Ok "Auto-commit realizado: $msg"
   return $true
