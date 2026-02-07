@@ -1,0 +1,13 @@
+{
+  "name": "footer-copier",
+  "version": "1.0.0",
+  "description": "Skill to copy and integrate a footer from a reference HTML to a target HTML.",
+  "scripts": {
+    "copy-footer": "node scripts/copy_footer.js"
+  },
+  "dependencies": {
+    "jsdom": "^23.2.0"
+  },
+  "author": "Anclora Agents Skills",
+  "license": "MIT"
+}

@@ -49,15 +49,46 @@ function RunGit([string]$gitArgs, [string]$cwd) {
   return ($stdout.Trim())
 }
 
-function GetChangedPaths([string]$cwd) {
-  # Devuelve paths modificados (staged + unstaged) como lista única normalizada
-  $a = RunGit "diff --name-only" $cwd
-  $b = RunGit "diff --cached --name-only" $cwd
-  $paths = @()
-  if ($a) { $paths += ($a -split "`n") }
-  if ($b) { $paths += ($b -split "`n") }
-  return ($paths | ForEach-Object { ($_ -replace "\\","/").Trim() } | Where-Object { $_ -ne "" } | Select-Object -Unique)
+function NormalizePath([string]$p) {
+  if ([string]::IsNullOrWhiteSpace($p)) { return "" }
+  $x = $p.Trim()
+
+  # Quita comillas si vienen pegadas ("path" o 'path')
+  if (($x.StartsWith('"') -and $x.EndsWith('"')) -or ($x.StartsWith("'") -and $x.EndsWith("'"))) {
+    $x = $x.Substring(1, $x.Length - 2)
+  }
+
+  # Normaliza separadores
+  $x = $x -replace "\\","/"
+
+  # Trim otra vez por si había espacios con comillas
+  return $x.Trim()
 }
+
+function GetChangedPaths([string]$cwd) {
+  # Incluye staged y unstaged. Usa -z para evitar problemas con espacios, y parsea por NUL.
+  $a = RunGit "diff --name-only -z" $cwd
+  $b = RunGit "diff --cached --name-only -z" $cwd
+
+  $paths = New-Object System.Collections.Generic.List[string]
+
+  if ($a) {
+    foreach ($p in ($a -split "`0")) {
+      $n = NormalizePath $p
+      if ($n) { $paths.Add($n) }
+    }
+  }
+
+  if ($b) {
+    foreach ($p in ($b -split "`0")) {
+      $n = NormalizePath $p
+      if ($n) { $paths.Add($n) }
+    }
+  }
+
+  return ($paths | Select-Object -Unique)
+}
+
 
 function HasCommitsToPush([string]$cwd) {
   try {
