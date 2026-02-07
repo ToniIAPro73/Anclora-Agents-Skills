@@ -1,0 +1,13 @@
+{
+  "name": "visual-effects-harvester",
+  "version": "1.0.0",
+  "description": "Skill for harvesting visual effects using Playwright",
+  "main": "scripts/harvester.js",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium",
+    "harvest": "node scripts/harvester.js"
+  },
+  "dependencies": {
+    "playwright": "^1.41.0"
+  }
+}

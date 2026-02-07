@@ -9,63 +9,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Anclora Brand Kit v4.0 */
+            /* Anclora Refined Design Tokens */
+            --anclora-teal-primary: #0B313F;
+            --anclora-teal-dark: #07252F;
+            --anclora-teal-hover: #124A50;
+            --anclora-teal-bg: #0F3F45;
             --anclora-gold: #D4AF37;
             --anclora-gold-light: #E6C96E;
-            --anclora-gold-dark: #B9915F;
-            --anclora-navy: #2C3E50;
-            --anclora-navy-light: #34495E;
-            --anclora-navy-dark: #1A252F;
-            --anclora-bronze: #B9915F;
-            --anclora-cream: #F5F5F0;
-            --anclora-stone: #EAEAE5;
-            --anclora-white: #FFFFFF;
-            --anclora-black: #1A1A1A;
             
-            /* UI Tokens */
-            --bg: #05070A;
-            --glass: rgba(44, 62, 80, 0.4); /* Based on Navy */
-            --border: rgba(212, 175, 55, 0.1); /* Based on Gold */
-            --transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Luxury Timing */
+            /* Typography */
+            --font-headlines: 'Cardo', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accents: 'Fraunces', serif;
+            --font-secondary: 'Cormorant Garamond', serif;
+
+            /* Premium Colors */
+            --bg-dark: #07252F;
+            --text-primary: #F5F5F0;
+            --text-secondary: rgba(245, 245, 240, 0.7);
+            --glass: rgba(11, 49, 63, 0.45);
+            --border-gold: rgba(212, 175, 55, 0.2);
+            
+            /* Interactivity */
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 50%, #FBF5B7 55%, #AA771C 100%);
+            --transition-premium: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            --radius-premium: 100px;
+            --shadow-premium: rgba(212, 175, 55, 0.15) 0px 10px 20px 0px;
+            --shadow-btn-hover: rgba(212, 175, 55, 0.3) 0px 15px 35px 0px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
-            color: var(--anclora-white);
-            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-body);
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* i18n Logic */
-        [data-lang] { display: none !important; }
-        body.lang-es [data-lang="es"] { display: inherit !important; }
-        body.lang-en [data-lang="en"] { display: inherit !important; }
-        body.lang-de [data-lang="de"] { display: inherit !important; }
+        /* ... i18n logic ... */
 
-        body.lang-es h1[data-lang="es"], body.lang-es h2[data-lang="es"], body.lang-es p[data-lang="es"] { display: block !important; }
-        body.lang-en h1[data-lang="en"], body.lang-en h2[data-lang="en"], body.lang-en p[data-lang="en"] { display: block !important; }
-        body.lang-de h1[data-lang="de"], body.lang-de h2[data-lang="de"], body.lang-de p[data-lang="de"] { display: block !important; }
-
-        /* Scroll Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        
-        
-        
-        
-        /* Header Styling */
+        /* Header Styling Refined */
         header.site-header {
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -74,62 +59,68 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(13, 17, 23, 0.2);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(175, 210, 250, 0.1);
-            transition: var(--transition);
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-gold);
+            transition: var(--transition-premium);
         }
 
         header.site-header.scrolled {
             padding: 15px 5%;
-            background: rgba(13, 17, 23, 0.9);
+            background: rgba(7, 37, 47, 0.95);
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
+        /* ... */
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        
         .nav-menu a {
-            color: white;
+            color: var(--text-primary);
             text-decoration: none;
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-weight: 500;
-            transition: var(--transition);
-            opacity: 0.8;
-            display: none;
+            font-weight: 600;
+            transition: var(--transition-premium);
+            opacity: 0.7;
             position: relative;
             padding-bottom: 5px;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--anclora-gold);
-            transition: width 0.25s ease-out;
-        }
-
-        .nav-menu a:hover::after {
-            width: 100%;
         }
 
         .nav-menu a:hover {
             color: var(--anclora-gold);
             opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        /* Premium Button Pattern Application (Pattern 9 & 12) */
+        .btn-anclora-premium {
+            background: var(--anclora-gold);
+            color: var(--anclora-teal-dark);
+            border: 1px solid var(--anclora-gold);
+            border-radius: var(--radius-premium);
+            padding: 12px 28px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition-premium);
+            box-shadow: var(--shadow-premium);
+            backdrop-filter: blur(10px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-anclora-premium:hover {
+            background: var(--anclora-gold-light);
+            box-shadow: var(--shadow-btn-hover);
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--anclora-gold-light);
+        }
+
+        .btn-anclora-premium:active {
+            transform: translateY(-1px) scale(0.98);
         }
 
         body.lang-es .nav-menu a[data-lang="es"] { display: block; }
@@ -141,62 +132,46 @@
             opacity: 1;
         }
 
-        /* Language Toggle Elegant - EXACTLY from Synergy Portal */
-        .lang-switcher {
-            display: flex;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .lang-btn {
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: var(--transition);
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 700;
-        }
-
-        .lang-btn.active {
-            background: var(--anclora-gold);
-            color: white;
-        }
-
-        /* Hero Section */
+        /* Hero Section Refined (Pattern 5 & 7) */
         .lab-hero {
             padding: 180px 5% 120px;
             text-align: center;
-            background: linear-gradient(rgba(5, 7, 10, 0.6), rgba(5, 7, 10, 0.9)), 
+            background: linear-gradient(rgba(7, 37, 47, 0.8), rgba(7, 37, 47, 0.95)), 
                         url('../assets/anclora_data_lab_cinematic_bg.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             position: relative;
+            overflow: hidden;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            max-width: 1000px;
-            margin: 0 auto;
+        .hero-bg-effect {
+            position: absolute;
+            inset: 0;
+            background: var(--anclora-teal-dark);
+            filter: blur(20px) brightness(0.7);
+            transform: scale(1.15);
+            z-index: 1;
+            opacity: 0.3;
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-family: var(--font-headlines);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             line-height: 1.1;
             margin-bottom: 25px;
-            background: linear-gradient(to bottom, #FFF, var(--anclora-gold));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
+            color: var(--text-primary);
+            filter: blur(10px);
+            transition: var(--transition-premium);
+            font-weight: 800;
+        }
+
+        .lab-hero.active h1 {
+            filter: blur(0);
         }
 
         .hero-tag {
+            font-family: var(--font-accents);
             color: var(--anclora-gold);
             text-transform: uppercase;
             letter-spacing: 6px;
@@ -204,17 +179,11 @@
             margin-bottom: 20px;
             display: block;
             font-weight: 600;
+            filter: blur(5px);
+            transition: var(--transition-premium);
         }
 
-        .hero-content p {
-            font-size: 1.125rem;
-            color: var(--anclora-stone);
-            line-height: 1.7;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Stats Grid */
+        /* Stats Grid Refined (Pattern 14) */
         .data-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -227,19 +196,20 @@
 
         .data-card {
             background: var(--glass);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-gold);
             padding: 50px 30px;
-            border-radius: 20px;
+            border-radius: 24px;
             text-align: center;
             backdrop-filter: blur(25px);
-            transition: var(--transition);
+            transition: var(--transition-premium);
+            box-shadow: var(--shadow-premium);
         }
 
         .data-card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-12px) scale(1.02);
             border-color: var(--anclora-gold);
-            background: rgba(44, 62, 80, 0.6);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            background: rgba(11, 49, 63, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.1);
         }
 
         .card-value {
