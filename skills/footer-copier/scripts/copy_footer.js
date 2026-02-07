@@ -88,8 +88,8 @@ async function copyFooter(refPath, targetPath, logoPath, backgroundPath, outputP
         console.log(`- Footer Background updated to CDN: ${bgFilename}`);
 
         // 3. Handle Header Assets (NEW)
-        const HEADER_LOGO_CDN = 'https://cdn.jsdelivr.net/gh/ToniIAPro73/Anclora-Agent-Skills@main/assets_anclora/logo-anclora-private-estate&exp.png';
-        const HERO_BG_CDN = 'https://cdn.jsdelivr.net/gh/ToniIAPro73/Anclora-Agent-Skills@main/assets_anclora/Hero_Background_private_estates_data_lab';
+        const HEADER_LOGO_CDN = 'https://cdn.jsdelivr.net/gh/ToniIAPro73/Anclora-Agents-Skills@main/assets_anclora/logo-anclora-private-estate&exp.png';
+        const HERO_BG_CDN = 'https://cdn.jsdelivr.net/gh/ToniIAPro73/Anclora-Agents-Skills@main/assets_anclora/Hero_Background_private_estates_data_lab.png';
 
         // Target: .site-header .header-logo img or .effect-logo-glow
         const headerLogo = targetDom.window.document.querySelector('.site-header img, .effect-logo-glow');
