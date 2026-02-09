@@ -25,29 +25,35 @@ const {
 } = require('docx');
 
 // Configuration
-const BASE_DIR = "c:\\Users\\Usuario\\Workspace\\01_Proyectos\\Anclora-Agents-Skills\\triumph-renta-mallorca-SEO";
-const COVER_IMAGE_PATH = path.join(BASE_DIR, "Imagen_portada_documentos.jpeg");
-const LOGO_IMAGE_PATH = path.join("c:\\Users\\Usuario\\Workspace\\01_Proyectos\\Anclora-Agents-Skills\\creador_de_blogs\\assets", "logo-anclora-cognitive-solutions.jpeg");
+const BASE_DIR = __dirname;
+const OUTPUT_DIR = path.join(BASE_DIR, "Entregables");
+const COVER_IMAGE_PATH = path.join(BASE_DIR, "Imagen_portada_documentos.png");
+const LOGO_IMAGE_PATH = path.join(BASE_DIR, "logo_triumph_highres.png");
 const AUTHOR = "Antonio Ballesteros";
-const BIO = "Founder & AI Strategist";
-const DATE = "05 de febrero de 2025";
-const VERSION = "v2.2";
+const BIO = "Estratega de IA y Soluciones Cognitivas";
+const DATE = "09 de febrero de 2026";
+const VERSION = "v2.5";
 
 const FILES_TO_PROCESS = [
+    // ESPAÑOL
     { md: "resumen_ejecutivo_ES.md", docx: "Resumen_Ejecutivo_ES.docx", title: "Resumen Ejecutivo", lang: "ES", cover: "MASTERPIECE_V7_RESUMEN_ES.jpg" },
-    { md: "executive_summary_EN.md", docx: "Executive_Summary_EN.docx", title: "Executive Summary", lang: "EN", cover: "MASTERPIECE_V7_RESUMEN_EN.jpg" },
-    { md: "kurzbericht_DE.md", docx: "Zusammenfassung_DE.docx", title: "Zusammenfassung", lang: "DE", cover: "MASTERPIECE_V7_RESUMEN_DE.jpg" },
     { md: "justificacion_ROI_IA_ES.md", docx: "Justificacion_ROI_IA_ES.docx", title: "Justificación de ROI", lang: "ES", cover: "MASTERPIECE_V7_ROI_ES.jpg" },
-    { md: "ai_roi_justification_EN.md", docx: "AI_ROI_Justification_EN.docx", title: "ROI Justification", lang: "EN", cover: "MASTERPIECE_V7_ROI_EN.jpg" },
-    { md: "ki_roi_justifizierung_DE.md", docx: "KI_ROI_Justifizierung_DE.docx", title: "ROI-Justifizierung", lang: "DE", cover: "MASTERPIECE_V7_ROI_DE.jpg" },
     { md: "Propuesta_Consultoria_IA_ES.md", docx: "Propuesta_Consultoria_IA_ES.docx", title: "Propuesta de Consultoría", lang: "ES", cover: "MASTERPIECE_V7_PROPUESTA_ES.jpg" },
-    { md: "AI_Consultancy_Proposal_EN.md", docx: "AI_Consultancy_Proposal_EN.docx", title: "AI Consultancy Proposal", lang: "EN", cover: "MASTERPIECE_V7_PROPUESTA_EN.jpg" },
-    { md: "KI_Beratung_Angebot_DE.md", docx: "KI_Beratung_Angebot_DE.docx", title: "Strategisches Beratungsangebot", lang: "DE", cover: "MASTERPIECE_V7_PROPUESTA_DE.jpg" },
     { md: "plan_ejecucion_SEO_GEO_acelerado.md", docx: "Plan_Ejecucion_Acelerado_ES.docx", title: "Plan de Ejecución Acelerado", lang: "ES", cover: "MASTERPIECE_V7_PLAN_ES.jpg" },
-    { md: "accelerated_execution_plan_EN.md", docx: "Accelerated_Execution_Plan_EN.docx", title: "Accelerated Execution Plan", lang: "EN", cover: "MASTERPIECE_V7_PLAN_EN.jpg" },
-    { md: "beschleunigter_ausfuehrungsplan_DE.md", docx: "Beschleunigter_Ausfuehrungsplan_DE.docx", title: "Beschleunigter Ausführungsplan", lang: "DE", cover: "MASTERPIECE_V7_PLAN_DE.jpg" },
     { md: "Anexo_Contractual_Triumph_Rental_Mallorca_V2.md", docx: "Anexo_Contractual_V2_ES.docx", title: "Anexo Contractual", lang: "ES", cover: "MASTERPIECE_V7_ANEXO_ES.jpg" },
+    
+    // ENGLISH
+    { md: "executive_summary_EN.md", docx: "Executive_Summary_EN.docx", title: "Executive Summary", lang: "EN", cover: "MASTERPIECE_V7_RESUMEN_EN.jpg" },
+    { md: "ai_roi_justification_EN.md", docx: "AI_ROI_Justification_EN.docx", title: "ROI Justification", lang: "EN", cover: "MASTERPIECE_V7_ROI_EN.jpg" },
+    { md: "AI_Consultancy_Proposal_EN.md", docx: "AI_Consultancy_Proposal_EN.docx", title: "AI Consultancy Proposal", lang: "EN", cover: "MASTERPIECE_V7_PROPUESTA_EN.jpg" },
+    { md: "accelerated_execution_plan_EN.md", docx: "Accelerated_Execution_Plan_EN.docx", title: "Accelerated Execution Plan", lang: "EN", cover: "MASTERPIECE_V7_PLAN_EN.jpg" },
     { md: "Anexo_Contractual_Triumph_Rental_Mallorca_V2_EN.md", docx: "Anexo_Contractual_V2_EN.docx", title: "Contractual Annex", lang: "EN", cover: "MASTERPIECE_V7_ANEXO_EN.jpg" },
+    
+    // DEUTSCH
+    { md: "kurzbericht_DE.md", docx: "Zusammenfassung_DE.docx", title: "Zusammenfassung", lang: "DE", cover: "MASTERPIECE_V7_RESUMEN_DE.jpg" },
+    { md: "ki_roi_justifizierung_DE.md", docx: "KI_ROI_Justifizierung_DE.docx", title: "ROI-Justifizierung", lang: "DE", cover: "MASTERPIECE_V7_ROI_DE.jpg" },
+    { md: "KI_Beratung_Angebot_DE.md", docx: "KI_Beratung_Angebot_DE.docx", title: "Strategisches Beratungsangebot", lang: "DE", cover: "MASTERPIECE_V7_PROPUESTA_DE.jpg" },
+    { md: "beschleunigter_ausfuehrungsplan_DE.md", docx: "Beschleunigter_Ausfuehrungsplan_DE.docx", title: "Beschleunigter Ausführungsplan", lang: "DE", cover: "MASTERPIECE_V7_PLAN_DE.jpg" },
     { md: "Anexo_Contractual_Triumph_Rental_Mallorca_V2_DE.md", docx: "Anexo_Contractual_V2_DE.docx", title: "Vertragsanhang", lang: "DE", cover: "MASTERPIECE_V7_ANEXO_DE.jpg" },
 ];
 
@@ -64,8 +70,13 @@ async function createDocument(config) {
     const sections = [];
 
     // --- 1. SECTION 1: COVER PAGE (FULL-PAGE) ---
-    const coverPath = path.join(BASE_DIR, "pro_covers", config.cover);
-    if (fs.existsSync(coverPath)) {
+    // Try to find the specific language cover if it exists in pro_covers, otherwise fallback to global template
+    let coverSource = path.join(BASE_DIR, "pro_covers", config.cover);
+    if (!fs.existsSync(coverSource)) {
+        coverSource = COVER_IMAGE_PATH; // Fallback to the one provided by user in root
+    }
+
+    if (fs.existsSync(coverSource)) {
         sections.push({
             properties: {
                 page: {
@@ -82,9 +93,9 @@ async function createDocument(config) {
                 new Paragraph({
                     children: [
                         new ImageRun({
-                            data: fs.readFileSync(coverPath),
+                            data: fs.readFileSync(coverSource),
                             transformation: { width: 794, height: 1123 }, // Full A4 Docx Units
-                            type: "jpg"
+                            type: coverSource.endsWith('.png') ? "png" : "jpg"
                         })
                     ]
                 })
@@ -95,12 +106,20 @@ async function createDocument(config) {
     // --- 2. PREPARE CONTENT FOR SECTION 2 ---
     const docChildren = [];
 
-    // TOC Header
+    // Title Page Header (Tribute to Triumph)
     docChildren.push(new Paragraph({
         heading: HeadingLevel.HEADING_1,
         alignment: AlignmentType.CENTER,
-        children: [new TextRun({ text: "ÍNDICE DE CONTENIDOS", bold: true, size: 36 })],
-        spacing: { after: 400 }
+        children: [new TextRun({ text: config.title.toUpperCase(), bold: true, size: 40, color: "000000" })],
+        spacing: { before: 1000, after: 600 }
+    }));
+
+    // TOC Header
+    docChildren.push(new Paragraph({
+        heading: HeadingLevel.HEADING_2,
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ text: "ÍNDICE DE CONTENIDOS", bold: true, size: 28, color: "333333" })],
+        spacing: { before: 400, after: 400 }
     }));
     docChildren.push(new TableOfContents("Contenidos", {
         hyperlink: true,
@@ -148,10 +167,16 @@ async function createDocument(config) {
                 spacing: { after: 200 }
             }));
         } else {
-            const parts = trimmed.split(/(\*\*.*?\*\*)/);
+            // Basic Markdown link cleaning and bolding
+            let content = trimmed;
+            const parts = content.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/);
             const children = parts.map(part => {
                 if (part.startsWith('**') && part.endsWith('**')) {
                     return new TextRun({ text: part.slice(2, -2), bold: true });
+                }
+                if (part.startsWith('[') && part.includes('](')) {
+                    const label = part.match(/\[(.*?)\]/)[1];
+                    return new TextRun({ text: label, color: "0000EE", underline: {} });
                 }
                 return new TextRun({ text: part });
             });
@@ -204,7 +229,7 @@ async function createDocument(config) {
                                                     fs.existsSync(LOGO_IMAGE_PATH) ? new ImageRun({
                                                         data: fs.readFileSync(LOGO_IMAGE_PATH),
                                                         transformation: { width: 45, height: 45 },
-                                                        type: "jpg"
+                                                        type: "png"
                                                     }) : new TextRun(""),
                                                     new TextRun({ text: ` ${AUTHOR}`, bold: true, size: 20, font: "Arial" }),
                                                 ]
@@ -262,12 +287,15 @@ async function createDocument(config) {
     });
 
     const buffer = await Packer.toBuffer(doc);
-    fs.writeFileSync(path.join(BASE_DIR, config.docx), buffer);
+    if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    fs.writeFileSync(path.join(OUTPUT_DIR, config.docx), buffer);
     console.log(`[OK] ${config.docx}`);
 }
 
 async function main() {
-    console.log("Iniciando generación de documentos profesionales...");
+    console.log(`Iniciando generación de documentos profesionales para Triumph Renta Mallorca...`);
+    console.log(`Carpeta de salida: ${OUTPUT_DIR}`);
+    
     for (const file of FILES_TO_PROCESS) {
         try {
             await createDocument(file);
@@ -275,7 +303,8 @@ async function main() {
             console.error(`[ERROR] en ${file.md}:`, err);
         }
     }
-    console.log("Proceso finalizado.");
+    console.log("Proceso finalizado. Los documentos están disponibles en la carpeta 'Entregables'.");
 }
 
 main();
+
