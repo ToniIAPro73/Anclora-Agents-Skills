@@ -8,7 +8,9 @@
 
 ## Introduction
 
-After analyzing the digital presence of **Triumph Rental Mallorca**, we have identified a critical opportunity: your website features an exceptional product but has technical barriers preventing maximum conversion. This proposal focuses on transforming your current website into a high-performance asset through technical SEO and **GEO (Generative Engine Optimization)**, ensuring your brand is the first choice both on Google and within new AI search engines.
+After analyzing the digital presence of **Triumph Rental Mallorca**, we have identified a critical opportunity: your website features an exceptional product but 
+has technical barriers preventing maximum conversion. This proposal focuses on transforming your current website into a high-performance asset through technical SEO 
+and **GEO (Generative Engine Optimization)**, ensuring your brand is the first choice both on Google and within new AI search engines.
 
 ---
 
@@ -24,7 +26,8 @@ The objective is to maximize visibility and direct booking rates through three p
 
 ## Operational Requirement
 
-To guarantee the success of this intervention, it is **mandatory** to have full access to the tool used for creating the website (CMS/Builder). Without this access, the ability to implement speed improvements and technical SEO would be severely compromised.
+To guarantee the success of this intervention, it is **mandatory** to have full access to the tool used for creating the website (CMS/Builder). Without this access, 
+the ability to implement speed improvements and technical SEO would be severely compromised.
 
 ---
 
