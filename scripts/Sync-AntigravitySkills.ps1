@@ -239,29 +239,20 @@ try {
 
   # 3.2) Sincronizar con upstream/main
   $abUpstream = GetAheadBehind $subPath "HEAD" "upstream/main"
-  if ($abUpstream.Right -eq 0) {
-    Ok "Submódulo ya estaba al día con upstream/main."
-  } else {
-    Info "Submódulo behind upstream/main ($($abUpstream.Right)). Intentando FF..."
-    try {
-      [void](RunGit "merge --ff-only upstream/main" $subPath)
-      Ok "Fast-forward aplicado hacia upstream/main."
-    } catch {
-      Warn "No se pudo FF hacia upstream. Intentando merge normal..."
-      try {
-        [void](RunGit "merge upstream/main -m `"merge upstream/main into main`"" $subPath)
-        Ok "Merge aplicado hacia upstream/main."
-      } catch {
-        $unmerged = GetUnmerged $subPath
-        Fail "Merge falló (conflictos)."
-        if ($unmerged) {
-          Write-Host "Archivos en conflicto:" -ForegroundColor Yellow
-          Write-Host $unmerged
-        }
-        throw
-      }
-    }
+if ($abUpstream.Right -eq 0) {
+  Ok "Submódulo ya estaba al día con upstream/main."
+} else {
+  Info "Submódulo behind upstream/main ($($abUpstream.Right)). Intentando FF..."
+  try {
+    [void](RunGit "merge --ff-only upstream/main" $subPath)
+    Ok "Fast-forward aplicado hacia upstream/main."
+  } catch {
+    Warn "No se pudo FF hacia upstream. Plan A: upstream manda -> reset --hard a upstream/main (sin merges)."
+    [void](RunGit "reset --hard upstream/main" $subPath)
+    Ok "Reset aplicado: HEAD ahora = upstream/main."
   }
+}
+
 
   $afterSubHead = RunGit "rev-parse HEAD" $subPath
   $subChanged = ($afterSubHead -ne $beforeSubHead)
