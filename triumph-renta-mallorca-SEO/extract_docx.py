@@ -18,6 +18,11 @@ def extract_docx(file_path, output_path):
             f.write("\n")
 
 if __name__ == "__main__":
-    docx_path = r'c:\Users\Usuario\Workspace\01_Proyectos\Anclora-Agents-Skills\triumph-renta-mallorca-SEO\Reutilizables\Generated_Templates\Plantilla_Propuesta_Consultoria_ES.docx'
-    output_path = r'c:\Users\Usuario\Workspace\01_Proyectos\Anclora-Agents-Skills\triumph-renta-mallorca-SEO\template_analysis.md'
+    import sys
+    if len(sys.argv) < 3:
+        print("Usage: python extract_docx.py <input_docx> <output_md>")
+        sys.exit(1)
+    
+    docx_path = sys.argv[1]
+    output_path = sys.argv[2]
     extract_docx(docx_path, output_path)

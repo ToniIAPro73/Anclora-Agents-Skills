@@ -28,11 +28,11 @@ const {
 const BASE_DIR = __dirname;
 const OUTPUT_DIR = path.join(BASE_DIR, "Entregables");
 const COVER_IMAGE_PATH = path.join(BASE_DIR, "Imagen_portada_documentos.png");
-const LOGO_IMAGE_PATH = path.join(BASE_DIR, "logo_triumph_highres.png");
-const AUTHOR = "Antonio Ballesteros";
-const BIO = "Estratega de IA y Soluciones Cognitivas";
+const LOGO_IMAGE_PATH = path.join(BASE_DIR, "extracted_logo_template.png"); // Using the premium logo extracted from template
+const AUTHOR = "ANTONIO BALLESTEROS";
+const BIO = "FOUNDER & AI STRATEGIST";
 const DATE = "09 de febrero de 2026";
-const VERSION = "v2.5";
+const VERSION = "v3.0";
 
 const FILES_TO_PROCESS = [
     // ESPAÑOL
@@ -70,10 +70,9 @@ async function createDocument(config) {
     const sections = [];
 
     // --- 1. SECTION 1: COVER PAGE (FULL-PAGE) ---
-    // Try to find the specific language cover if it exists in pro_covers, otherwise fallback to global template
     let coverSource = path.join(BASE_DIR, "pro_covers", config.cover);
     if (!fs.existsSync(coverSource)) {
-        coverSource = COVER_IMAGE_PATH; // Fallback to the one provided by user in root
+        coverSource = COVER_IMAGE_PATH;
     }
 
     if (fs.existsSync(coverSource)) {
@@ -106,7 +105,7 @@ async function createDocument(config) {
     // --- 2. PREPARE CONTENT FOR SECTION 2 ---
     const docChildren = [];
 
-    // Title Page Header (Tribute to Triumph)
+    // Title Page Header
     docChildren.push(new Paragraph({
         heading: HeadingLevel.HEADING_1,
         alignment: AlignmentType.CENTER,
@@ -167,7 +166,6 @@ async function createDocument(config) {
                 spacing: { after: 200 }
             }));
         } else {
-            // Basic Markdown link cleaning and bolding
             let content = trimmed;
             const parts = content.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/);
             const children = parts.map(part => {
@@ -175,7 +173,8 @@ async function createDocument(config) {
                     return new TextRun({ text: part.slice(2, -2), bold: true });
                 }
                 if (part.startsWith('[') && part.includes('](')) {
-                    const label = part.match(/\[(.*?)\]/)[1];
+                    const labelPart = part.match(/\[(.*?)\]/);
+                    const label = labelPart ? labelPart[1] : part;
                     return new TextRun({ text: label, color: "0000EE", underline: {} });
                 }
                 return new TextRun({ text: part });
@@ -208,19 +207,19 @@ async function createDocument(config) {
                             new TableRow({
                                 children: [
                                     new TableCell({
-                                        width: { size: 60, type: WidthType.PERCENTAGE },
+                                        width: { size: 50, type: WidthType.PERCENTAGE },
                                         verticalAlign: VerticalAlign.CENTER,
                                         children: [
                                             new Paragraph({
                                                 children: [
-                                                    new TextRun({ text: config.title, bold: true, size: 22 }),
-                                                    new TextRun({ text: ` | ${VERSION}`, italics: true, size: 18, color: "666666" })
+                                                    new TextRun({ text: config.title, bold: true, size: 20 }),
+                                                    new TextRun({ text: ` | ${VERSION}`, italics: true, size: 16, color: "666666" })
                                                 ]
                                             })
                                         ]
                                     }),
                                     new TableCell({
-                                        width: { size: 40, type: WidthType.PERCENTAGE },
+                                        width: { size: 50, type: WidthType.PERCENTAGE },
                                         verticalAlign: VerticalAlign.CENTER,
                                         children: [
                                             new Paragraph({
@@ -228,16 +227,16 @@ async function createDocument(config) {
                                                 children: [
                                                     fs.existsSync(LOGO_IMAGE_PATH) ? new ImageRun({
                                                         data: fs.readFileSync(LOGO_IMAGE_PATH),
-                                                        transformation: { width: 45, height: 45 },
+                                                        transformation: { width: 40, height: 40 },
                                                         type: "png"
                                                     }) : new TextRun(""),
-                                                    new TextRun({ text: ` ${AUTHOR}`, bold: true, size: 20, font: "Arial" }),
+                                                    new TextRun({ text: ` ${AUTHOR}`, bold: true, size: 18 }),
                                                 ]
                                             }),
                                             new Paragraph({
                                                 alignment: AlignmentType.RIGHT,
                                                 children: [
-                                                    new TextRun({ text: BIO, size: 14, color: "777777", italics: true })
+                                                    new TextRun({ text: BIO, size: 12, color: "777777", italics: true })
                                                 ]
                                             })
                                         ]
@@ -269,6 +268,9 @@ async function createDocument(config) {
     });
 
     const doc = new Document({
+        features: {
+            updateFields: true,
+        },
         styles: {
             default: { document: { run: { font: "Arial", size: 22 } } },
             paragraphStyles: [
@@ -293,7 +295,7 @@ async function createDocument(config) {
 }
 
 async function main() {
-    console.log(`Iniciando generación de documentos profesionales para Triumph Renta Mallorca...`);
+    console.log(`Iniciando generación corregida de documentos para Triumph Renta Mallorca...`);
     console.log(`Carpeta de salida: ${OUTPUT_DIR}`);
     
     for (const file of FILES_TO_PROCESS) {
