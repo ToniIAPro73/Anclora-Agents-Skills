@@ -35,3 +35,7 @@ dist/
 .env*
 ! .env.example
 >>>>>>> 5764f36a4f329d2af76ef682329b2345fb0167ba
+
+chrome_profile_notebooklm/
+*_REPORT*.md
+
