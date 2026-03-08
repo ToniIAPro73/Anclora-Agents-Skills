@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 .next/
 out/
@@ -23,3 +24,14 @@ voltagent_*.json
 similar_skills_*.json
 remaining_*.json
 html_*.json
+=======
+node_modules/
+.next/
+out/
+build/
+dist/
+.DS_Store
+*.log
+.env*
+! .env.example
+>>>>>>> 5764f36a4f329d2af76ef682329b2345fb0167ba
