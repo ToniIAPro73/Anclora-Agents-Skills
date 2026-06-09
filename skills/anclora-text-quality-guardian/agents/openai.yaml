@@ -1,0 +1,3 @@
+display_name: Anclora Text Quality Guardian
+short_description: Audita copy, i18n y SEO/GEO/AEO.
+default_prompt: Audita este repo con Anclora Text Quality Guardian y entrega PASS, PASS_WITH_WARNINGS o FAIL con evidencias.
