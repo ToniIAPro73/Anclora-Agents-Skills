@@ -64,6 +64,25 @@ class TextQualityAuditTest(unittest.TestCase):
             findings = audit.audit_repo(root)
             self.assertEqual(audit.result_for(findings, strict_warnings=False), "FAIL")
 
+    def test_allows_jsonc_config_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / ".vscode").mkdir()
+            (root / ".vscode" / "settings.json").write_text('{\n  // comment\n  "editor.formatOnSave": true,\n}\n', encoding="utf-8")
+            findings = audit.audit_repo(root)
+            codes = {finding.code for finding in findings}
+            self.assertNotIn("JSON_INVALID", codes)
+
+    def test_ignores_non_public_app_surfaces_for_aeo(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            component = root / "src" / "components"
+            component.mkdir(parents=True)
+            (component / "Button.tsx").write_text("export const Button = () => <button>Enviar</button>;", encoding="utf-8")
+            findings = audit.audit_repo(root)
+            codes = {finding.code for finding in findings}
+            self.assertNotIn("AEO_FAQ_REVIEW", codes)
+
 
 if __name__ == "__main__":
     unittest.main()

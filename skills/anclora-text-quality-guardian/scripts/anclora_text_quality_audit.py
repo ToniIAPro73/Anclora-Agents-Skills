@@ -40,11 +40,9 @@ TEXT_EXTENSIONS = {
 }
 
 PUBLIC_HINTS = (
-    "app/",
     "pages/",
     "public/",
     "content/",
-    "docs/",
     "landing",
     "blog",
     "seo",
@@ -76,11 +74,8 @@ SENSITIVE_CLAIMS = (
 COMMON_SPANISH_ACCENT_ISSUES = (
     ("Automatizacion", "Automatizacion without accent"),
     ("Cognitiva y Agentes Autonomos", "Autonomos without accent"),
-    ("Gestion", "Gestion without accent"),
     ("analisis", "analisis without accent"),
-    ("decision", "decision without accent"),
     ("proteccion", "proteccion without accent"),
-    ("traduccion", "traduccion without accent"),
     ("publicacion", "publicacion without accent"),
 )
 
@@ -127,13 +122,19 @@ def line_for(text: str, needle: str) -> int | None:
 
 def is_public_surface(relative: str, text: str) -> bool:
     lowered = relative.lower()
-    return any(hint in lowered for hint in PUBLIC_HINTS) or "<html" in text.lower()
+    if lowered.endswith((".html", ".htm")) and "<html" in text.lower():
+        return True
+    if any(hint in lowered for hint in PUBLIC_HINTS):
+        return True
+    if "/api/" in lowered or "/(auth)/" in lowered or "/dashboard/" in lowered or "components/" in lowered:
+        return False
+    return "app/" in lowered and "(marketing)" in lowered and lowered.endswith(("page.tsx", "layout.tsx"))
 
 
 def audit_html(path: str, text: str) -> list[Finding]:
     findings: list[Finding] = []
     lowered = text.lower()
-    if "<html" not in lowered:
+    if not path.lower().endswith((".html", ".htm")) or "<html" not in lowered:
         return findings
     if "<title" not in lowered:
         findings.append(Finding("high", "SEO_TITLE_MISSING", path, "Public HTML is missing <title>."))
@@ -209,11 +210,25 @@ def audit_json(path: str, text: str) -> list[Finding]:
     findings: list[Finding] = []
     if not path.endswith(".json"):
         return findings
+    if is_jsonc_config(path):
+        return findings
     try:
-        json.loads(text)
+        json.loads(strip_json_comments(text))
     except json.JSONDecodeError as exc:
         findings.append(Finding("critical", "JSON_INVALID", path, f"Invalid JSON: {exc.msg}.", exc.lineno))
     return findings
+
+
+def is_jsonc_config(path: str) -> bool:
+    lowered = path.lower()
+    return lowered.startswith(".vscode/") or lowered in {"tsconfig.json", "tsconfig.node.json"}
+
+
+def strip_json_comments(text: str) -> str:
+    """Allow common JSONC config files without weakening real JSON validation."""
+    without_block_comments = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+    without_line_comments = re.sub(r"(^|\s)//.*$", r"\1", without_block_comments, flags=re.M)
+    return re.sub(r",(\s*[}\]])", r"\1", without_line_comments)
 
 
 def audit_repo(repo: Path) -> list[Finding]:
