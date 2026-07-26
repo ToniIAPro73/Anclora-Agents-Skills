@@ -1,75 +1,81 @@
-# Anclora Agents Skills ⚓🤖
+<!-- markdownlint-disable MD001 MD013 MD033 MD041 MD060 -->
 
-[English Version Below](#english)
+<div align="center">
 
-## 🇪🇸 Descripción (Español)
+<img src="./public/brand/anclora-agent-skills-medal.png" alt="Anclora Agent Skills" width="120" />
 
-Bienvenido a **Anclora Agents Skills**, una colección centralizada de herramientas, generadores y habilidades diseñadas para potenciar el ecosistema de agentes inteligentes de Anclora. Este repositorio organiza diversos proyectos especializados en la creación de contenido, automatización y desarrollo de aplicaciones de lujo.
+# Anclora Agent Skills
 
-### 🏗️ Estructura del Proyecto
+### Producto del ecosistema Anclora documentado como repositorio publico de familia shared
 
-El repositorio se divide en varios componentes clave:
+**Español** · [English](./README.en.md)
 
-*   **`creador_apps_luxury`**: Generador especializado en interfaces y lógica para aplicaciones de alto standing.
-*   **`creador_de_blogs`**: Herramienta para la generación automatizada de blogs y artículos.
-*   **`creador_de_habilidades`**: Framework para desarrollar nuevas capacidades para agentes.
-*   **`creador_de_paginas_blog`**: Utilidad para el maquetado y diseño de páginas de blog.
-*   **`creador_de_presentaciones`**: Sistema para crear presentaciones profesionales dinámicas.
-*   **`scraper_reddit`**: Herramienta de extracción de datos de Reddit para análisis y entrenamiento.
-*   **`antigravity-awesome-skills` (Submódulo)**: Repositorio integrado que contiene una biblioteca extensa de habilidades comunitarias y recursos adicionales.
+<br />
 
-### ⚙️ Instalación
+![Anclora](https://img.shields.io/badge/Anclora-ecosystem-111827)
+![Documentation](https://img.shields.io/badge/documentation-premium-BFA46A)
+![Languages](https://img.shields.io/badge/languages-ES%20%7C%20EN-047857)
 
-Para clonar este repositorio incluyendo todas las habilidades del submódulo:
-
-```bash
-git clone --recurse-submodules https://github.com/ToniIAPro73/Anclora-Agents-Skills.git
-```
-
-Si ya clonaste el proyecto sin el submódulo, puedes activarlo con:
-
-```bash
-git submodule update --init --recursive
-```
+</div>
 
 ---
 
-<a name="english"></a>
+> [!IMPORTANT]
+> Repositorio publico reducido. Describe el producto y su arquitectura conceptual; no expone logica operativa, secretos ni datos reales.
 
-## 🇺🇸 Description (English)
+## Vista rapida
 
-Welcome to **Anclora Agents Skills**, a centralized collection of tools, generators, and skills designed to empower the Anclora intelligent agent ecosystem. This repository organizes various specialized projects for content creation, automation, and luxury application development.
+| Problema | Respuesta de producto |
+| --- | --- |
+| Contexto disperso | Experiencia guiada y trazable |
+| Datos sensibles | Privacidad por diseno y minimizacion |
+| Decision compleja | Flujo conceptual claro y revisable |
+| Operacion profesional | Arquitectura modular y controles de calidad |
 
-### 🏗️ Project Structure
+## Flujo conceptual
 
-The repository is divided into several key components:
-
-*   **`creador_apps_luxury`**: Specialized generator for high-end application interfaces and logic.
-*   **`creador_de_blogs`**: Tool for automated blog and article generation.
-*   **`creador_de_habilidades`**: Framework for developing new agent capabilities.
-*   **`creador_de_paginas_blog`**: Utility for blog page layout and design.
-*   **`creador_de_presentaciones`**: System for creating dynamic professional presentations.
-*   **`scraper_reddit`**: Reddit data extraction tool for analysis and training.
-*   **`antigravity-awesome-skills` (Submodule)**: Integrated repository containing an extensive library of community skills and additional resources.
-
-### ⚙️ Installation
-
-To clone this repository including all submodule skills:
-
-```bash
-git clone --recurse-submodules https://github.com/ToniIAPro73/Anclora-Agents-Skills.git
+```text
+Entrada de usuario / evidencia
+        ↓
+Validacion y normalizacion
+        ↓
+Flujo de producto
+        ↓
+Revision o resultado explicable
+        ↓
+Salida profesional / siguiente accion
 ```
 
-If you already cloned the project without the submodule, you can activate it with:
+## Que muestra este repositorio
 
-```bash
-git submodule update --init --recursive
-```
+Producto del ecosistema Anclora documentado como repositorio publico de familia shared.
+
+El README presenta el alcance publico del producto, su posicionamiento dentro del ecosistema
+Anclora y los limites de exposicion adecuados para un repositorio abierto.
+
+## Tecnologia
+
+| Area | Detalle |
+| --- | --- |
+| Documentacion | Repositorio de producto / case study |
+
+## Documentacion
+
+- Documentacion pendiente de ampliar en `docs/`.
+
+## Marca
+
+- Producto canonico: `anclora-agent-skills`
+- Familia: `shared`
+- Visibilidad objetivo: `public`
+- Asset de marca: `pendiente`
 
 ---
 
-## 📄 License | Licencia
+<div align="center">
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+### Antonio Ballesteros · Anclora Group
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+Software, IA generativa y automatizacion para productos digitales trazables.
+
+</div>
